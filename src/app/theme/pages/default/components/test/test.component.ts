@@ -8,35 +8,35 @@ declare let $: any
 
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
-  templateUrl: "./subject.html",
+  templateUrl: "./test.html",
   encapsulation: ViewEncapsulation.None,
 })
-export class SubjectComponent implements OnInit, AfterViewInit {
+export class TestComponent implements OnInit, AfterViewInit {
   showTemplate:any;
-  subjectData:any;
-  addSubjectForm : FormGroup;
-  editSubjectForm : FormGroup;
+  testData:any;
+  addTestForm : FormGroup;
+  editTestForm : FormGroup;
 
   constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
-    this.getSubjectList();
-    this.addSubjectForm = fb.group({
-      'subjectName' : [null, Validators.required],
+    this.getTestList();
+    this.addTestForm = fb.group({
+      'testName' : [null, Validators.required],
       // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
       // 'gender' : [null, Validators.required],
       // 'hiking' : [false],
       // 'running' : [false],
       // 'swimming' : [false]
     });
-    this.editSubjectForm = fb.group({
-      'subjectName' : [null, Validators.required],
+    this.editTestForm = fb.group({
+      'testName' : [null, Validators.required],
       // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
       // 'gender' : [null, Validators.required],
       // 'hiking' : [false],
       // 'running' : [false],
       // 'swimming' : [false]
     });
-    // console.log(this.addSubjectForm);
-    // this.addSubjectForm.valueChanges.subscribe( (form: any) => {
+    // console.log(this.addTestForm);
+    // this.addTestForm.valueChanges.subscribe( (form: any) => {
     //   console.log('form changed to:', form);
     // }
     // );
@@ -66,17 +66,17 @@ export class SubjectComponent implements OnInit, AfterViewInit {
     // this.studentDetail = studentData;
     
   }
-  addSubjectSubmitForm(value: any){
+  addTestSubmitForm(value: any){
     console.log(value);
   }
-  editSubjectSubmitForm(value: any){
+  editTestSubmitForm(value: any){
     console.log(value);
   }
-  private getSubjectList() {
+  private getTestList() {
     let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
 
     let options = new RequestOptions({ headers: headers });
-     this.http.get('http://localhost:3000/api/subject', options)
+     this.http.get('http://localhost:3000/api/test', options)
       .map(res => {
         // If request fails, throw an Error that will be caught
         if (res.status < 200 || res.status >= 300) {
@@ -89,9 +89,9 @@ export class SubjectComponent implements OnInit, AfterViewInit {
         }
       })
       .subscribe((data) => {
-        this.subjectData = data.subject;
+        this.testData = data.test;
         this.showtablerecord(data);
-        console.log(this.subjectData);
+        console.log(this.testData);
       },
       (err) => {
         localStorage.clear();
@@ -101,14 +101,14 @@ export class SubjectComponent implements OnInit, AfterViewInit {
 
   }
   public showtablerecord(data){
-    console.log(data.subject);
+    console.log(data.test);
      
                  
        var datatable = $('.m_datatable').mDatatable({
         
          data: {
            type: 'local',
-           source: data.subject,
+           source: data.test,
            pageSize: 10
          },
    
@@ -133,10 +133,10 @@ export class SubjectComponent implements OnInit, AfterViewInit {
          columns: [{
            field: "id",
            title: "Sr.No.",
-           
+            
          }, {
-           field: "subName",
-           title: "Subject Name",
+           field: "testName",
+           title: "Test Name",
            
          }, {
            field: "active",

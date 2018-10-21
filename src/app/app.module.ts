@@ -1,3 +1,4 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ThemeComponent } from './theme/theme.component';
@@ -10,6 +11,7 @@ import { ScriptLoaderService } from "./_services/script-loader.service";
 import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { FullCalendarModule } from 'ng-fullcalendar';
+
 // import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // import { TokenInterceptor } from './auth/token.interceptor';
 // import { HttpClientModule } from '@angular/common/http'; 
@@ -21,6 +23,8 @@ import { FullCalendarModule } from 'ng-fullcalendar';
   ],
   imports: [
     // HttpModule,
+    FormsModule,
+    ReactiveFormsModule,
     FullCalendarModule,
     LayoutModule,
     BrowserModule,

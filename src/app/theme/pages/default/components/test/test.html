@@ -3,7 +3,7 @@
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
-				Subject
+				Test
 			</h3>
 			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
 				<li class="m-nav__item m-nav__item--home">
@@ -27,7 +27,7 @@
 				<li class="m-nav__item">
 					<a href="" class="m-nav__link">
 						<span class="m-nav__link-text">
-							Add Subject
+							Add Test
 						</span>
 					</a>
 				</li>
@@ -123,45 +123,45 @@
 									<i class="la la-gear"></i>
 								</span>
 								<h3 class="m-portlet__head-text">
-									Add Subject
+									Add Test
 								</h3>
 							</div>
 						</div>
 					</div>
 
-					<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="addSubjectForm" (ngSubmit)="addSubjectSubmitForm(addSubjectForm.value)">
+					<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="addTestForm" (ngSubmit)="addTestSubmitForm(addTestForm.value)">
 						<div class="m-portlet__body">
-							<div class="form-group m-form__group row" [ngClass]="{'has-danger':!addSubjectForm.controls['subjectName'].valid && addSubjectForm.controls['subjectName'].touched}">
-								<label class="col-lg-2 col-form-label">Subject Title:</label>
+							<div class="form-group m-form__group row" [ngClass]="{'has-danger':!addTestForm.controls['testName'].valid && addTestForm.controls['testName'].touched}">
+								<label class="col-lg-2 col-form-label">Test Title:</label>
 								<div class="col-lg-6">
-									<input class="form-control" type="text" placeholder="subject name" [formControl]="addSubjectForm.controls['subjectName']">
-									<span *ngIf="addSubjectForm.controls['subjectName'].hasError('required') && addSubjectForm.controls['subjectName'].touched"
-									 class="m--font-danger">You must include a subject title.</span>
+									<input class="form-control" type="text" placeholder="test name" [formControl]="addTestForm.controls['testName']">
+									<span *ngIf="addTestForm.controls['testName'].hasError('required') && addTestForm.controls['testName'].touched"
+									 class="m--font-danger">You must include a test title.</span>
 								</div>
 							</div>
-							<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!addSubjectForm.controls['lastName'].valid && addSubjectForm.controls['lastName'].touched}">
+							<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!addTestForm.controls['lastName'].valid && addTestForm.controls['lastName'].touched}">
 						  <label class="col-lg-2 col-form-label">Last Name</label>
 						  <div class="col-lg-6">
-						  <input class="form-control" type="text" placeholder="Doe" [formControl]="addSubjectForm.controls['lastName']">
-						  <div *ngIf="addSubjectForm.controls['lastName'].hasError('required') && addSubjectForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
-						  <div *ngIf="addSubjectForm.controls['lastName'].hasError('minlength') && addSubjectForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
-						  <div *ngIf="addSubjectForm.controls['lastName'].hasError('maxlength') && addSubjectForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
+						  <input class="form-control" type="text" placeholder="Doe" [formControl]="addTestForm.controls['lastName']">
+						  <div *ngIf="addTestForm.controls['lastName'].hasError('required') && addTestForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
+						  <div *ngIf="addTestForm.controls['lastName'].hasError('minlength') && addTestForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
+						  <div *ngIf="addTestForm.controls['lastName'].hasError('maxlength') && addTestForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
 						</div>
 						</div>
 						<div class="form-group m-form__group row">
 						  <label class="col-lg-2 col-form-label">Gender</label>
-						  <div class="form-control-feedback" *ngIf="!addSubjectForm.controls['gender'].valid && addSubjectForm.controls['gender'].touched">You must select a gender.</div>
+						  <div class="form-control-feedback" *ngIf="!addTestForm.controls['gender'].valid && addTestForm.controls['gender'].touched">You must select a gender.</div>
 						
 						<div class="col-lg-6">
 						<div class="radio">
 						  <label>
-							<input type="radio" name="gender" value="Male" [formControl]="addSubjectForm.controls['gender']">
+							<input type="radio" name="gender" value="Male" [formControl]="addTestForm.controls['gender']">
 							Male
 						  </label>
 						</div>
 						<div class="radio">
 						  <label>
-							<input type="radio" name="gender" value="Female" [formControl]="addSubjectForm.controls['gender']">
+							<input type="radio" name="gender" value="Female" [formControl]="addTestForm.controls['gender']">
 							Female
 						  </label>
 						</div>
@@ -173,7 +173,7 @@
 								<div class="row">
 									<div class="col-lg-2"></div>
 									<div class="col-lg-6">
-										<button type="submit" class="btn btn-brand" [disabled]="!addSubjectForm.valid">Submit</button>
+										<button type="submit" class="btn btn-brand" [disabled]="!addTestForm.valid">Submit</button>
 
 										<button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
 									</div>
@@ -202,45 +202,45 @@
 									<i class="la la-gear"></i>
 								</span>
 								<h3 class="m-portlet__head-text">
-									Edit Subject
+									Edit Test
 								</h3>
 							</div>
 						</div>
 					</div>
 					<!--begin::Form-->
-					<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="editSubjectForm" (ngSubmit)="editSubjectSubmitForm(editSubjectForm.value)">
+					<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="editTestForm" (ngSubmit)="editTestSubmitForm(editTestForm.value)">
 						<div class="m-portlet__body">
-							<div class="form-group m-form__group row" [ngClass]="{'has-danger':!editSubjectForm.controls['subjectName'].valid && editSubjectForm.controls['subjectName'].touched}">
-								<label class="col-lg-2 col-form-label">Subject Title:</label>
+							<div class="form-group m-form__group row" [ngClass]="{'has-danger':!editTestForm.controls['testName'].valid && editTestForm.controls['testName'].touched}">
+								<label class="col-lg-2 col-form-label">Test Title:</label>
 								<div class="col-lg-6">
-									<input class="form-control" type="text" placeholder="subject name" [formControl]="editSubjectForm.controls['subjectName']">
-									<span *ngIf="editSubjectForm.controls['subjectName'].hasError('required') && editSubjectForm.controls['subjectName'].touched"
-									 class="m--font-danger">You must include a subject title.</span>
+									<input class="form-control" type="text" placeholder="test name" [formControl]="editTestForm.controls['testName']">
+									<span *ngIf="editTestForm.controls['testName'].hasError('required') && editTestForm.controls['testName'].touched"
+									 class="m--font-danger">You must include a test title.</span>
 								</div>
 							</div>
-							<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!editSubjectForm.controls['lastName'].valid && editSubjectForm.controls['lastName'].touched}">
+							<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!editTestForm.controls['lastName'].valid && editTestForm.controls['lastName'].touched}">
 							  <label class="col-lg-2 col-form-label">Last Name</label>
 							  <div class="col-lg-6">
-							  <input class="form-control" type="text" placeholder="Doe" [formControl]="editSubjectForm.controls['lastName']">
-							  <div *ngIf="editSubjectForm.controls['lastName'].hasError('required') && editSubjectForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
-							  <div *ngIf="editSubjectForm.controls['lastName'].hasError('minlength') && editSubjectForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
-							  <div *ngIf="editSubjectForm.controls['lastName'].hasError('maxlength') && editSubjectForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
+							  <input class="form-control" type="text" placeholder="Doe" [formControl]="editTestForm.controls['lastName']">
+							  <div *ngIf="editTestForm.controls['lastName'].hasError('required') && editTestForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
+							  <div *ngIf="editTestForm.controls['lastName'].hasError('minlength') && editTestForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
+							  <div *ngIf="editTestForm.controls['lastName'].hasError('maxlength') && editTestForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
 							</div>
 							</div>
 							<div class="form-group m-form__group row">
 							  <label class="col-lg-2 col-form-label">Gender</label>
-							  <div class="form-control-feedback" *ngIf="!editSubjectForm.controls['gender'].valid && editSubjectForm.controls['gender'].touched">You must select a gender.</div>
+							  <div class="form-control-feedback" *ngIf="!editTestForm.controls['gender'].valid && editTestForm.controls['gender'].touched">You must select a gender.</div>
 							
 							<div class="col-lg-6">
 							<div class="radio">
 							  <label>
-								<input type="radio" name="gender" value="Male" [formControl]="editSubjectForm.controls['gender']">
+								<input type="radio" name="gender" value="Male" [formControl]="editTestForm.controls['gender']">
 								Male
 							  </label>
 							</div>
 							<div class="radio">
 							  <label>
-								<input type="radio" name="gender" value="Female" [formControl]="editSubjectForm.controls['gender']">
+								<input type="radio" name="gender" value="Female" [formControl]="editTestForm.controls['gender']">
 								Female
 							  </label>
 							</div>
@@ -252,7 +252,7 @@
 								<div class="row">
 									<div class="col-lg-2"></div>
 									<div class="col-lg-6">
-										<button type="submit" class="btn btn-brand" [disabled]="!editSubjectForm.valid">Submit</button>
+										<button type="submit" class="btn btn-brand" [disabled]="!editTestForm.valid">Submit</button>
 
 										<button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
 									</div>
@@ -273,7 +273,7 @@
 				<div class="m-portlet__head-caption">
 					<div class="m-portlet__head-title">
 						<h3 class="m-portlet__head-text">
-							Subject List
+							Test List
 						</h3>
 					</div>
 				</div>
@@ -347,7 +347,7 @@
 								<span>
 									<i class="la la-cart-plus"></i>
 									<span>
-										add subject
+										add test
 									</span>
 								</span>
 							</a>

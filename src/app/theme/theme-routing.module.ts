@@ -50,6 +50,10 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/components\/class\/class.module#ClassModule"
       },
       {
+        "path": "test",
+        "loadChildren": ".\/pages\/default\/components\/test\/test.module#TestModule"
+      },
+      {
         "path": "angular\/primeng",
         "loadChildren": ".\/pages\/default\/angular\/primeng\/primeng.module#PrimengModule"
       },

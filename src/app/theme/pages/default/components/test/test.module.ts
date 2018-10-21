@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { SubjectComponent } from './subject.component';
+import { TestComponent } from './test.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DefaultComponent } from '../../default.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ const routes: Routes = [
     "children": [
       {
         "path": "",
-        "component": SubjectComponent
+        "component": TestComponent
       }
     ]
   }
@@ -24,10 +24,10 @@ const routes: Routes = [
   ], exports: [
     RouterModule
   ], declarations: [
-    SubjectComponent
+    TestComponent
   ]
 })
-export class SubjectModule {
+export class TestModule {
 
 
 
