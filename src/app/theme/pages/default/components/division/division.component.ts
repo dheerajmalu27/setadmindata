@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
+import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 import { Router } from '@angular/router';
 declare let $: any
@@ -12,58 +13,65 @@ declare let $: any
 export class DivisionComponent implements OnInit, AfterViewInit {
   showTemplate:any;
   divisionData:any;
+  addDivisionForm : FormGroup;
+  editDivisionForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router) {
-    this.getClassList();
+  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
+    this.getDivisionList();
+    this.addDivisionForm = fb.group({
+      'divisionName' : [null, Validators.required],
+      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+      // 'gender' : [null, Validators.required],
+      // 'hiking' : [false],
+      // 'running' : [false],
+      // 'swimming' : [false]
+    });
+    this.editDivisionForm = fb.group({
+      'divisionName' : [null, Validators.required],
+      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+      // 'gender' : [null, Validators.required],
+      // 'hiking' : [false],
+      // 'running' : [false],
+      // 'swimming' : [false]
+    });
+    // console.log(this.addDivisionForm);
+    // this.addDivisionForm.valueChanges.subscribe( (form: any) => {
+    //   console.log('form changed to:', form);
+    // }
+    // );
   }
   ngOnInit() {
-    this.showTemplate = "listTemplate";
+    this.listTemplate();
   }
   ngAfterViewInit() {
-    this.showTemplate = "listTemplate";
- 
+    this.listTemplate();
   }
   listTemplate() {
-    this.showTemplate = "listTemplate";
+    $("#addTemplate").hide();
+    $("#editTemplate").hide();
+    $("#listTemplate").show();
+   
   }
   addTemplate() {
-    this.showTemplate = "addTemplate";
-   
-   
-   
-
+    $("#addTemplate").show();
+    $("#editTemplate").hide();
+    $("#listTemplate").hide();
   }
   editTemplate(studentData) {
-    this.showTemplate = "editTemplate";
+    $("#addTemplate").hide();
+    $("#editTemplate").show();
+    $("#listTemplate").hide();
+    
     // this.studentDetail = studentData;
     
   }
-  addDivisionRecord(){
-    $( "#m_form_1" ).validate({
-      // define validation rules
-      rules: {
-          email: {
-              required: true,
-              // email: true 
-          }
-          
-      },
-      
-      //display error alert on form submit  
-      invalidHandler: function(event, validator) {     
-          var alert = $('#m_form_1_msg');
-          alert.removeClass('m--hide').show();
-          //  $(window).scrollTo(alert, -200);
-      },
-
-      submitHandler: function (form) {
-        var thisForm=$(form);
-        console.log(thisForm);
-          //form[0].submit(); // submit the form
-      }
-  });
+  addDivisionSubmitForm(value: any){
+    console.log(value);
   }
-  private getClassList() {
+  editDivisionSubmitForm(value: any){
+    console.log(value);
+  }
+  private getDivisionList() {
     let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
 
     let options = new RequestOptions({ headers: headers });

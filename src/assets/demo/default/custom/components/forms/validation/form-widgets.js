@@ -13,7 +13,17 @@ var FormWidgets = function () {
                 rightArrow: '<i class="la la-angle-right"></i>'
             }
         });
-
+        $('#m_datepicker1').datepicker({
+            todayHighlight: true,
+            templates: {
+                leftArrow: '<i class="la la-angle-left"></i>',
+                rightArrow: '<i class="la la-angle-right"></i>'
+            }
+        }, function() {
+          var input = $('#m_datepicker').find('.form-control');
+          input.val($(this));
+          validator.element(input);
+        });
         // datetimepicker
         $('#m_datetimepicker').datetimepicker({
             pickerPosition: 'bottom-left',

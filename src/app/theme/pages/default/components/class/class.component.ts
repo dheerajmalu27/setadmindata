@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
+import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 import { Router } from '@angular/router';
 declare let $: any
@@ -13,30 +14,63 @@ declare let $: any
 export class ClassComponent implements OnInit, AfterViewInit {
   showTemplate:any;
   classData:any;
+  addClassForm : FormGroup;
+  editClassForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router) {
+  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
     this.getClassList();
+    this.addClassForm = fb.group({
+      'className' : [null, Validators.required],
+      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+      // 'gender' : [null, Validators.required],
+      // 'hiking' : [false],
+      // 'running' : [false],
+      // 'swimming' : [false]
+    });
+    this.editClassForm = fb.group({
+      'className' : [null, Validators.required],
+      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+      // 'gender' : [null, Validators.required],
+      // 'hiking' : [false],
+      // 'running' : [false],
+      // 'swimming' : [false]
+    });
+    // console.log(this.addClassForm);
+    // this.addClassForm.valueChanges.subscribe( (form: any) => {
+    //   console.log('form changed to:', form);
+    // }
+    // );
   }
   ngOnInit() {
-    this.showTemplate = "listTemplate";
+    this.listTemplate();
   }
   ngAfterViewInit() {
-    this.showTemplate = "listTemplate";
-    
-
+    this.listTemplate();
   }
   listTemplate() {
-    this.showTemplate = "listTemplate";
+    $("#addTemplate").hide();
+    $("#editTemplate").hide();
+    $("#listTemplate").show();
+   
   }
   addTemplate() {
-    this.showTemplate = "addTemplate";
-   
-
+    $("#addTemplate").show();
+    $("#editTemplate").hide();
+    $("#listTemplate").hide();
   }
   editTemplate(studentData) {
-    this.showTemplate = "editTemplate";
+    $("#addTemplate").hide();
+    $("#editTemplate").show();
+    $("#listTemplate").hide();
+    
     // this.studentDetail = studentData;
     
+  }
+  addClassSubmitForm(value: any){
+    console.log(value);
+  }
+  editClassSubmitForm(value: any){
+    console.log(value);
   }
   private getClassList() {
     let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });

@@ -103,7 +103,7 @@ export class TestComponent implements OnInit, AfterViewInit {
   public showtablerecord(data){
     console.log(data.test);
      
-                 
+      var iValue=0;           
        var datatable = $('.m_datatable').mDatatable({
         
          data: {
@@ -133,7 +133,9 @@ export class TestComponent implements OnInit, AfterViewInit {
          columns: [{
            field: "id",
            title: "Sr.No.",
-            
+           template: function () {
+            return iValue=iValue+1;
+          }
          }, {
            field: "testName",
            title: "Test Name",

@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentComponent } from './student.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DefaultComponent } from '../../default.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 const routes: Routes = [
   {
     "path": "",
@@ -19,7 +19,7 @@ const routes: Routes = [
 ];
 @NgModule({
   imports: [
-    CommonModule, RouterModule.forChild(routes), LayoutModule
+    FormsModule,ReactiveFormsModule,CommonModule, RouterModule.forChild(routes), LayoutModule
   ], exports: [
     RouterModule
   ], declarations: [

@@ -3,7 +3,7 @@
 	<div class="d-flex align-items-center">
 		<div class="mr-auto">
 			<h3 class="m-subheader__title m-subheader__title--separator">
-				 Teacher 
+				Teacher
 			</h3>
 			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
 				<li class="m-nav__item m-nav__item--home">
@@ -31,16 +31,16 @@
 						</span>
 					</a>
 				</li>
-				
+
 			</ul>
 		</div>
-		
+
 	</div>
 </div>
 <!-- END: Subheader -->
-<div [ngSwitch]="showTemplate">
-<div class="m-content" *ngSwitchCase="'addTemplate'">
-	
+
+<div class="m-content" id="addTemplate">
+
 	<div class="row">
 		<div class="col-lg-12">
 			<!--begin::Portlet-->
@@ -58,498 +58,274 @@
 					</div>
 				</div>
 				<!--begin::Form-->
-				<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+				<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="m_form_1">
 					<div class="m-portlet__body">
-						<div class="form-group m-form__group row">
-							<div class="col-lg-4">
-								<label>
-									First Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter first name">
-								<span class="m-form__help">
-									Please enter your first name
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Middle Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter middle name">
-								<span class="m-form__help">
-									Please enter your middle name
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Last Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter last name">
-								<span class="m-form__help">
-									Please enter your last name
-								</span>
-							</div>
-							
-						</div>
-						<div class="form-group m-form__group row">
-							<div class="col-lg-4">
-								<label>
-									Date Of Birth:
-								</label>
-								
-						<div class='input-group date' id='m_datepicker_2'>
-							<input type='text' class="form-control m-input" readonly placeholder="Select date"/>
-							<span class="input-group-addon">
-								<i class="la la-calendar-check-o"></i>
-							</span>
-						</div>
-								<span class="m-form__help">
-									Please enter your username
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Gender:
-								</label>
-								<div class="m-radio-inline">
-									<label class="m-radio m-radio--solid">
-										<input type="radio" name="example_2" checked value="2">
-										Female
-										<span></span>
-									</label>
-									<label class="m-radio m-radio--solid">
-										<input type="radio" name="example_2" value="2">
-										Male
-										<span></span>
-									</label>
-								</div>
-								<span class="m-form__help">
-									Please select gender
-								</span>
-							</div>
 
+						<div class="row">
 							<div class="col-lg-4">
-								
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label>
+											First Name:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter first name" name="firstName">
+										<span class="m-form__help">
+											Please enter your first name
+										</span>
+									</div>
+								</div>
 							</div>
 							<div class="col-lg-4">
-								<label>
-									City:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-									<input type="text" class="form-control m-input" placeholder="Enter your address">
-									<span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-											<i class="la la-map-marker"></i>
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Middle Name:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter middle name" name="middleName">
+										<span class="m-form__help">
+											Please enter your middle name
 										</span>
-									</span>
+									</div>
 								</div>
-								<span class="m-form__help">
-									Please enter city name
-								</span>
 							</div>
 							<div class="col-lg-4">
-								<label>
-									Full Address:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-									<input type="text" class="form-control m-input" placeholder="Enter your address">
-									<span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-											<i class="la la-map-marker"></i>
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Last Name:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter last name" name="lastName">
+										<span class="m-form__help">
+											Please enter your last name
 										</span>
-									</span>
+									</div>
 								</div>
-								<span class="m-form__help">
-									Please enter full address
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Postcode:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-									<input type="text" class="form-control m-input" placeholder="Enter your postcode">
-									<span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-											<i class="la la-bookmark-o"></i>
-										</span>
-									</span>
-								</div>
-								<span class="m-form__help">
-									Please enter postcode
-								</span>
 							</div>
 						</div>
-						<div class="form-group m-form__group row">
+						<div class=" row">
 							<div class="col-lg-4">
-								<label class="">
-									Qualification:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter Qualification detail">
-								<span class="m-form__help">
-									Please enter qualification detail
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Experience:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter experience">
-								<span class="m-form__help">
-									Please enter experience detail
-								</span>
-							</div>
-							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label>
+											Date Of Birth:
+										</label>
+
+										<div class='input-group date' id='m_datepicker_2'>
+											<input type='text' class="form-control m-input" readonly placeholder="Select date" name="dob">
+											<span class="input-group-addon">
+												<i class="la la-calendar-check-o"></i>
+											</span>
+										</div>
+										<span class="m-form__help">
+											Please enter your username
+										</span>
+									</div>
 								</div>
-							<div class="col-lg-4">
-								<label class="">
-									Mobile No1:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter mobile number 1">
-								<span class="m-form__help">
-									Please enter mobile number
-								</span>
 							</div>
 							<div class="col-lg-4">
-								<label class="">
-									Mobile No2:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter mobile number 2">
-								
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Gender:
+										</label>
+										<div class="m-radio-inline">
+											<label class="m-radio m-radio--solid">
+												<input type="radio" name="gender" value="1"> Female
+												<span></span>
+											</label>
+											<label class="m-radio m-radio--solid">
+												<input type="radio" name="gender" value="2"> Male
+												<span></span>
+											</label>
+										</div>
+										<span class="m-form__help">
+											Please select gender
+										</span>
+									</div>
+								</div>
 							</div>
 							
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label>
+											City:
+										</label>
+										<div class="m-input-icon m-input-icon--right">
+											<input type="text" class="form-control m-input" placeholder="Enter your city" name="city">
+											<span class="m-input-icon__icon m-input-icon__icon--right">
+												<span>
+													<i class="la la-map-marker"></i>
+												</span>
+											</span>
+										</div>
+
+										<span class="m-form__help">
+											Please enter city name
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label>
+											Full Address:
+										</label>
+										<div class="m-input-icon m-input-icon--right">
+											<input type="text" class="form-control m-input" placeholder="Enter your address" name="address">
+											<span class="m-input-icon__icon m-input-icon__icon--right">
+												<span>
+													<i class="la la-map-marker"></i>
+												</span>
+											</span>
+										</div>
+										<span class="m-form__help">
+											Please enter full address
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Postcode:
+										</label>
+										<div class="m-input-icon m-input-icon--right">
+											<input type="text" class="form-control m-input" placeholder="Enter your postcode" name="pincode">
+											<span class="m-input-icon__icon m-input-icon__icon--right">
+												<span>
+													<i class="la la-bookmark-o"></i>
+												</span>
+											</span>
+										</div>
+										<span class="m-form__help">
+											Please enter postcode
+										</span>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="form-group m-form__group row">
+						<div class=" row">
 							<div class="col-lg-4">
-								<label class="">
-									Select Class:
-								</label>
-								
-								<select class="form-control m-select2" id="m_select2_1" name="param">
-									<option value="AK">
-										Alaska
-									</option>
-									<option value="HI">
-										Hawaii
-									</option>
-									<option value="CA">
-										California
-									</option>
-									<option value="NV">
-										Nevada
-									</option>
-									
-								</select>
-								<span class="m-form__help">
-									Please select class
-								</span>
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											 Qualification:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter educational detail" name="qual">
+										<span class="m-form__help">
+											Please enter educational detail
+										</span>
+									</div>
+								</div>
 							</div>
 							<div class="col-lg-4">
-								<label class="">
-									Select Division:
-								</label>
-								
-								<select class="form-control m-select2" id="m_select2_1" name="param">
-									<option value="AK">
-										Alaska
-									</option>
-									<option value="HI">
-										Hawaii
-									</option>
-									<option value="CA">
-										California
-									</option>
-									<option value="NV">
-										Nevada
-									</option>
-									
-								</select>
-								<span class="m-form__help">
-									Please select class
-								</span>
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Experience:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter experience detail" name="experience">
+										<span class="m-form__help">
+											Please enter profession detail
+										</span>
+									</div>
+								</div>
 							</div>
-						</div>	
+							
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Mobile No1:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter mobile number 1" name="mobileNo1">
+										<span class="m-form__help">
+											Please enter mobile number
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Mobile No2:
+										</label>
+										<input type="text" class="form-control m-input" placeholder="Enter mobile number 2" name="mobileNo2">
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Select Class:
+										</label>
+
+										<select class="form-control m-select2" id="m_select2_1" name="param">
+											<option value="AK">
+												Alaska
+											</option>
+											<option value="HI">
+												Hawaii
+											</option>
+											<option value="CA">
+												California
+											</option>
+											<option value="NV">
+												Nevada
+											</option>
+
+										</select>
+										<span class="m-form__help">
+											Please select class
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group m-form__group row">
+									<div class="col-lg-12">
+										<label class="">
+											Select Division:
+										</label>
+
+										<select class="form-control m-select2" id="m_select2_1" name="param">
+											<option value="AK">
+												Alaska
+											</option>
+											<option value="HI">
+												Hawaii
+											</option>
+											<option value="CA">
+												California
+											</option>
+											<option value="NV">
+												Nevada
+											</option>
+
+										</select>
+										<span class="m-form__help">
+											Please select class
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-						<div class="m-form__actions m-form__actions--solid">
+						<div class="m-form__actions m-form__actions">
 							<div class="row">
 								<div class="col-lg-4"></div>
 								<div class="col-lg-8">
-									<button type="reset" class="btn btn-primary">
-										Submit
-									</button>
-									<button (click)="listTemplate()" class="btn btn-secondary">
-										Cancel
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-				<!--end::Form-->
-			</div>
-			<!--end::Portlet-->
-		</div>
-	</div>
-</div>
-<div class="m-content" *ngSwitchCase="'editTemplate'">
-	
-	<div class="row">
-		<div class="col-lg-12">
-			<!--begin::Portlet-->
-			<div class="m-portlet">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-caption">
-						<div class="m-portlet__head-title">
-							<span class="m-portlet__head-icon m--hide">
-								<i class="la la-gear"></i>
-							</span>
-							<h3 class="m-portlet__head-text">
-								Edit Student
-							</h3>
-						</div>
-					</div>
-				</div>
-				<!--begin::Form-->
-				<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
-					<div class="m-portlet__body">
-						<div class="form-group m-form__group row">
-							<div class="col-lg-4">
-								<label>
-									First Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter first name">
-								<span class="m-form__help">
-									Please enter your first name
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Middle Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter middle name">
-								<span class="m-form__help">
-									Please enter your middle name
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Last Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter last name">
-								<span class="m-form__help">
-									Please enter your last name
-								</span>
-							</div>
-							
-						</div>
-						<div class="form-group m-form__group row">
-							<div class="col-lg-4">
-								<label>
-									Date Of Birth:
-								</label>
-								
-						<div class='input-group date' id='m_datepicker_2'>
-							<input type='text' class="form-control m-input" readonly placeholder="Select date"/>
-							<span class="input-group-addon">
-								<i class="la la-calendar-check-o"></i>
-							</span>
-						</div>
-								<span class="m-form__help">
-									Please enter your username
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Gender:
-								</label>
-								<div class="m-radio-inline">
-									<label class="m-radio m-radio--solid">
-										<input type="radio" name="example_2" checked value="2">
-										Female
-										<span></span>
-									</label>
-									<label class="m-radio m-radio--solid">
-										<input type="radio" name="example_2" value="2">
-										Male
-										<span></span>
-									</label>
-								</div>
-								<span class="m-form__help">
-									Please select gender
-								</span>
-							</div>
-
-							<div class="col-lg-4">
-								<label class="">
-									Mother Name:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter mother name">
-								<span class="m-form__help">
-									Please enter mother name
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label>
-									City:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-									<input type="text" class="form-control m-input" placeholder="Enter your address">
-									<span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-											<i class="la la-map-marker"></i>
-										</span>
-									</span>
-								</div>
-								<span class="m-form__help">
-									Please enter city name
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label>
-									Full Address:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-									<input type="text" class="form-control m-input" placeholder="Enter your address">
-									<span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-											<i class="la la-map-marker"></i>
-										</span>
-									</span>
-								</div>
-								<span class="m-form__help">
-									Please enter full address
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Postcode:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-									<input type="text" class="form-control m-input" placeholder="Enter your postcode">
-									<span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-											<i class="la la-bookmark-o"></i>
-										</span>
-									</span>
-								</div>
-								<span class="m-form__help">
-									Please enter postcode
-								</span>
-							</div>
-						</div>
-						<div class="form-group m-form__group row">
-							<div class="col-lg-4">
-								<label class="">
-									Father Education Qual:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter educational detail">
-								<span class="m-form__help">
-									Please enter educational detail
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Father Profession:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter profession detail">
-								<span class="m-form__help">
-									Please enter profession detail
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Mother Education Qual:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter educational detail">
-								<span class="m-form__help">
-									Please enter educational detail
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Mother Profession:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter your postcode">
-								<span class="m-form__help">
-									Please enter profession detail
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Mobile No1:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter mobile number 1">
-								<span class="m-form__help">
-									Please enter mobile number
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Mobile No2:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="Enter mobile number 2">
-								
-							</div>
-							
-						</div>
-						<div class="form-group m-form__group row">
-							<div class="col-lg-4">
-								<label class="">
-									Select Class:
-								</label>
-								
-								<select class="form-control m-select2" id="m_select2_1" name="param">
-									<option value="AK">
-										Alaska
-									</option>
-									<option value="HI">
-										Hawaii
-									</option>
-									<option value="CA">
-										California
-									</option>
-									<option value="NV">
-										Nevada
-									</option>
-									
-								</select>
-								<span class="m-form__help">
-									Please select class
-								</span>
-							</div>
-							<div class="col-lg-4">
-								<label class="">
-									Select Division:
-								</label>
-								
-								<select class="form-control m-select2" id="m_select2_1" name="param">
-									<option value="AK">
-										Alaska
-									</option>
-									<option value="HI">
-										Hawaii
-									</option>
-									<option value="CA">
-										California
-									</option>
-									<option value="NV">
-										Nevada
-									</option>
-									
-								</select>
-								<span class="m-form__help">
-									Please select class
-								</span>
-							</div>
-						</div>	
-					</div>
-					<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-						<div class="m-form__actions m-form__actions--solid">
-							<div class="row">
-								<div class="col-lg-4"></div>
-								<div class="col-lg-8">
-									<button type="reset" class="btn btn-primary">
-										Submit
+									<button type="submit" class="btn btn-accent">
+										Validate
 									</button>
 									<button type="reset" class="btn btn-secondary">
 										Cancel
@@ -565,8 +341,310 @@
 		</div>
 	</div>
 </div>
+<div class="m-content" id="editTemplate">
 
-<div class="m-content"  *ngSwitchCase="'listTemplate'">
+		<div class="row">
+			<div class="col-lg-12">
+				<!--begin::Portlet-->
+				<div class="m-portlet">
+					<div class="m-portlet__head">
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title">
+								<span class="m-portlet__head-icon m--hide">
+									<i class="la la-gear"></i>
+								</span>
+								<h3 class="m-portlet__head-text">
+									Add Teacher
+								</h3>
+							</div>
+						</div>
+					</div>
+					<!--begin::Form-->
+					<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="m_form_2">
+						<div class="m-portlet__body">
+	
+							<div class="row">
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label>
+												First Name:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter first name" name="firstName">
+											<span class="m-form__help">
+												Please enter your first name
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Middle Name:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter middle name" name="middleName">
+											<span class="m-form__help">
+												Please enter your middle name
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Last Name:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter last name" name="lastName">
+											<span class="m-form__help">
+												Please enter your last name
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class=" row">
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label>
+												Date Of Birth:
+											</label>
+	
+											<div class='input-group date' id='m_datepicker_2'>
+												<input type='text' class="form-control m-input" readonly placeholder="Select date" name="dob">
+												<span class="input-group-addon">
+													<i class="la la-calendar-check-o"></i>
+												</span>
+											</div>
+											<span class="m-form__help">
+												Please enter your username
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Gender:
+											</label>
+											<div class="m-radio-inline">
+												<label class="m-radio m-radio--solid">
+													<input type="radio" name="gender" value="1"> Female
+													<span></span>
+												</label>
+												<label class="m-radio m-radio--solid">
+													<input type="radio" name="gender" value="2"> Male
+													<span></span>
+												</label>
+											</div>
+											<span class="m-form__help">
+												Please select gender
+											</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label>
+												City:
+											</label>
+											<div class="m-input-icon m-input-icon--right">
+												<input type="text" class="form-control m-input" placeholder="Enter your city" name="city">
+												<span class="m-input-icon__icon m-input-icon__icon--right">
+													<span>
+														<i class="la la-map-marker"></i>
+													</span>
+												</span>
+											</div>
+	
+											<span class="m-form__help">
+												Please enter city name
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label>
+												Full Address:
+											</label>
+											<div class="m-input-icon m-input-icon--right">
+												<input type="text" class="form-control m-input" placeholder="Enter your address" name="address">
+												<span class="m-input-icon__icon m-input-icon__icon--right">
+													<span>
+														<i class="la la-map-marker"></i>
+													</span>
+												</span>
+											</div>
+											<span class="m-form__help">
+												Please enter full address
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Postcode:
+											</label>
+											<div class="m-input-icon m-input-icon--right">
+												<input type="text" class="form-control m-input" placeholder="Enter your postcode" name="pincode">
+												<span class="m-input-icon__icon m-input-icon__icon--right">
+													<span>
+														<i class="la la-bookmark-o"></i>
+													</span>
+												</span>
+											</div>
+											<span class="m-form__help">
+												Please enter postcode
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class=" row">
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												 Qualification:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter educational detail" name="qual">
+											<span class="m-form__help">
+												Please enter educational detail
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Experience:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter experience detail" name="experience">
+											<span class="m-form__help">
+												Please enter profession detail
+											</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Mobile No1:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter mobile number 1" name="mobileNo1">
+											<span class="m-form__help">
+												Please enter mobile number
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Mobile No2:
+											</label>
+											<input type="text" class="form-control m-input" placeholder="Enter mobile number 2" name="mobileNo2">
+	
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Select Class:
+											</label>
+	
+											<select class="form-control m-select2" id="m_select2_1" name="param">
+												<option value="AK">
+													Alaska
+												</option>
+												<option value="HI">
+													Hawaii
+												</option>
+												<option value="CA">
+													California
+												</option>
+												<option value="NV">
+													Nevada
+												</option>
+	
+											</select>
+											<span class="m-form__help">
+												Please select class
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group m-form__group row">
+										<div class="col-lg-12">
+											<label class="">
+												Select Division:
+											</label>
+	
+											<select class="form-control m-select2" id="m_select2_1" name="param">
+												<option value="AK">
+													Alaska
+												</option>
+												<option value="HI">
+													Hawaii
+												</option>
+												<option value="CA">
+													California
+												</option>
+												<option value="NV">
+													Nevada
+												</option>
+	
+											</select>
+											<span class="m-form__help">
+												Please select class
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+							<div class="m-form__actions m-form__actions">
+								<div class="row">
+									<div class="col-lg-4"></div>
+									<div class="col-lg-8">
+										<button type="submit" class="btn btn-accent">
+											Validate
+										</button>
+										<button type="reset" class="btn btn-secondary">
+											Cancel
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!--end::Form-->
+				</div>
+				<!--end::Portlet-->
+			</div>
+		</div>
+	</div>
+
+<div class="m-content" id="listTemplate">
 	<div class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="m-portlet__head-caption">
@@ -576,7 +654,7 @@
 					</h3>
 				</div>
 			</div>
-			
+
 		</div>
 		<div class="m-portlet__body">
 			<!--begin: Search Form -->
@@ -598,12 +676,12 @@
 					</div>
 					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
 						<a (click)="addTemplate()" href="#" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-							
-								
-								<span>
-									Add Teacher
-								</span>
-							
+
+
+							<span>
+								Add Teacher
+							</span>
+
 						</a>
 						<div class="m-separator m-separator--dashed d-xl-none"></div>
 					</div>
@@ -619,16 +697,16 @@
 		</div>
 	</div>
 </div>
-</div>
+
 <div id="exportTable" style="display:none">
-<table >
+	<table>
 		<thead>
 			<tr>
 				<th>Sr No</th>
 				<th>Names</th>
 				<th>Class-Div</th>
 				<th>Contact No</th>
-				<th >Action</th>
+				<th>Action</th>
 
 			</tr>
 		</thead>
@@ -638,9 +716,9 @@
 				<td>{{teacher.firstName}} {{teacher.lastName}}</td>
 				<td>{{teacher.className}}-{{teacher.divName}}</td>
 				<td>{{teacher.mobileNumber}}</td>
-				
+
 				<td><span class="m-badge m-badge--brand m-badge--wide">Edit</span></td>
 			</tr>
 		</tbody>
 	</table>
-</div>	
+</div> 

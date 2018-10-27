@@ -18,32 +18,165 @@ export class StudentComponent implements OnInit, AfterViewInit {
    
   }
   ngOnInit() {
-    this.showTemplate = "listTemplate";
-  }
+    this.listTemplate();
+    }
   listTemplate() {
-    this.showTemplate = "listTemplate";
+    $("#addTemplate").hide();
+    $("#editTemplate").hide();
+    $("#listTemplate").show();
   }
   addTemplate() {
-    this.showTemplate = "addTemplate";
+    $("#addTemplate").show();
+    $("#editTemplate").hide();
+    $("#listTemplate").hide();
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/select2.js');
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+      $( "#m_form_1" ).validate({
+        // define validation rules
+        rules: {
+            firstName: {
+                required: true,
+            },
+            middleName: {
+                required: true 
+            },
+            lastName: {
+              required: true 
+            },
+            dob: {
+              required: true 
+            },
+              motherName: {
+                required: true 
+            },
+            gender:{
+              required: true 
+            },
+            city: {
+              required: true 
+            },
+            address: {
+              required: true 
+            },
+            pincode: {
+              required: true 
+            },
+            fatherQual: {
+              required: true 
+            },
+            fatherProf: {
+              required: true 
+            },
+            motherQual: {
+              required: true 
+            },
+            motherProf: {
+              required: true 
+            },
+            mobileNo1: {
+              required: true 
+            },
+            mobileNo2: {
+              required: true 
+            },
+
+          
+        },
+        
+        //display error alert on form submit  
+        invalidHandler: function(event, validator) {     
+            var alert = $('#m_form_1_msg');
+            alert.removeClass('m--hide').show();
+          //  mApp.scrollTo(alert, -200);
+        },
+
+        submitHandler: function (form) {
+            //form[0].submit(); // submit the form
+        }
+    }); 
 
   }
   editTemplate(studentData) {
-    this.showTemplate = "editTemplate";
+    $("#addTemplate").hide();
+    $("#editTemplate").show();
+    $("#listTemplate").hide();
     this.studentDetail = studentData;
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/select2.js');
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+      $( "#m_form_2" ).validate({
+        // define validation rules
+        rules: {
+            firstName: {
+                required: true,
+            },
+            middleName: {
+                required: true 
+            },
+            lastName: {
+              required: true 
+            },
+            dob: {
+              required: true 
+            },
+              motherName: {
+                required: true 
+            },
+            gender:{
+              required: true 
+            },
+            city: {
+              required: true 
+            },
+            address: {
+              required: true 
+            },
+            pincode: {
+              required: true 
+            },
+            fatherQual: {
+              required: true 
+            },
+            fatherProf: {
+              required: true 
+            },
+            motherQual: {
+              required: true 
+            },
+            motherProf: {
+              required: true 
+            },
+            mobileNo1: {
+              required: true 
+            },
+            mobileNo2: {
+              required: true 
+            },
+
+          
+        },
+        
+        //display error alert on form submit  
+        invalidHandler: function(event, validator) {     
+            var alert = $('#m_form_1_msg');
+            alert.removeClass('m--hide').show();
+          //  mApp.scrollTo(alert, -200);
+        },
+
+        submitHandler: function (form) {
+            //form[0].submit(); // submit the form
+        }
+    });
   }
   ngAfterViewInit() {
     
     
   }
   private getStudentList() {
+    
     let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
 
     let options = new RequestOptions({ headers: headers });
