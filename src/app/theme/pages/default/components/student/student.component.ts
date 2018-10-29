@@ -11,11 +11,15 @@ declare let $: any
 })
 export class StudentComponent implements OnInit, AfterViewInit {
   studentData: any = null;
+  isValid = false;
+  studentEditData:any;
+  divisionData:any=null;
+  classData:any =null;
   showTemplate: any;
   studentDetail:any;
   constructor(private _script: ScriptLoaderService, private http: Http, private router: Router) {
-    setTimeout( this.getStudentList(),2000);
-   
+     this.getStudentList();
+  
   }
   ngOnInit() {
     this.listTemplate();
@@ -29,6 +33,8 @@ export class StudentComponent implements OnInit, AfterViewInit {
     $("#addTemplate").show();
     $("#editTemplate").hide();
     $("#listTemplate").hide();
+    this.getClassList();
+    this.getDivisionList();
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/select2.js');
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
@@ -52,6 +58,9 @@ export class StudentComponent implements OnInit, AfterViewInit {
                 required: true 
             },
             gender:{
+              required: true 
+            },
+            state: {
               required: true 
             },
             city: {
@@ -81,7 +90,12 @@ export class StudentComponent implements OnInit, AfterViewInit {
             mobileNo2: {
               required: true 
             },
-
+            classId: {
+              required: true 
+            },
+            divId: {
+              required: true 
+            },
           
         },
         
@@ -98,10 +112,14 @@ export class StudentComponent implements OnInit, AfterViewInit {
     }); 
 
   }
-  editTemplate(studentData) {
+  public editTemplate(studentData) {
+    this.isValid=true;
+    console.log('dada')
     $("#addTemplate").hide();
     $("#editTemplate").show();
     $("#listTemplate").hide();
+    this.getClassList();
+    this.getDivisionList();
     this.studentDetail = studentData;
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/select2.js');
@@ -128,6 +146,9 @@ export class StudentComponent implements OnInit, AfterViewInit {
             gender:{
               required: true 
             },
+            state: {
+              required: true 
+            },
             city: {
               required: true 
             },
@@ -155,13 +176,18 @@ export class StudentComponent implements OnInit, AfterViewInit {
             mobileNo2: {
               required: true 
             },
-
+            classId: {
+              required: true 
+            },
+            divId: {
+              required: true 
+            },
           
         },
         
         //display error alert on form submit  
         invalidHandler: function(event, validator) {     
-            var alert = $('#m_form_1_msg');
+            var alert = $('#m_form_2_msg');
             alert.removeClass('m--hide').show();
           //  mApp.scrollTo(alert, -200);
         },
@@ -196,6 +222,91 @@ export class StudentComponent implements OnInit, AfterViewInit {
         this.studentData = data.student;
         this.showtablerecord(data);
         console.log(this.studentData);
+      },
+      (err) => {
+        localStorage.clear();
+
+      });
+
+
+  }
+  private getStudentData(Id) {
+    console.log("getStudentData");
+    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
+
+    let options = new RequestOptions({ headers: headers });
+    let StudentData = this.http.get('http://localhost:3000/api/student/'+Id, options)
+      .map(res => {
+        // If request fails, throw an Error that will be caught
+        if (res.status < 200 || res.status >= 300) {
+
+          throw new Error('This request has failed ' + res.status);
+        }
+        // If everything went fine, return the response
+        else { 
+          return res.json();
+        }
+      })
+      .subscribe((data) => {
+        this.studentEditData = data.student;
+        this.editTemplate(this.studentEditData);
+       // console.log(this.studentData);
+      },
+      (err) => {
+        localStorage.clear();
+
+      });
+
+
+  }
+  private getDivisionList() {
+    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
+
+    let options = new RequestOptions({ headers: headers });
+    let StudentData = this.http.get('http://localhost:3000/api/division', options)
+      .map(res => {
+        // If request fails, throw an Error that will be caught
+        if (res.status < 200 || res.status >= 300) {
+
+          throw new Error('This request has failed ' + res.status);
+        }
+        // If everything went fine, return the response
+        else { 
+          return res.json();
+        }
+      })
+      .subscribe((data) => {
+        this.divisionData = data.division;
+     
+        console.log(this.divisionData);
+      },
+      (err) => {
+        localStorage.clear();
+
+      });
+
+
+  }
+  private getClassList() {
+    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
+
+    let options = new RequestOptions({ headers: headers });
+    let StudentData = this.http.get('http://localhost:3000/api/class', options)
+      .map(res => {
+        // If request fails, throw an Error that will be caught
+        if (res.status < 200 || res.status >= 300) {
+
+          throw new Error('This request has failed ' + res.status);
+        }
+        // If everything went fine, return the response
+        else { 
+          return res.json();
+        }
+      })
+      .subscribe((data) => {
+        this.classData = data.class;
+      
+        console.log(this.classData);
       },
       (err) => {
         localStorage.clear();
@@ -262,33 +373,32 @@ export class StudentComponent implements OnInit, AfterViewInit {
           
         }, {
           field: "lastName",
-          width: 110,
           title: "Actions",
-          sortable: false,
-          overflow: 'visible',
+         
           template: function (row) {
-            var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.id+'"></i></span>';
+            // var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
   
-            return '\
-              <div class="dropdown ' + dropup + '">\
-                <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                  <i class="la la-ellipsis-h"></i>\
-                              </a>\
-                  <div class="dropdown-menu dropdown-menu-right">\
-                    <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-                  </div>\
-              </div>\
-              <a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
-                              <i class="la la-edit"></i>\
-                          </a>\
-            ';
+            // return '\
+            //   <div class="dropdown ' + dropup + '">\
+            //     <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
+            //                       <i class="la la-ellipsis-h"></i>\
+            //                   </a>\
+            //       <div class="dropdown-menu dropdown-menu-right">\
+            //         <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
+            //         <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
+            //         <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
+            //       </div>\
+            //   </div>\
+            //   <a href="#"  class="edit-button btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
+            //                   <i class="la la-edit"></i>\
+            //               </a>\
+            // ';
           }
         }]
       });
   
-      var query = datatable.getDataSourceQuery();
+      var query =<any>datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
         datatable.search($(this).val().toLowerCase());
@@ -308,6 +418,13 @@ export class StudentComponent implements OnInit, AfterViewInit {
         var id = $(e.target).attr('data-id');
        
         this.router.navigate(['/student/profile/', id]); 
+        });
+       $('.m_datatable').on('click', '.edit-button', (e) => {
+        e.preventDefault();
+        var id = $(e.target).attr('data-id');
+        console.log(id);
+       this.getStudentData(id);
+        //this.router.navigate(['/student/profile/', id]); 
         });
   }
 }
