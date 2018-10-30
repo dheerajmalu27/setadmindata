@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/co
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
+import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
 declare let $: any
 @Component({
@@ -17,11 +18,43 @@ export class StudentComponent implements OnInit, AfterViewInit {
   classData:any =null;
   showTemplate: any;
   studentDetail:any;
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router) {
-     this.getStudentList();
-  
-  }
+   addStudentForm : FormGroup;
+   editStudentForm : FormGroup;
+  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,public fb: FormBuilder) {
+    this.getStudentList();
+      // console.log(this.addStudentForm);
+      // this.addStudentForm.valueChanges.subscribe( (form: any) => {
+      //   console.log('form changed to:', form);
+      // }
+      // );
+    }
   ngOnInit() {
+    
+    this.addStudentForm = this.fb.group({
+      'firstName' : new FormControl('', Validators.required),
+      'middleName' : new FormControl('', Validators.required),
+      'lastName' : new FormControl('', Validators.required),
+      'dob' : new FormControl('', Validators.required),
+      'gender' : new FormControl('', Validators.required),
+      'motherName' : new FormControl('', Validators.required),
+      'stateId' : new FormControl('', Validators.required),
+      'cityId' : new FormControl('', Validators.required),
+      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+      // 'gender' : [null, Validators.required],
+      // 'hiking' : [false],
+      // 'running' : [false],
+      // 'swimming' : [false]
+    });
+    this.editStudentForm = this.fb.group({
+      'firstName' : [null, Validators.required],
+      'lastName' : [null, Validators.required],
+      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+      // 'gender' : [null, Validators.required],
+      // 'hiking' : [false],
+      // 'running' : [false],
+      // 'swimming' : [false]
+    });
+  
     this.listTemplate();
     }
   listTemplate() {
@@ -39,77 +72,97 @@ export class StudentComponent implements OnInit, AfterViewInit {
       'assets/demo/default/custom/components/forms/widgets/select2.js');
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
-      $( "#m_form_1" ).validate({
-        // define validation rules
-        rules: {
-            firstName: {
-                required: true,
-            },
-            middleName: {
-                required: true 
-            },
-            lastName: {
-              required: true 
-            },
-            dob: {
-              required: true 
-            },
-              motherName: {
-                required: true 
-            },
-            gender:{
-              required: true 
-            },
-            state: {
-              required: true 
-            },
-            city: {
-              required: true 
-            },
-            address: {
-              required: true 
-            },
-            pincode: {
-              required: true 
-            },
-            fatherQual: {
-              required: true 
-            },
-            fatherProf: {
-              required: true 
-            },
-            motherQual: {
-              required: true 
-            },
-            motherProf: {
-              required: true 
-            },
-            mobileNo1: {
-              required: true 
-            },
-            mobileNo2: {
-              required: true 
-            },
-            classId: {
-              required: true 
-            },
-            divId: {
-              required: true 
-            },
-          
-        },
-        
-        //display error alert on form submit  
-        invalidHandler: function(event, validator) {     
-            var alert = $('#m_form_1_msg');
-            alert.removeClass('m--hide').show();
-          //  mApp.scrollTo(alert, -200);
-        },
-
-        submitHandler: function (form) {
-            //form[0].submit(); // submit the form
+      
+      $('#m_datepickerSet').datepicker({
+        todayHighlight: true,
+        templates: {
+            leftArrow: '<i class="la la-angle-left"></i>',
+            rightArrow: '<i class="la la-angle-right"></i>'
         }
-    }); 
+    });
+    $('#m_datepickerSet').on('change', function(){
+      console.log(this.addStudentForm);
+      // this.addStudentForm.controls['dob'].updateValue('sd');
+      // this.addStudentForm.controls['dob'].patchValue(survey.account);
+      // (<FormGroup>this.addStudentForm).setValue($('#m_datepickerSet').val());
+      // this.addStudentForm.patchValue({'dob': 'datevalue'});
+    //   var datevalue=$(this).val();
+    //   if(datevalue.length!=0){
+    //     (<FormGroup>this.addStudentForm.controls).patchValue({'dob': datevalue});
+    // }
+    });
+
+    //   $( "#m_form_1" ).validate({
+    //     // define validation rules
+    //     rules: {
+    //         firstName: {
+    //             required: true,
+    //         },
+    //         middleName: {
+    //             required: true 
+    //         },
+    //         lastName: {
+    //           required: true 
+    //         },
+    //         dob: {
+    //           required: true 
+    //         },
+    //           motherName: {
+    //             required: true 
+    //         },
+    //         gender:{
+    //           required: true 
+    //         },
+    //         state: {
+    //           required: true 
+    //         },
+    //         city: {
+    //           required: true 
+    //         },
+    //         address: {
+    //           required: true 
+    //         },
+    //         pincode: {
+    //           required: true 
+    //         },
+    //         fatherQual: {
+    //           required: true 
+    //         },
+    //         fatherProf: {
+    //           required: true 
+    //         },
+    //         motherQual: {
+    //           required: true 
+    //         },
+    //         motherProf: {
+    //           required: true 
+    //         },
+    //         mobileNo1: {
+    //           required: true 
+    //         },
+    //         mobileNo2: {
+    //           required: true 
+    //         },
+    //         classId: {
+    //           required: true 
+    //         },
+    //         divId: {
+    //           required: true 
+    //         },
+          
+    //     },
+        
+    //     //display error alert on form submit  
+    //     invalidHandler: function(event, validator) {     
+    //         var alert = $('#m_form_1_msg');
+    //         alert.removeClass('m--hide').show();
+    //       //  mApp.scrollTo(alert, -200);
+    //     },
+
+    //     submitHandler: function (form) {
+    //         //form[0].submit(); // submit the form
+    //     }
+    // }); 
 
   }
   public editTemplate(studentData) {
@@ -427,4 +480,5 @@ export class StudentComponent implements OnInit, AfterViewInit {
         //this.router.navigate(['/student/profile/', id]); 
         });
   }
+  
 }

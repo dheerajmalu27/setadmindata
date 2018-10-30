@@ -13,6 +13,19 @@ var FormWidgets = function () {
                 rightArrow: '<i class="la la-angle-right"></i>'
             }
         });
+        $('#m_datepickerSet').datepicker({
+            todayHighlight: true,
+            templates: {
+                leftArrow: '<i class="la la-angle-left"></i>',
+                rightArrow: '<i class="la la-angle-right"></i>'
+            }
+        });
+        $('#m_datepickerSet').on('change', function(){
+            var input = $('#m_datepickerSet').find('.form-control');
+            console.log(input);
+            input.val($(this));
+            validator.element(input);
+          });
         $('#m_datepicker1').datepicker({
             todayHighlight: true,
             templates: {
@@ -97,6 +110,10 @@ var FormWidgets = function () {
             // define validation rules
             rules: {
                 date: {
+                    required: true,
+                    date: true 
+                },
+                dob: {
                     required: true,
                     date: true 
                 },
