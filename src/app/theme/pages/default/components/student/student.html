@@ -1,264 +1,280 @@
 <!-- BEGIN: Subheader -->
 <div class="m-subheader">
-	<div class="d-flex align-items-center">
-		<div class="mr-auto">
-			<h3 class="m-subheader__title m-subheader__title--separator">
-				Student
-			</h3>
-			<ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-				<li class="m-nav__item m-nav__item--home">
-					<a href="#" class="m-nav__link m-nav__link--icon">
-						<i class="m-nav__link-icon la la-home"></i>
-					</a>
-				</li>
-				<li class="m-nav__separator">
-					-
-				</li>
-				<li class="m-nav__item">
-					<a href="" class="m-nav__link">
-						<span class="m-nav__link-text">
-							Forms
-						</span>
-					</a>
-				</li>
-				<li class="m-nav__separator">
-					-
-				</li>
-				<li class="m-nav__item">
-					<a href="" class="m-nav__link" >
-						<span class="m-nav__link-text" >
-							Add Student
-						</span>
-					</a>
-				</li>
-				<li class="m-nav__separator">
-					-
-				</li>
-				<li class="m-nav__item">
-					<a href="" class="m-nav__link">
-						<span class="m-nav__link-text">
-							Default Forms
-						</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-				<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-					<i class="la la-plus m--hide"></i>
-					<i class="la la-ellipsis-h"></i>
-				</a>
-				<div class="m-dropdown__wrapper">
-					<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-					<div class="m-dropdown__inner">
-						<div class="m-dropdown__body">
-							<div class="m-dropdown__content">
-								<ul class="m-nav">
-									<li class="m-nav__section m-nav__section--first m--hide">
-										<span class="m-nav__section-text">
-											Quick Actions
-										</span>
-									</li>
-									<li class="m-nav__item">
-										<a href="" class="m-nav__link">
-											<i class="m-nav__link-icon flaticon-share"></i>
-											<span class="m-nav__link-text">
-												Activity
-											</span>
-										</a>
-									</li>
-									<li class="m-nav__item">
-										<a href="" class="m-nav__link">
-											<i class="m-nav__link-icon flaticon-chat-1"></i>
-											<span class="m-nav__link-text">
-												Messages
-											</span>
-										</a>
-									</li>
-									<li class="m-nav__item">
-										<a href="" class="m-nav__link">
-											<i class="m-nav__link-icon flaticon-info"></i>
-											<span class="m-nav__link-text">
-												FAQ
-											</span>
-										</a>
-									</li>
-									<li class="m-nav__item">
-										<a href="" class="m-nav__link">
-											<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-											<span class="m-nav__link-text">
-												Support
-											</span>
-										</a>
-									</li>
-									<li class="m-nav__separator m-nav__separator--fit"></li>
-									<li class="m-nav__item">
-										<a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
-											Submit
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        Student
+      </h3>
+      <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+        <li class="m-nav__item m-nav__item--home">
+          <a href="#" class="m-nav__link m-nav__link--icon">
+            <i class="m-nav__link-icon la la-home"></i>
+          </a>
+        </li>
+        <li class="m-nav__separator">
+          -
+        </li>
+       
+        
+      </ul>
+    </div>
+   
+  </div>
 </div>
 <!-- END: Subheader -->
 
-		 <div class="m-content" id="addTemplate">
+<div class="m-content" id="addTemplate">
 
-				<div class="row">
-					<div class="col-lg-12">
-						
-						<div class="m-portlet">
-							<div class="m-portlet__head">
-								<div class="m-portlet__head-caption">
-									<div class="m-portlet__head-title">
-										<span class="m-portlet__head-icon m--hide">
-											<i class="la la-gear"></i>
-										</span>
-										<h3 class="m-portlet__head-text">
-											Add Student
-										</h3>
-									</div>
-								</div>
-							</div>
-							<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"  [formGroup]="addStudentForm" (ngSubmit)="addStudentSubmitForm(addStudentForm.value)">
-								<div class="m-portlet__body">
-									<div class="form-group m-form__group row" >
-										<div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['firstName'].valid && addStudentForm.controls['firstName'].touched}">
-											<label class="col-form-label">
-												First Name:
-											</label>
-											<div >
-												<input class="form-control" type="text" placeholder="first name" [formControl]="addStudentForm.controls['firstName']">
-												<span *ngIf="addStudentForm.controls['firstName'].hasError('required') && addStudentForm.controls['firstName'].touched"
-												class="m--font-danger">Please enter first name.</span>
-											</div>
-										</div>
-										<div class="col-lg-4" >
-											<label class="col-form-label">
-												Middle Name:
-											</label>
-											<div>
-												<input class="form-control" type="text" placeholder="middle name" [formControl]="addStudentForm.controls['middleName']">
-												
-											</div>
-										</div>
-										<div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['lastName'].valid && addStudentForm.controls['lastName'].touched}">
-											<label class="col-form-label">
-												Last Name:
-											</label>
-											<div>
-												<input class="form-control" type="text" placeholder="last name" [formControl]="addStudentForm.controls['lastName']">
-												<span *ngIf="addStudentForm.controls['lastName'].hasError('required') && addStudentForm.controls['lastName'].touched" class="m--font-danger">Please enter last name.</span>
-											</div>
-										</div>
-								</div>
-								<div class="form-group m-form__group row" >
-									<div class="col-lg-4" >
-										<label class="col-form-label">
-											Date of birth:
-										</label>
-										<div class='input-group date' >
-												<input type='text' id='m_datepickerSet' class="form-control m-input" [formControl]="addStudentForm.controls['dob']" name="dob"  placeholder="Select date" >
-												<span class="input-group-addon">
-													<i class="la la-calendar-check-o"></i>
-												</span>
-												
-											</div>
-											<span *ngIf="addStudentForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter last name.</span>
-											
-										
-									</div>
-									<div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['gender'].valid && addStudentForm.controls['gender'].touched}">
-										<label class="col-form-label">
-											Gender:
-										</label>
-										<div>
-											 <div class="radio">
-												<label>
-												  <input type="radio" name="gender" value="Male" [formControl]="addStudentForm.controls['gender']">
-												  Male
-												</label>
-											  </div>
-											  <div class="radio">
-												<label>
-												  <input type="radio" name="gender" value="Female" [formControl]="addStudentForm.controls['gender']">
-												  Female
-												</label>
-											  </div>
-											  <span *ngIf="addStudentForm.controls['gender'].hasError('required') && addStudentForm.controls['gender'].touched"
-											  class="m--font-danger">Please select gender.</span>
-										</div>
-									</div>
-									<div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['motherName'].valid && addStudentForm.controls['motherName'].touched}">
-										<label class="col-form-label">
-											Mother Name:
-										</label>
-										<div>
-											<input class="form-control" type="text" placeholder="Enter mother name" [formControl]="addStudentForm.controls['motherName']">
-											<span *ngIf="addStudentForm.controls['motherName'].hasError('required') && addStudentForm.controls['motherName'].touched"
-											class="m--font-danger">Please enter mother name.</span>
-										</div>
-									</div>
-									
-							</div>
-							<div class="form-group m-form__group row" >
-									<div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['stateId'].valid && addStudentForm.controls['stateId'].touched}">
-										<label class="col-form-label">
-											Select State
-										</label>
-										<div >
-											
-											<select class="form-control m-select2" id="m_select2_1" [formControl]="addStudentForm.controls['stateId']">
-													<option value="AK">
-														Alaska
-													</option>
-													<option value="HI">
-														Hawaii
-													</option>
-													<option value="CA">
-														California
-													</option>
-													<option value="NV">
-														Nevada
-													</option>
-													
-												</select>
-												<span *ngIf="addStudentForm.controls['stateId'].hasError('required') && addStudentForm.controls['stateId'].touched"
-												class="m--font-danger">Please enter mother name.</span>
-										</div>
-									</div>
-									<div class="col-lg-4" >
-											<label class="col-form-label">
-												Select State
-											</label>
-											<div >
-												
-												<select class="form-control m-select2" id="m_select2_2" [formControl]="addStudentForm.controls['cityId']">
-														<option value="AK">
-															Alaska
-														</option>
-														<option value="HI">
-															Hawaii
-														</option>
-														<option value="CA">
-															California
-														</option>
-														<option value="NV">
-															Nevada
-														</option>
-														
-													</select>
-												
-											</div>
-										</div>
-									<!-- <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['lastName'].valid && addStudentForm.controls['lastName'].touched}">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="m-portlet">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <span class="m-portlet__head-icon m--hide">
+                <i class="la la-gear"></i>
+              </span>
+              <h3 class="m-portlet__head-text">
+                Add Student
+              </h3>
+            </div>
+          </div>
+        </div>
+        <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="addStudentForm"
+          (ngSubmit)="addStudentSubmitForm(addStudentForm.value)">
+          <div class="m-portlet__body">
+            <div class="form-group m-form__group row">
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['firstName'].valid && addStudentForm.controls['firstName'].touched}">
+                <label class="col-form-label">
+                  First Name:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="first name" [formControl]="addStudentForm.controls['firstName']">
+                  <span *ngIf="addStudentForm.controls['firstName'].hasError('required') && addStudentForm.controls['firstName'].touched"
+                    class="m--font-danger">Please enter first name.</span>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Middle Name:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="middle name" [formControl]="addStudentForm.controls['middleName']">
+
+                </div>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['lastName'].valid && addStudentForm.controls['lastName'].touched}">
+                <label class="col-form-label">
+                  Last Name:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="last name" [formControl]="addStudentForm.controls['lastName']">
+                  <span *ngIf="addStudentForm.controls['lastName'].hasError('required') && addStudentForm.controls['lastName'].touched"
+                    class="m--font-danger">Please enter last name.</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Student Image:
+                </label>
+                <div>
+                  <input class="form-control" type="file" [formControl]="addStudentForm.controls['image']">
+
+                </div>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['stateId'].valid && addStudentForm.controls['stateId'].touched}">
+                <label class="col-form-label">
+                  Select Class
+                </label>
+                <div>
+
+                  <select class="form-control m-select2" id="m_select2_1" [formControl]="addStudentForm.controls['stateId']">
+                    <option value="AK">
+                      Alaska
+                    </option>
+                    <option value="HI">
+                      Hawaii
+                    </option>
+                    <option value="CA">
+                      California
+                    </option>
+                    <option value="NV">
+                      Nevada
+                    </option>
+
+                  </select>
+                  <span *ngIf="addStudentForm.controls['stateId'].hasError('required') && addStudentForm.controls['stateId'].touched"
+                    class="m--font-danger">Please enter mother name.</span>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Select Div
+                </label>
+                <div>
+
+                  <select class="form-control m-select2" id="m_select2_2" [formControl]="addStudentForm.controls['cityId']">
+                    <option value="AK">
+                      Alaska
+                    </option>
+                    <option value="HI">
+                      Hawaii
+                    </option>
+                    <option value="CA">
+                      California
+                    </option>
+                    <option value="NV">
+                      Nevada
+                    </option>
+
+                  </select>
+
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group m-form__group row">
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Date of birth:
+                </label>
+                <div class='input-group date'>
+                  <input type='text' id='m_datepickerSet' class="form-control m-input" [formControl]="addStudentForm.controls['dob']"
+                    name="dob" placeholder="Select date">
+                  <span class="input-group-addon">
+                    <i class="la la-calendar-check-o"></i>
+                  </span>
+
+                </div>
+                <span *ngIf="addStudentForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter
+                  Date Of Birth.</span>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['gender'].valid && addStudentForm.controls['gender'].touched}">
+                <label class="col-form-label">
+                  Gender:
+                </label>
+                <div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="gender" value="Male" [formControl]="addStudentForm.controls['gender']">
+                      Male
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="gender" value="Female" [formControl]="addStudentForm.controls['gender']">
+                      Female
+                    </label>
+                  </div>
+                  <span *ngIf="addStudentForm.controls['gender'].hasError('required') && addStudentForm.controls['gender'].touched"
+                    class="m--font-danger">Please select gender.</span>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Blood Group:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="" [formControl]="addStudentForm.controls['bloodGroup']">
+
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group m-form__group row">
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['nationality'].valid && addStudentForm.controls['nationality'].touched}">
+                <label class="col-form-label">
+                  Nationality:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="nationality" [formControl]="addStudentForm.controls['nationality']">
+                  <span *ngIf="addStudentForm.controls['nationality'].hasError('required') && addStudentForm.controls['nationality'].touched"
+                    class="m--font-danger">Please enter nationality.</span>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Religion:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="" [formControl]="addStudentForm.controls['religion']">
+
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Caste:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="" [formControl]="addStudentForm.controls['caste']">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group m-form__group row">
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Residential Address:
+                </label>
+                <div>
+                  <input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
+
+                </div>
+              </div>
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['address'].valid && addStudentForm.controls['address'].touched}">
+                <label class="col-form-label">
+                  Select State
+                </label>
+                <div>
+
+                  <select class="form-control m-select2" id="m_select2_1" [formControl]="addStudentForm.controls['stateId']">
+                    <option value="AK">
+                      Alaska
+                    </option>
+                    <option value="HI">
+                      Hawaii
+                    </option>
+                    <option value="CA">
+                      California
+                    </option>
+                    <option value="NV">
+                      Nevada
+                    </option>
+
+                  </select>
+                  <span *ngIf="addStudentForm.controls['stateId'].hasError('required') && addStudentForm.controls['stateId'].touched"
+                    class="m--font-danger">Please enter mother name.</span>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="col-form-label">
+                  Select City
+                </label>
+                <div>
+
+                  <select class="form-control m-select2" id="m_select2_2" [formControl]="addStudentForm.controls['cityId']">
+                    <option value="AK">
+                      Alaska
+                    </option>
+                    <option value="HI">
+                      Hawaii
+                    </option>
+                    <option value="CA">
+                      California
+                    </option>
+                    <option value="NV">
+                      Nevada
+                    </option>
+
+                  </select>
+
+                </div>
+              </div>
+              <!-- <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['lastName'].valid && addStudentForm.controls['lastName'].touched}">
 										<label class="col-form-label">
 											Last Name:
 										</label>
@@ -268,360 +284,475 @@
 											class="m--font-danger">Please enter last name.</span>
 										</div>
 									</div> -->
-							</div>
-									<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!addStudentForm.controls['lastName'].valid && addStudentForm.controls['lastName'].touched}">
-								  <label class="col-lg-2 col-form-label">Last Name</label>
-								  <div class="col-lg-6">
-								  <input class="form-control" type="text" placeholder="Doe" [formControl]="addStudentForm.controls['lastName']">
-								  <div *ngIf="addStudentForm.controls['lastName'].hasError('required') && addStudentForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
-								  <div *ngIf="addStudentForm.controls['lastName'].hasError('minlength') && addStudentForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
-								  <div *ngIf="addStudentForm.controls['lastName'].hasError('maxlength') && addStudentForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
-								</div>
-								</div>
-								<div class="form-group m-form__group row">
-								  <label class="col-lg-2 col-form-label">Gender</label>
-								  <div class="form-control-feedback" *ngIf="!addStudentForm.controls['gender'].valid && addStudentForm.controls['gender'].touched">You must select a gender.</div>
-								
-								<div class="col-lg-6">
-								<div class="radio">
-								  <label>
-									<input type="radio" name="gender" value="Male" [formControl]="addStudentForm.controls['gender']">
-									Male
-								  </label>
-								</div>
-								<div class="radio">
-								  <label>
-									<input type="radio" name="gender" value="Female" [formControl]="addStudentForm.controls['gender']">
-									Female
-								  </label>
-								</div>
-							</div>
-								</div> -->
-								</div>
-								<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-									<div class="m-form__actions m-form__actions--solid">
-										<div class="row">
-											<div class="col-lg-2"></div>
-											<div class="col-lg-6">
-												<button type="submit" class="btn btn-brand" [disabled]="!addStudentForm.valid">Submit</button>
-		
-												<button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
-											</div>
-										</div>
-									</div>
-								</div>
-		
-		
-							</form>
-						
-						</div>
-						
+            </div>
+			<div class="form-group m-form__group row">
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Mother Name:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
+					  </div>
 					</div>
-				</div>
-			</div> 
-			<div class="m-content" id="editTemplate">
+					<div class="col-lg-4">
+							<label class="col-form-label">
+							 Occupation:
+							</label>
+							<div>
+							  <input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
+							</div>
+						  </div>
+						  <div class="col-lg-4">
+								<label class="col-form-label">
+								  Mobile No:
+								</label>
+								<div>
+								  <input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
+								</div>
+							  </div>
+					
+					
+				  </div>
 
-				<div class="row">
-					<div class="col-lg-12">
-						
-						<div class="m-portlet">
-							<div class="m-portlet__head">
-								<div class="m-portlet__head-caption">
-									<div class="m-portlet__head-title">
-										<span class="m-portlet__head-icon m--hide">
-											<i class="la la-gear"></i>
-										</span>
-										<h3 class="m-portlet__head-text">
-											Edit Student
-										</h3>
-									</div>
-								</div>
-							</div>
-							<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"  [formGroup]="editStudentForm" (ngSubmit)="addStudentSubmitForm(editStudentForm.value)">
-								<div class="m-portlet__body">
-									<div class="form-group m-form__group row" >
-										<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['firstName'].valid && editStudentForm.controls['firstName'].touched}">
-											<label class="col-form-label">
-												First Name:
-											</label>
-											<div >
-												<input class="form-control" type="text" placeholder="first name" [formControl]="editStudentForm.controls['firstName']">
-												<span *ngIf="editStudentForm.controls['firstName'].hasError('required') && editStudentForm.controls['firstName'].touched"
-												class="m--font-danger">Please enter first name.</span>
-											</div>
-										</div>
-										<div class="col-lg-4" >
-											<label class="col-form-label">
-												Middle Name:
-											</label>
-											<div>
-												<input class="form-control" type="text" placeholder="middle name" [formControl]="editStudentForm.controls['middleName']">
-												
-											</div>
-										</div>
-										<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['lastName'].valid && editStudentForm.controls['lastName'].touched}">
-											<label class="col-form-label">
-												Last Name:
-											</label>
-											<div>
-												<input class="form-control" type="text" placeholder="last name" [formControl]="editStudentForm.controls['lastName']">
-												<span *ngIf="editStudentForm.controls['lastName'].hasError('required') && editStudentForm.controls['lastName'].touched" class="m--font-danger">Please enter last name.</span>
-											</div>
-										</div>
-								</div>
-								<div class="form-group m-form__group row" >
-									<div class="col-lg-4" >
-										<label class="col-form-label">
-											Date of birth:
-										</label>
-										<div class='input-group date' >
-												<input type='text' id='m_datepickerSet' class="form-control m-input" [formControl]="editStudentForm.controls['dob']" name="dob"  placeholder="Select date" >
-												<span class="input-group-addon">
-													<i class="la la-calendar-check-o"></i>
-												</span>
-												
-											</div>
-											<span *ngIf="editStudentForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter last name.</span>
-											
-										
-									</div>
-									<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['gender'].valid && editStudentForm.controls['gender'].touched}">
-										<label class="col-form-label">
-											Gender:
-										</label>
-										<div>
-											 <div class="radio">
-												<label>
-												  <input type="radio" name="gender" value="Male" [formControl]="editStudentForm.controls['gender']">
-												  Male
-												</label>
-											  </div>
-											  <div class="radio">
-												<label>
-												  <input type="radio" name="gender" value="Female" [formControl]="editStudentForm.controls['gender']">
-												  Female
-												</label>
-											  </div>
-											  <span *ngIf="editStudentForm.controls['gender'].hasError('required') && editStudentForm.controls['gender'].touched"
-											  class="m--font-danger">Please select gender.</span>
-										</div>
-									</div>
-									<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['motherName'].valid && editStudentForm.controls['motherName'].touched}">
-										<label class="col-form-label">
-											Mother Name:
-										</label>
-										<div>
-											<input class="form-control" type="text" placeholder="Enter mother name" [formControl]="editStudentForm.controls['motherName']">
-											<span *ngIf="editStudentForm.controls['motherName'].hasError('required') && editStudentForm.controls['motherName'].touched"
-											class="m--font-danger">Please enter mother name.</span>
-										</div>
-									</div>
-									
-							</div>
-							<div class="form-group m-form__group row" >
-									<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['stateId'].valid && editStudentForm.controls['stateId'].touched}">
-										<label class="col-form-label">
-											Select State
-										</label>
-										<div >
-											
-											<select class="form-control m-select2" id="m_select2_1" [formControl]="editStudentForm.controls['stateId']">
-													<option value="AK">
-														Alaska
-													</option>
-													<option value="HI">
-														Hawaii
-													</option>
-													<option value="CA">
-														California
-													</option>
-													<option value="NV">
-														Nevada
-													</option>
-													
-												</select>
-												<span *ngIf="editStudentForm.controls['stateId'].hasError('required') && editStudentForm.controls['stateId'].touched"
-												class="m--font-danger">Please enter mother name.</span>
-										</div>
-									</div>
-									<div class="col-lg-4" >
-											<label class="col-form-label">
-												Select State
-											</label>
-											<div >
-												
-												<select class="form-control m-select2" id="m_select2_2" [formControl]="editStudentForm.controls['cityId']">
-														<option value="AK">
-															Alaska
-														</option>
-														<option value="HI">
-															Hawaii
-														</option>
-														<option value="CA">
-															California
-														</option>
-														<option value="NV">
-															Nevada
-														</option>
-														
-													</select>
-												
-											</div>
-										</div>
-									<!-- <div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['lastName'].valid && editStudentForm.controls['lastName'].touched}">
-										<label class="col-form-label">
-											Last Name:
-										</label>
-										<div>
-											<input class="form-control" type="text" placeholder="last name" [formControl]="editStudentForm.controls['lastName']">
-											<span *ngIf="editStudentForm.controls['lastName'].hasError('required') && editStudentForm.controls['lastName'].touched"
-											class="m--font-danger">Please enter last name.</span>
-										</div>
-									</div> -->
-							</div>
-									<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!editStudentForm.controls['lastName'].valid && editStudentForm.controls['lastName'].touched}">
-								  <label class="col-lg-2 col-form-label">Last Name</label>
-								  <div class="col-lg-6">
-								  <input class="form-control" type="text" placeholder="Doe" [formControl]="editStudentForm.controls['lastName']">
-								  <div *ngIf="editStudentForm.controls['lastName'].hasError('required') && editStudentForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
-								  <div *ngIf="editStudentForm.controls['lastName'].hasError('minlength') && editStudentForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
-								  <div *ngIf="editStudentForm.controls['lastName'].hasError('maxlength') && editStudentForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
-								</div>
-								</div>
-								<div class="form-group m-form__group row">
-								  <label class="col-lg-2 col-form-label">Gender</label>
-								  <div class="form-control-feedback" *ngIf="!editStudentForm.controls['gender'].valid && editStudentForm.controls['gender'].touched">You must select a gender.</div>
-								
-								<div class="col-lg-6">
-								<div class="radio">
-								  <label>
-									<input type="radio" name="gender" value="Male" [formControl]="editStudentForm.controls['gender']">
-									Male
-								  </label>
-								</div>
-								<div class="radio">
-								  <label>
-									<input type="radio" name="gender" value="Female" [formControl]="editStudentForm.controls['gender']">
-									Female
-								  </label>
-								</div>
-							</div>
-								</div> -->
-								</div>
-								<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-									<div class="m-form__actions m-form__actions--solid">
-										<div class="row">
-											<div class="col-lg-2"></div>
-											<div class="col-lg-6">
-												<button type="submit" class="btn btn-brand" [disabled]="!editStudentForm.valid">Submit</button>
-		
-												<button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
-											</div>
-										</div>
-									</div>
-								</div>
-		
-		
-							</form>
-						
+				  <div class="form-group m-form__group row">
+						<div class="col-lg-4">
+						  <label class="col-form-label">
+							Father Name:
+						  </label>
+						  <div>
+							<input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
+						  </div>
 						</div>
-						
-					</div>
-				</div>
-			</div>
-<div class="m-content" id="listTemplate">
-	<div class="m-portlet m-portlet--mobile">
-		<div class="m-portlet__head">
-			<div class="m-portlet__head-caption">
-				<div class="m-portlet__head-title">
-					<h3 class="m-portlet__head-text">
-						Student List
-					</h3>
-				</div>
-			</div>
-			<div class="m-portlet__head-tools">
-				<ul class="m-portlet__nav">
-					<li class="m-portlet__nav-item">
-						<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-							<a  class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-								<i class="la la-ellipsis-h m--font-brand"></i>
-							</a>
-							<div class="m-dropdown__wrapper">
-								<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-								<div class="m-dropdown__inner">
-									<div class="m-dropdown__body">
-										<div class="m-dropdown__content">
-											<ul class="m-nav">
-												<li class="m-nav__section m-nav__section--first">
-													<span class="m-nav__section-text">
-														Quick Actions
-													</span>
-												</li>
-												
-												<li class="m-nav__item">
-													<a href="" class="m-nav__link">
-														<i class="m-nav__link-icon flaticon-chat-1"></i>
-														<span class="m-nav__link-text">
-															Send Messages
-														</span>
-													</a>
-												</li>
-												<li class="m-nav__item">
-													<a href="" class="m-nav__link">
-														<i class="m-nav__link-icon flaticon-multimedia-2"></i>
-														<span class="m-nav__link-text">
-															Upload File
-														</span>
-													</a>
-												</li>
-												
-											</ul>
-										</div>
+						<div class="col-lg-4">
+								<label class="col-form-label">
+								 Occupation:
+								</label>
+								<div>
+								  <input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
+								</div>
+							  </div>
+							  <div class="col-lg-4">
+									<label class="col-form-label">
+									  Mobile No:
+									</label>
+									<div>
+									  <input class="form-control" type="text" placeholder="address" [formControl]="addStudentForm.controls['address']">
 									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="m-portlet__body">
-			<!--begin: Search Form -->
-			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
-				<div class="row align-items-center">
-					<div class="col-xl-8 order-2 order-xl-1">
-						<div class="form-group m-form__group row align-items-center">
-							<div class="col-md-4">
-								<div class="m-input-icon m-input-icon--left">
-									<input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
-									<span class="m-input-icon__icon m-input-icon__icon--left">
-										<span>
-											<i class="la la-search"></i>
-										</span>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+								  </div>
 						
-						<a (click)="addTemplate()" href="#" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
-							<span>
-								<i class="la la-cart-plus"></i>
-								<span>
-									Add Student
-								</span>
-							</span>
-						</a>
-						<div class="m-separator m-separator--dashed d-xl-none"></div>
-					</div>
-				</div>
-			</div>
-			<!--end: Search Form -->
-			<!--begin: Datatable -->
-			<div class="m_datatable" id="local_data"></div>
-			<!--end: Datatable -->
-		</div>
-	</div>
+						
+					  </div>	  
+          </div>
+          <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions--solid">
+              <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-6">
+                  <button type="submit" class="btn btn-brand" [disabled]="!addStudentForm.valid">Submit</button>
+
+                  <button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
 </div>
+<div class="m-content" id="editTemplate">
 
+		<div class="row">
+		  <div class="col-lg-12">
+	  
+			<div class="m-portlet">
+			  <div class="m-portlet__head">
+				<div class="m-portlet__head-caption">
+				  <div class="m-portlet__head-title">
+					<span class="m-portlet__head-icon m--hide">
+					  <i class="la la-gear"></i>
+					</span>
+					<h3 class="m-portlet__head-text">
+					  Edit Student
+					</h3>
+				  </div>
+				</div>
+			  </div>
+			  <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="editStudentForm"
+				(ngSubmit)="addStudentSubmitForm(editStudentForm.value)">
+				<div class="m-portlet__body">
+				  <div class="form-group m-form__group row">
+					<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['firstName'].valid && editStudentForm.controls['firstName'].touched}">
+					  <label class="col-form-label">
+						First Name:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="first name" [formControl]="editStudentForm.controls['firstName']">
+						<span *ngIf="editStudentForm.controls['firstName'].hasError('required') && editStudentForm.controls['firstName'].touched"
+						  class="m--font-danger">Please enter first name.</span>
+					  </div>
+					</div>
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Middle Name:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="middle name" [formControl]="editStudentForm.controls['middleName']">
+	  
+					  </div>
+					</div>
+					<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['lastName'].valid && editStudentForm.controls['lastName'].touched}">
+					  <label class="col-form-label">
+						Last Name:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="last name" [formControl]="editStudentForm.controls['lastName']">
+						<span *ngIf="editStudentForm.controls['lastName'].hasError('required') && editStudentForm.controls['lastName'].touched"
+						  class="m--font-danger">Please enter last name.</span>
+					  </div>
+					</div>
+				  </div>
+				  <div class="form-group m-form__group row">
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Student Image:
+					  </label>
+					  <div>
+						<input class="form-control" type="file" [formControl]="editStudentForm.controls['image']">
+	  
+					  </div>
+					</div>
+					<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['stateId'].valid && editStudentForm.controls['stateId'].touched}">
+					  <label class="col-form-label">
+						Select Class
+					  </label>
+					  <div>
+	  
+						<select class="form-control m-select2" id="m_select2_1" [formControl]="editStudentForm.controls['stateId']">
+						  <option value="AK">
+							Alaska
+						  </option>
+						  <option value="HI">
+							Hawaii
+						  </option>
+						  <option value="CA">
+							California
+						  </option>
+						  <option value="NV">
+							Nevada
+						  </option>
+	  
+						</select>
+						<span *ngIf="editStudentForm.controls['stateId'].hasError('required') && editStudentForm.controls['stateId'].touched"
+						  class="m--font-danger">Please enter mother name.</span>
+					  </div>
+					</div>
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Select Div
+					  </label>
+					  <div>
+	  
+						<select class="form-control m-select2" id="m_select2_2" [formControl]="editStudentForm.controls['cityId']">
+						  <option value="AK">
+							Alaska
+						  </option>
+						  <option value="HI">
+							Hawaii
+						  </option>
+						  <option value="CA">
+							California
+						  </option>
+						  <option value="NV">
+							Nevada
+						  </option>
+	  
+						</select>
+	  
+					  </div>
+					</div>
+	  
+				  </div>
+				  <div class="form-group m-form__group row">
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Date of birth:
+					  </label>
+					  <div class='input-group date'>
+						<input type='text' id='m_datepickerSet' class="form-control m-input" [formControl]="editStudentForm.controls['dob']"
+						  name="dob" placeholder="Select date">
+						<span class="input-group-addon">
+						  <i class="la la-calendar-check-o"></i>
+						</span>
+	  
+					  </div>
+					  <span *ngIf="editStudentForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter
+						Date Of Birth.</span>
+					</div>
+					<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['gender'].valid && editStudentForm.controls['gender'].touched}">
+					  <label class="col-form-label">
+						Gender:
+					  </label>
+					  <div>
+						<div class="radio">
+						  <label>
+							<input type="radio" name="gender" value="Male" [formControl]="editStudentForm.controls['gender']">
+							Male
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+							<input type="radio" name="gender" value="Female" [formControl]="editStudentForm.controls['gender']">
+							Female
+						  </label>
+						</div>
+						<span *ngIf="editStudentForm.controls['gender'].hasError('required') && editStudentForm.controls['gender'].touched"
+						  class="m--font-danger">Please select gender.</span>
+					  </div>
+					</div>
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Blood Group:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="" [formControl]="editStudentForm.controls['bloodGroup']">
+	  
+					  </div>
+					</div>
+	  
+				  </div>
+				  <div class="form-group m-form__group row">
+					<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['nationality'].valid && editStudentForm.controls['nationality'].touched}">
+					  <label class="col-form-label">
+						Nationality:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="nationality" [formControl]="editStudentForm.controls['nationality']">
+						<span *ngIf="editStudentForm.controls['nationality'].hasError('required') && editStudentForm.controls['nationality'].touched"
+						  class="m--font-danger">Please enter nationality.</span>
+					  </div>
+					</div>
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Religion:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="" [formControl]="editStudentForm.controls['religion']">
+	  
+					  </div>
+					</div>
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Caste:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="" [formControl]="editStudentForm.controls['caste']">
+	  
+					  </div>
+					</div>
+				  </div>
+	  
+				  <div class="form-group m-form__group row">
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Residential Address:
+					  </label>
+					  <div>
+						<input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+	  
+					  </div>
+					</div>
+					<div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['address'].valid && editStudentForm.controls['address'].touched}">
+					  <label class="col-form-label">
+						Select State
+					  </label>
+					  <div>
+	  
+						<select class="form-control m-select2" id="m_select2_1" [formControl]="editStudentForm.controls['stateId']">
+						  <option value="AK">
+							Alaska
+						  </option>
+						  <option value="HI">
+							Hawaii
+						  </option>
+						  <option value="CA">
+							California
+						  </option>
+						  <option value="NV">
+							Nevada
+						  </option>
+	  
+						</select>
+						<span *ngIf="editStudentForm.controls['stateId'].hasError('required') && editStudentForm.controls['stateId'].touched"
+						  class="m--font-danger">Please enter mother name.</span>
+					  </div>
+					</div>
+					<div class="col-lg-4">
+					  <label class="col-form-label">
+						Select City
+					  </label>
+					  <div>
+	  
+						<select class="form-control m-select2" id="m_select2_2" [formControl]="editStudentForm.controls['cityId']">
+						  <option value="AK">
+							Alaska
+						  </option>
+						  <option value="HI">
+							Hawaii
+						  </option>
+						  <option value="CA">
+							California
+						  </option>
+						  <option value="NV">
+							Nevada
+						  </option>
+	  
+						</select>
+	  
+					  </div>
+					</div>
+					<!-- <div class="col-lg-4" [ngClass]="{'has-danger':!editStudentForm.controls['lastName'].valid && editStudentForm.controls['lastName'].touched}">
+											  <label class="col-form-label">
+												  Last Name:
+											  </label>
+											  <div>
+												  <input class="form-control" type="text" placeholder="last name" [formControl]="editStudentForm.controls['lastName']">
+												  <span *ngIf="editStudentForm.controls['lastName'].hasError('required') && editStudentForm.controls['lastName'].touched"
+												  class="m--font-danger">Please enter last name.</span>
+											  </div>
+										  </div> -->
+				  </div>
+				  <div class="form-group m-form__group row">
+						  <div class="col-lg-4">
+							<label class="col-form-label">
+							  Mother Name:
+							</label>
+							<div>
+							  <input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+							</div>
+						  </div>
+						  <div class="col-lg-4">
+								  <label class="col-form-label">
+								   Occupation:
+								  </label>
+								  <div>
+									<input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+								  </div>
+								</div>
+								<div class="col-lg-4">
+									  <label class="col-form-label">
+										Mobile No:
+									  </label>
+									  <div>
+										<input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+									  </div>
+									</div>
+						  
+						  
+						</div>
+	  
+						<div class="form-group m-form__group row">
+							  <div class="col-lg-4">
+								<label class="col-form-label">
+								  Father Name:
+								</label>
+								<div>
+								  <input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+								</div>
+							  </div>
+							  <div class="col-lg-4">
+									  <label class="col-form-label">
+									   Occupation:
+									  </label>
+									  <div>
+										<input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+									  </div>
+									</div>
+									<div class="col-lg-4">
+										  <label class="col-form-label">
+											Mobile No:
+										  </label>
+										  <div>
+											<input class="form-control" type="text" placeholder="address" [formControl]="editStudentForm.controls['address']">
+										  </div>
+										</div>
+							  
+							  
+							</div>	  
+				</div>
+				<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+				  <div class="m-form__actions m-form__actions--solid">
+					<div class="row">
+					  <div class="col-lg-2"></div>
+					  <div class="col-lg-6">
+						<button type="submit" class="btn btn-brand" [disabled]="!editStudentForm.valid">Submit</button>
+	  
+						<button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
+					  </div>
+					</div>
+				  </div>
+				</div>
+	  
+	  
+			  </form>
+	  
+			</div>
+	  
+		  </div>
+		</div>
+	  </div>
+<div class="m-content" id="listTemplate">
+  <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            Student List
+          </h3>
+        </div>
+      </div>
+      
+    </div>
+    <div class="m-portlet__body">
+      <!--begin: Search Form -->
+      <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30">
+        <div class="row align-items-center">
+          <div class="col-xl-8 order-2 order-xl-1">
+            <div class="form-group m-form__group row align-items-center">
+              <div class="col-md-4">
+                <div class="m-input-icon m-input-icon--left">
+                  <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+                  <span class="m-input-icon__icon m-input-icon__icon--left">
+                    <span>
+                      <i class="la la-search"></i>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+
+            <a (click)="addTemplate()" href="#" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+              <span>
+                <i class="la la-cart-plus"></i>
+                <span>
+                  Add Student
+                </span>
+              </span>
+            </a>
+            <div class="m-separator m-separator--dashed d-xl-none"></div>
+          </div>
+        </div>
+      </div>
+      <!--end: Search Form -->
+      <!--begin: Datatable -->
+      <div class="m_datatable" id="local_data"></div>
+      <!--end: Datatable -->
+    </div>
+  </div>
+</div>

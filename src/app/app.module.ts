@@ -12,17 +12,17 @@ import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { FullCalendarModule } from 'ng-fullcalendar';
 
-// import { HTTP_INTERCEPTORS } from '@angular/common/http';
-// import { TokenInterceptor } from './auth/token.interceptor';
-// import { HttpClientModule } from '@angular/common/http'; 
-// import { HttpModule } from '@angular/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
+import { HttpClientModule } from '@angular/common/http'; 
+import { HttpModule } from '@angular/http';
 @NgModule({
   declarations: [
     ThemeComponent,
     AppComponent,
   ],
   imports: [
-    // HttpModule,
+    HttpModule,
     FormsModule,
     ReactiveFormsModule,
     FullCalendarModule,
@@ -33,14 +33,14 @@ import { FullCalendarModule } from 'ng-fullcalendar';
     ThemeRoutingModule,
     AuthModule,
     AmChartsModule,
-    // HttpClientModule,
+    HttpClientModule,
   ],
   providers: [ScriptLoaderService,
-    //   {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptor,
-    //   multi: true
-    // }
+      {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

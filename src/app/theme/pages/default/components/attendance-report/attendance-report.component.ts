@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
-  templateUrl: "./student.html",
+  templateUrl: "./attendance-report.html",
   encapsulation: ViewEncapsulation.None,
 })
-export class StudentComponent implements OnInit, AfterViewInit {
+export class attendanceReportComponent implements OnInit, AfterViewInit {
   studentData: any = null;
   isValid = false;
   studentEditData:any;
@@ -34,13 +34,7 @@ export class StudentComponent implements OnInit, AfterViewInit {
       'firstName' : new FormControl('', Validators.required),
       'middleName' : new FormControl('', Validators.required),
       'lastName' : new FormControl('', Validators.required),
-      'image': new FormControl('', Validators.required),
       'dob' : new FormControl('', Validators.required),
-      'nationality': new FormControl('', Validators.required),
-      'caste': new FormControl('', Validators.required),
-      'religion': new FormControl('', Validators.required),
-      'address': new FormControl('', Validators.required),
-      'bloodGroup': new FormControl('', Validators.required),
       'gender' : new FormControl('', Validators.required),
       'motherName' : new FormControl('', Validators.required),
       'stateId' : new FormControl('', Validators.required),
@@ -52,20 +46,8 @@ export class StudentComponent implements OnInit, AfterViewInit {
       // 'swimming' : [false]
     });
     this.editStudentForm = this.fb.group({
-      'firstName' : new FormControl('', Validators.required),
-      'middleName' : new FormControl('', Validators.required),
-      'lastName' : new FormControl('', Validators.required),
-      'image': new FormControl('', Validators.required),
-      'dob' : new FormControl('', Validators.required),
-      'nationality': new FormControl('', Validators.required),
-      'caste': new FormControl('', Validators.required),
-      'religion': new FormControl('', Validators.required),
-      'address': new FormControl('', Validators.required),
-      'bloodGroup': new FormControl('', Validators.required),
-      'gender' : new FormControl('', Validators.required),
-      'motherName' : new FormControl('', Validators.required),
-      'stateId' : new FormControl('', Validators.required),
-      'cityId' : new FormControl('', Validators.required),
+      'firstName' : [null, Validators.required],
+      'lastName' : [null, Validators.required],
       // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
       // 'gender' : [null, Validators.required],
       // 'hiking' : [false],

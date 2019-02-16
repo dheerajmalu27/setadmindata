@@ -54,6 +54,30 @@ const routes: Routes = [
         "loadChildren": ".\/pages\/default\/components\/test\/test.module#TestModule"
       },
       {
+        "path": "attendance-report",
+        "loadChildren": ".\/pages\/default\/components\/attendance-report\/attendance-report.module#attendanceReportModule"
+      },
+      {
+        "path": "test-result-report",
+        "loadChildren": ".\/pages\/default\/components\/test-result-report\/test-result-report.module#testResultReportModule"
+      },
+      {
+        "path": "final-result-report",
+        "loadChildren": ".\/pages\/default\/components\/final-result-report\/final-result-report.module#finalResultReportModule"
+      },
+      {
+        "path": "bus-track",
+        "loadChildren": ".\/pages\/default\/components\/bus-track\/bus-track.module#BusTrackModule"
+      },
+      {
+        "path": "test-record",
+        "loadChildren": ".\/pages\/default\/components\/test-record\/test-record.module#TestRecordModule"
+      },
+      {
+        "path": "teacher-leave",
+        "loadChildren": ".\/pages\/default\/components\/teacher-leave\/teacher-leave.module#TeacherLeaveModule"
+      },
+      {
         "path": "angular\/primeng",
         "loadChildren": ".\/pages\/default\/angular\/primeng\/primeng.module#PrimengModule"
       },
