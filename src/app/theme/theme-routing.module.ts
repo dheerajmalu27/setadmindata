@@ -10,52 +10,86 @@ const routes: Routes = [
     "canActivate": [AuthGuard],
     "children": [
       {
-        "path": "angular\/ng-bootstrap",
-        "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"
-      },
-      {
         "path": "dashboard",
         "loadChildren": ".\/pages\/default\/components\/dashboard\/dashboard.module#DashboardModule"
-      },
-      {
-        "path": "attendance",
-        "loadChildren": ".\/pages\/default\/components\/attendance\/attendance.module#AttendanceModule"
-      },
-      {
-        "path": "subject",
-        "loadChildren": ".\/pages\/default\/components\/subject\/subject.module#SubjectModule"
       },
       {
         "path": "teacher",
         "loadChildren": ".\/pages\/default\/components\/teacher\/teacher.module#TeacherModule"
       },
       {
+        "path": "teacher-leave",
+        "loadChildren": ".\/pages\/default\/components\/teacher-leave\/teacher-leave.module#TeacherLeaveModule"
+      },
+      {
         "path": "teacher\/profile\/:id",
         "loadChildren": ".\/pages\/default\/components\/teacher-profile\/teacher-profile.module#TeacherProfileModule"
       },
+//student section
       {
         "path": "student",
         "loadChildren": ".\/pages\/default\/components\/student\/student.module#StudentModule"
       },
       {
+        "path": "absent-student",
+        "loadChildren": ".\/pages\/default\/components\/absent-student\/absent-student.module#AbsentStudentModule"
+      },
+     
+      {
         "path": "student\/profile\/:id",
         "loadChildren": ".\/pages\/default\/components\/student-profile\/student-profile.module#StudentProfileModule"
+      },
+     // attendence section
+      {
+        "path": "attendance",
+        "loadChildren": ".\/pages\/default\/components\/attendance\/attendance.module#AttendanceModule"
+      },  
+      {
+        "path": "pending-attendance-record",
+        "loadChildren": ".\/pages\/default\/components\/pending-attendance-record\/pending-attendance-record.module#PendingAttendanceRecordModule"
+      },
+      {
+        "path": "today-absent-student",
+        "loadChildren": ".\/pages\/default\/components\/today-absent-student\/today-absent-student.module#TodayAbsentStudentModule"
+      },
+     // test marks section
+     {
+      "path": "test-marks",
+      "loadChildren": ".\/pages\/default\/components\/test-marks\/test-marks.module#TestMarksModule"
+    },
+    {
+      "path": "pending-marks-test",
+      "loadChildren": ".\/pages\/default\/components\/pending-marks-test\/pending-marks-test.module#PendingMarksTestModule"
+    }, 
+      // Setting section 
+      {
+        "path": "class",
+        "loadChildren": ".\/pages\/default\/components\/class\/class.module#ClassModule"
+      },
+      {
+        "path": "class-subject-test",
+        "loadChildren": ".\/pages\/default\/components\/class-subject-test\/class-subject-test.module#ClassSubjectTestModule"
       },
       {
         "path": "division",
         "loadChildren": ".\/pages\/default\/components\/division\/division.module#DivisionModule"
       },
       {
-        "path": "class",
-        "loadChildren": ".\/pages\/default\/components\/class\/class.module#ClassModule"
-      },
+        "path": "subject",
+        "loadChildren": ".\/pages\/default\/components\/subject\/subject.module#SubjectModule"
+      },   
       {
         "path": "test",
         "loadChildren": ".\/pages\/default\/components\/test\/test.module#TestModule"
       },
       {
+        "path": "holidays",
+        "loadChildren": ".\/pages\/default\/components\/holidays\/holidays.module#HolidaysModule"
+      },
+     //report section
+      {
         "path": "attendance-report",
-        "loadChildren": ".\/pages\/default\/components\/attendance-report\/attendance-report.module#attendanceReportModule"
+        "loadChildren": ".\/pages\/default\/components\/attendance-report\/attendance-report.module#AttendanceReportModule"
       },
       {
         "path": "test-result-report",
@@ -65,18 +99,14 @@ const routes: Routes = [
         "path": "final-result-report",
         "loadChildren": ".\/pages\/default\/components\/final-result-report\/final-result-report.module#finalResultReportModule"
       },
+
+      // bus track Section
       {
         "path": "bus-track",
         "loadChildren": ".\/pages\/default\/components\/bus-track\/bus-track.module#BusTrackModule"
       },
-      {
-        "path": "test-record",
-        "loadChildren": ".\/pages\/default\/components\/test-record\/test-record.module#TestRecordModule"
-      },
-      {
-        "path": "teacher-leave",
-        "loadChildren": ".\/pages\/default\/components\/teacher-leave\/teacher-leave.module#TeacherLeaveModule"
-      },
+     
+     
       {
         "path": "angular\/primeng",
         "loadChildren": ".\/pages\/default\/angular\/primeng\/primeng.module#PrimengModule"

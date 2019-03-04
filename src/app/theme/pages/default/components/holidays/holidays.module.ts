@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { AttendanceReportComponent } from './attendance-report.component';
+import { HolidaysComponent } from './holidays.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DefaultComponent } from '../../default.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 const routes: Routes = [
   {
     "path": "",
@@ -12,7 +13,7 @@ const routes: Routes = [
     "children": [
       {
         "path": "",
-        "component": AttendanceReportComponent
+        "component": HolidaysComponent
       }
     ]
   }
@@ -23,10 +24,10 @@ const routes: Routes = [
   ], exports: [
     RouterModule
   ], declarations: [
-    AttendanceReportComponent
+    HolidaysComponent
   ]
 })
-export class AttendanceReportModule {
+export class HolidaysModule {
 
 
 

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { AttendanceRecordComponent } from './attendance-record.component';
+import { TestMarksComponent } from './test-marks.component';
 import { LayoutModule } from '../../../../layouts/layout.module';
 import { DefaultComponent } from '../../default.component';
 
@@ -12,7 +12,7 @@ const routes: Routes = [
     "children": [
       {
         "path": "",
-        "component": AttendanceRecordComponent
+        "component": TestMarksComponent
       }
     ]
   }
@@ -23,10 +23,10 @@ const routes: Routes = [
   ], exports: [
     RouterModule
   ], declarations: [
-    AttendanceRecordComponent
+    TestMarksComponent
   ]
 })
-export class AttendanceRecordModule {
+export class TestMarksModule {
 
 
 

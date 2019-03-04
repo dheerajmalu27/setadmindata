@@ -7,14 +7,14 @@ import { Router } from '@angular/router';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
-  templateUrl: "./attendance.html",
+  templateUrl: "./pending-attendance-record.html",
   encapsulation: ViewEncapsulation.None,
 })
-export class AttendanceComponent implements OnInit, AfterViewInit {
+export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
   attendancePending: any = null;
   SrNo: any = 1;
   constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,public fb: FormBuilder) {
-    this.getAttendanceList();
+    this.getAttendancePendingList();
   }
   ngOnInit() {
     this.listTemplate();
@@ -30,12 +30,12 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     $("#listTemplate").hide();
   }
   
-  private getAttendanceList() {
+  private getAttendancePendingList() {
     
     let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
 
     let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/getattendancelist', options)
+    let StudentData = this.http.get('http://localhost:3000/api/pendingattendance', options)
       .map(res => {
         // If request fails, throw an Error that will be caught
         if (res.status < 200 || res.status >= 300) {
@@ -93,7 +93,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
           field: "",
           title: "Sr.No.",
           textAlign: 'center',
-          
+          sortable:false,
           template: function (row) {
             return i++;
           },
@@ -113,10 +113,10 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
           title: "Date",
           
         }, {
-          field: "totalPresent",
+          field: "active",
           title: "Status",
           template: function (row) {
-            return row.totalPresent.toString()+"/"+ row.total.toString();
+            return '<span class="m-badge m-badge–brand m-badge–wide"> Pending </span>';
            
           },
         }, {

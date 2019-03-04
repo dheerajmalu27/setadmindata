@@ -10,7 +10,7 @@ declare let $: any
   templateUrl: "./attendance-report.html",
   encapsulation: ViewEncapsulation.None,
 })
-export class attendanceReportComponent implements OnInit, AfterViewInit {
+export class AttendanceReportComponent implements OnInit, AfterViewInit {
   studentData: any = null;
   isValid = false;
   studentEditData:any;
