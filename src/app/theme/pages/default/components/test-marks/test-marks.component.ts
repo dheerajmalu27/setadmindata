@@ -86,7 +86,7 @@ export class TestMarksComponent implements OnInit, AfterViewInit {
     let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
 
     let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/absentstudent', options)
+    let StudentData = this.http.get('http://localhost:3000/api/gettestmarkslist', options)
       .map(res => {
         // If request fails, throw an Error that will be caught
         if (res.status < 200 || res.status >= 300) {
@@ -115,13 +115,14 @@ export class TestMarksComponent implements OnInit, AfterViewInit {
   public showtablerecord(data){
     // console.log(data);
      // let dataJSONArray = JSON.parse(data.teacher);
-                
+       let i=1;         
       var datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {
           type: 'local',
           source: data,
-          pageSize: 10
+          pageSize: 10,
+          i:1
         },
   
         // layout definition
@@ -138,46 +139,40 @@ export class TestMarksComponent implements OnInit, AfterViewInit {
   
         pagination: true,
         columns: [{
-          field: "rollNo",
-          title: "Roll No",
-          textAlign: 'center'
+          field: "",
+          title: "Sr.No.",
+          textAlign: 'center',
+         
+          template: function (row) {
+            return i++;
+          },
         }, {
-          field: "studentName",
-          title: "Student Name",
-          // template: function (row) {
-          //   console.log(row);
-          //   return '<span (click)="detailProfile('+row.id+')"  class="teacherFn" data-id="'+row.id+'">'+row.firstName+' '+row.lastName+'</span>';
-          // },
+          field: "testName",
+          title: "Test Name",
         }, {
           field: "className",
           title: "Class-Div",
           template: function (row) {
-            console.log(row);
             return row.className+'-'+row.divName;
           },
         }, {
-          field: "fatherName",
-          title: "Father Name ",
-          
+          field: "subName",
+          title: "Subject Name",
         }, {
-          field: "mobNumber",
-          title: "Mob Number",
-          
-        },
-         {
           field: "teacherName",
-          title: "Teacher Name",
-          
+          title: "Teacher Name",  
         },
         {
-         field: "attendanceDate",
-         title: "Attendance Date",
-         
-       },
+          field: "average",
+          title: "Average-Total", 
+          template: function (row) {
+            return row.average+'-'+row.totalMarks;
+          }, 
+        },
+        
          {
-          field: "attendanceDate",
+          field: "teacherId",
           title: "Actions",
-
           template: function (row) {
             return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.id+'"></i></span>';
            
