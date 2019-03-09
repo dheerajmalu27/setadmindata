@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/co
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
-import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
+import {BaseService} from '../../../../../_services/base.service';
 import { Router } from '@angular/router';
 declare let $: any
 
@@ -13,11 +13,12 @@ declare let $: any
 })
 export class HolidaysComponent implements OnInit, AfterViewInit {
   showTemplate:any;
-  testData:any;
+  holidayData:any;
   addTestForm : FormGroup;
   editTestForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
+  constructor(private _script: ScriptLoaderService,private baseservice: BaseService
+    , private router: Router,fb: FormBuilder){
     this.getTestList();
     this.addTestForm = fb.group({
       'testName' : [null, Validators.required],
@@ -73,35 +74,18 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
     console.log(value);
   }
   private getTestList() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-     this.http.get('http://localhost:3000/api/test', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.testData = data.test;
-        this.showtablerecord(data);
-        console.log(this.testData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
+    this.baseservice.get('holidays').subscribe((data) => {
+      this.holidayData = data.holidays;
+      this.showtablerecord(data);
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
 
 
   }
   public showtablerecord(data){
-    console.log(data.test);
+ 
      
       var iValue=0;           
        var datatable = $('.m_datatable').mDatatable({

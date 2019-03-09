@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 import "rxjs/add/operator/map";
-
+import { appVariables } from '../../app.constants';
 @Injectable()
 export class AuthenticationService {
 
@@ -20,7 +20,8 @@ export class AuthenticationService {
           userData.user["token"] = userData.token;
           userData.user["fullName"] = userData.user["first"];
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('sauAuth', userData.token);
+          console.log(userData.token);
+          localStorage.setItem(appVariables.accessTokenLocalStorage, userData.token);
           localStorage.setItem('currentUser', JSON.stringify(userData.user));
         }
       });
@@ -28,6 +29,7 @@ export class AuthenticationService {
 
   logout() {
     // remove user from local storage to log user out
+    localStorage.removeItem(appVariables.accessTokenLocalStorage);
     localStorage.removeItem('currentUser');
   }
 }

@@ -4,6 +4,7 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 import { Router } from '@angular/router';
+import {BaseService} from '../../../../../_services/base.service';
 declare let $: any
 
 @Component({
@@ -17,7 +18,7 @@ export class TestComponent implements OnInit, AfterViewInit {
   addTestForm : FormGroup;
   editTestForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
+  constructor(private _script: ScriptLoaderService,private baseservice: BaseService, private router: Router,fb: FormBuilder){
     this.getTestList();
     this.addTestForm = fb.group({
       'testName' : [null, Validators.required],
@@ -73,36 +74,16 @@ export class TestComponent implements OnInit, AfterViewInit {
     console.log(value);
   }
   private getTestList() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-     this.http.get('http://localhost:3000/api/test', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.testData = data.test;
-        this.showtablerecord(data);
-        console.log(this.testData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
-
-
+    this.baseservice.get('test').subscribe((data) => {
+      this.testData = data.test;
+      this.showtablerecord(data);
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
   }
   public showtablerecord(data){
-    console.log(data.test);
-     
+    console.log(data.test);    
       var iValue=0;           
        var datatable = $('.m_datatable').mDatatable({
         
@@ -120,16 +101,11 @@ export class TestComponent implements OnInit, AfterViewInit {
            height: 450, // datatable's body's fixed height
            footer: false // display/hide footer
          },
-   
          // column sorting
          sortable: true,
-   
          pagination: true,
-   
          // inline and bactch editing(cooming soon)
          // editable: false,
-   
-         // columns definition
          columns: [{
            field: "id",
            title: "Sr.No.",

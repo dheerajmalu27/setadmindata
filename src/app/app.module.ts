@@ -7,11 +7,14 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AmChartsModule } from "amcharts3-angular2";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CommonService } from "./_services/common-api.service";
 import { ScriptLoaderService } from "./_services/script-loader.service";
+import { CustomErrorHandlerService } from "./_services/custom-error-handler.service";
 import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { FullCalendarModule } from 'ng-fullcalendar';
-
+import {BaseService} from "./_services/base.service";
+import {HttpService} from "./_services/http.service"
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { HttpClientModule } from '@angular/common/http'; 
@@ -35,7 +38,7 @@ import { HttpModule } from '@angular/http';
     AmChartsModule,
     HttpClientModule,
   ],
-  providers: [ScriptLoaderService,
+  providers: [ScriptLoaderService,CommonService,BaseService, HttpService,CustomErrorHandlerService,
       {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
@@ -44,4 +47,6 @@ import { HttpModule } from '@angular/http';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  
+}

@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
+import { CommonService } from '../../../../../_services/common-api.service';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
+import {BaseService} from '../../../../../_services/base.service';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -12,6 +14,9 @@ declare let $: any
 })
 export class StudentComponent implements OnInit, AfterViewInit {
   studentData: any = null;
+  studentTempData: any = null;
+  stateData:any=null;
+  cityData:any=null;
   isValid = false;
   studentEditData:any;
   divisionData:any=null;
@@ -20,8 +25,8 @@ export class StudentComponent implements OnInit, AfterViewInit {
   studentDetail:any;
    addStudentForm : FormGroup;
    editStudentForm : FormGroup;
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,public fb: FormBuilder) {
-    this.getStudentList();
+  constructor(private commonservice: CommonService,private _script: ScriptLoaderService, private http: Http, private router: Router,public fb: FormBuilder,private baseservice: BaseService) {
+   
       // console.log(this.addStudentForm);
       // this.addStudentForm.valueChanges.subscribe( (form: any) => {
       //   console.log('form changed to:', form);
@@ -29,13 +34,15 @@ export class StudentComponent implements OnInit, AfterViewInit {
       // );
     }
   ngOnInit() {
-    
+    this.getStudentList();
     this.addStudentForm = this.fb.group({
       'firstName' : new FormControl('', Validators.required),
       'middleName' : new FormControl('', Validators.required),
       'lastName' : new FormControl('', Validators.required),
       'image': new FormControl('', Validators.required),
-      'dob' : new FormControl('', Validators.required),
+       'dob' : new FormControl('', Validators.required),
+       'classId' : new FormControl('', Validators.required),
+      'divId' : new FormControl('', Validators.required),
       'nationality': new FormControl('', Validators.required),
       'caste': new FormControl('', Validators.required),
       'religion': new FormControl('', Validators.required),
@@ -84,6 +91,8 @@ export class StudentComponent implements OnInit, AfterViewInit {
     $("#addTemplate").show();
     $("#editTemplate").hide();
     $("#listTemplate").hide();
+    this.getStateList();
+
     this.getClassList();
     this.getDivisionList();
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
@@ -282,119 +291,57 @@ export class StudentComponent implements OnInit, AfterViewInit {
     
   }
   private getStudentList() {
-    
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/student', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.studentData = data.student;
-        this.showtablerecord(data);
-        console.log(this.studentData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
-
-
+    this.studentTempData = this.baseservice.get('student').subscribe((data) => {
+      this.studentData = data.student;
+      this.showtablerecord(data);
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
+   
   }
   private getStudentData(Id) {
-    console.log("getStudentData");
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/student/'+Id, options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.studentEditData = data.student;
-        this.editTemplate(this.studentEditData);
-       // console.log(this.studentData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
-
+    this.studentTempData = this.baseservice.get(<string>('student/'+Id)).subscribe((data) => {
+      this.studentEditData = data.student;
+      this.editTemplate(this.studentEditData);
+    },
+    (err) => {
+      //localStorage.clear();
+    });
+   
 
   }
-  private getDivisionList() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/division', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.divisionData = data.division;
-     
-        console.log(this.divisionData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
-
-
+  private getStateList() {
+    this.baseservice.get('state').subscribe((data) => {
+     this.stateData = data.state;
+   },
+   (err) => {
+   //  localStorage.clear();
+   });
+ }
+  
+  private getCityList(stateid){
+    this.commonservice.getCityListByState(stateid).subscribe(res => {
+      this.cityData = res;
+      console.log(res);
+  });
   }
   private getClassList() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/class', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.classData = data.class;
-      
-        console.log(this.classData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
-
-
-  }
+    this.baseservice.get('class').subscribe((data) => {
+      this.classData = data.class;
+   },
+   (err) => {
+   //  localStorage.clear();
+   });
+ }
+ private getDivisionList() {
+  this.baseservice.get('division').subscribe((data) => {
+   this.divisionData = data.division;
+ },
+ (err) => {
+ //  localStorage.clear();
+ });
+}
   public showtablerecord(data){
     // console.log(data);
      // let dataJSONArray = JSON.parse(data.teacher);

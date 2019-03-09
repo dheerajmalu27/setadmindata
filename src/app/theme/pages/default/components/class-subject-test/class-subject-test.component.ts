@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/co
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
-import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
+import {BaseService} from '../../../../../_services/base.service';
 import { Router } from '@angular/router';
 declare let $: any
 
@@ -17,7 +17,8 @@ export class classSubjectTestComponent implements OnInit, AfterViewInit {
   addClassForm : FormGroup;
   editClassForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
+  constructor(private _script: ScriptLoaderService,private baseservice: BaseService
+    , private router: Router,fb: FormBuilder){
     this.getSubjectClassTestList();
     this.addClassForm = fb.group({
       'className' : [null, Validators.required],
@@ -73,35 +74,15 @@ export class classSubjectTestComponent implements OnInit, AfterViewInit {
     console.log(value);
   }
   private getSubjectClassTestList() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/gettestmarkspendinglist', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.classData = data.class;
-        this.showtablerecord(data);
-        console.log(this.classData);
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
-
-
+    this.baseservice.get('class').subscribe((data) => {
+      this.classData = data.class;
+      this.showtablerecord(data);
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
   }
   public showtablerecord(data){
-   console.log(data.class);
      // let dataJSONArray = JSON.parse(data.teacher);
                 
       var datatable = $('.m_datatable').mDatatable({

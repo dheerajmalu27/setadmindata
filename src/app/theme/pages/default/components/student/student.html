@@ -87,28 +87,18 @@
 
                 </div>
               </div>
-              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['stateId'].valid && addStudentForm.controls['stateId'].touched}">
+              <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['classId'].valid && addStudentForm.controls['classId'].touched}">
                 <label class="col-form-label">
                   Select Class
                 </label>
                 <div>
-
-                  <select class="form-control m-select2" id="m_select2_1" [formControl]="addStudentForm.controls['stateId']">
-                    <option value="AK">
-                      Alaska
-                    </option>
-                    <option value="HI">
-                      Hawaii
-                    </option>
-                    <option value="CA">
-                      California
-                    </option>
-                    <option value="NV">
-                      Nevada
-                    </option>
-
+								
+									 <select class="form-control m-select2" id="m_select2_1" [formControl]="addStudentForm.controls['classId']" >
+										<option *ngFor="let classdata of ClassData" [ngValue]="classdata.id">
+											{{classdata.className}}
+									</option>
                   </select>
-                  <span *ngIf="addStudentForm.controls['stateId'].hasError('required') && addStudentForm.controls['stateId'].touched"
+                  <span *ngIf="addStudentForm.controls['classId'].hasError('required') && addStudentForm.controls['classId'].touched"
                     class="m--font-danger">Please enter mother name.</span>
                 </div>
               </div>
@@ -151,8 +141,8 @@
                   </span>
 
                 </div>
-                <span *ngIf="addStudentForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter
-                  Date Of Birth.</span>
+                <!-- <span *ngIf="addStudentForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter
+                  Date Of Birth.</span> -->
               </div>
               <div class="col-lg-4" [ngClass]="{'has-danger':!addStudentForm.controls['gender'].valid && addStudentForm.controls['gender'].touched}">
                 <label class="col-form-label">

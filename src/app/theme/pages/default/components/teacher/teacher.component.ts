@@ -4,6 +4,7 @@ import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 // import * as $ from 'jquery';
+import {BaseService} from '../../../../../_services/base.service';
 declare let $: any;
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -15,7 +16,7 @@ export class TeacherComponent implements OnInit, AfterViewInit {
   teacherDetail: any;
   teacherData: any = null;
 
-  constructor(private _script: ScriptLoaderService,private http: Http, private router: Router) {
+  constructor(private _script: ScriptLoaderService,private http: Http, private router: Router,private baseservice: BaseService) {
     this.getTeacherList();
   }
   ngOnInit() {
@@ -184,37 +185,18 @@ export class TeacherComponent implements OnInit, AfterViewInit {
 
   }
   private getTeacherList() {
-    let headers = new Headers({ 'Content-Type': 'application/json','authorization':localStorage.getItem('sauAuth') });
-  
-let options = new RequestOptions({ headers: headers });
-    this.http.get('http://localhost:3000/api/teacher',options)
-   .map(res => {
-    // If request fails, throw an Error that will be caught
-    if(res.status < 200 || res.status >= 300) {
-           
-            throw new Error('This request has failed ' + res.status);
-    } 
-    // If everything went fine, return the response
-    else {
-      return res.json();
+    this.baseservice.get('teacher').subscribe((data) => {
+      this.teacherData = data.teacher;
+      this.showtablerecord(data);
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
     }
-  })
-                 .subscribe((data) => {
-                        this.teacherData = data.teacher;
-                        this.showtablerecord(data);
-                },
-                (err) =>{
-                        localStorage.clear();
-                        
-                });
-     
-               
-              }
   
   public showtablerecord(data){
     console.log(data);
-     // let dataJSONArray = JSON.parse(data.teacher);
-                
+     // let dataJSONArray = JSON.parse(data.teacher);            
       var datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit, ViewChild } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 // import * as $ from 'jquery';
 declare let $: any
 import 'fullcalendar';
@@ -11,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { AmChartsService } from "amcharts3-angular2";
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
+import {BaseService} from '../../../../../_services/base.service';
 import { count } from 'rxjs/operator/count';
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -30,7 +30,7 @@ export class TeacherProfileComponent implements OnInit, AfterViewInit {
   public teacherInfo: any = {};
   public id: string;
 
-  constructor(private _script: ScriptLoaderService, private AmCharts: AmChartsService, private route: ActivatedRoute, public http: Http) {
+  constructor(private _script: ScriptLoaderService, private AmCharts: AmChartsService, private route: ActivatedRoute,private baseservice: BaseService) {
 
   }
   ngOnInit() {
@@ -43,173 +43,155 @@ export class TeacherProfileComponent implements OnInit, AfterViewInit {
   }
 
   private getTeacherData(newid, newAmCharts) {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-    let options = new RequestOptions({ headers: headers });
-    this.http.get('http://localhost:3000/api/teacherprofile/' + newid, options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else {
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.teacherData = data;
-        console.log(this.teacherData);
-        this.openSubjectList(data);
-        this.teacherInfo = this.teacherData.info[0];
-        if(this.teacherData.classtestresult.length>0)
-       { this.teacherTestChart = _.meanBy(this.teacherData.classtestresult, 'result');
-      }
-      if(this.teacherData.monthlyattendance.length>0){
-        this.teacherData.monthlyattendance = _.each(this.teacherData.monthlyattendance, item => item.result = parseFloat(item.result));
-        this.teacherAttendChart = _.meanBy(this.teacherData.monthlyattendance, 'result');
+    this.baseservice.get('teacherprofile/' + newid).subscribe((data) => {
+     
+      this.teacherData = data;
+       
+      this.openSubjectList(data);
+      this.teacherInfo = this.teacherData.info[0];
+      if(this.teacherData.classtestresult.length>0)
+     { this.teacherTestChart = _.meanBy(this.teacherData.classtestresult, 'result');
     }
-        newAmCharts.makeChart("m_amcharts_1", {
-          "type": "serial",
-          "theme": "light",
-          "dataProvider": this.teacherData.monthlyattendance,
-          "valueAxes": [{
-            "gridColor": "#FFFFFF",
-            "gridAlpha": 0.2,
-            "dashLength": 0,
-            "maximum": 100
-          }],
-          "gridAboveGraphs": true,
-          "startDuration": 1,
-          "graphs": [{
-            "balloonText": "[[category]]: <b>[[value]]</b>",
-            "fillAlphas": 0.8,
-            "lineAlpha": 0.2,
-            "type": "column",
-            "valueField": "result"
-          }],
-          "chartCursor": {
-            "categoryBalloonEnabled": false,
-            "cursorAlpha": 0,
-            "zoomable": false
-          },
-          "categoryField": "month",
-          "categoryAxis": {
-            "gridPosition": "start",
-            "gridAlpha": 0,
-            "tickPosition": "start",
-            "tickLength": 100
-          },
-          "export": {
-            "enabled": true
-          }
-
-        });
-
-
-        newAmCharts.makeChart("m_amcharts_2", {
-          "type": "serial",
-          "theme": "light",
-          "dataProvider": this.teacherData.classtestresult,
-          "valueAxes": [{
-            "gridColor": "#FFFFFF",
-            "gridAlpha": 0.2,
-            "dashLength": 0,
-            "maximum": 100
-          }],
-          "gridAboveGraphs": true,
-          "startDuration": 1,
-          "graphs": [{
-            "balloonText": "[[category]]: <b>[[value]]</b>",
-            "fillAlphas": 0.8,
-            "lineAlpha": 0.2,
-            "type": "column",
-            "valueField": "result"
-          }],
-          "chartCursor": {
-            "categoryBalloonEnabled": false,
-            "cursorAlpha": 0,
-            "zoomable": false
-          },
-          "categoryField": "testName",
-          "categoryAxis": {
-            "gridPosition": "start",
-            "gridAlpha": 0,
-            "tickPosition": "start",
-            "tickLength": 20
-          },
-          "export": {
-            "enabled": true
-          }
-
-        });
-
-        var result = _.groupBy(this.teacherData.testmarks, "classSubName");
-        var i = 2;
-        var resultArray: Array<any> = [];
-        _.forOwn(result, function(value, key) {
-
-          resultArray.push(
-            {
-              "subjectTitle": key,
-              "subjectAvg": _.meanBy(value, 'avgRecord')
-            });
-        });
-        this.teacherSubjectChart = resultArray;
-        _.forOwn(result, function(value, key) {
-
-
-          var tmpdata = _.map(value, function(object) {
-            return _.pick(object, ['testName', 'avgRecord']);
-          });
-          console.log(tmpdata);
-          setTimeout(() => {
-            i++;
-            newAmCharts.makeChart("m_amcharts_" + i, {
-              "theme": "light",
-              "type": "serial",
-              "startDuration": 2,
-              "dataProvider": tmpdata,
-              "valueAxes": [{
-                "position": "left",
-                "maximum": 100
-              }],
-              "graphs": [{
-                "balloonText": "[[category]]: <b>[[value]]</b>",
-                "fillColorsField": "color",
-                "fillAlphas": 1,
-                "lineAlpha": 0.1,
-                "type": "column",
-                "valueField": "avgRecord"
-              }],
-              "depth3D": 20,
-              "angle": 30,
-              "chartCursor": {
-                "categoryBalloonEnabled": false,
-                "cursorAlpha": 0,
-                "zoomable": false
-              },
-              "categoryField": "testName",
-              "categoryAxis": {
-                "gridPosition": "start",
-                "labelRotation": 90
-              },
-              "export": {
-                "enabled": true
-              }
-
-            });
-          }, 1000);
-
-        });
-
-      },
-      (err) => {
-        localStorage.clear();
+    if(this.teacherData.monthlyattendance.length>0){
+      this.teacherData.monthlyattendance = _.each(this.teacherData.monthlyattendance, item => item.result = parseFloat(item.result));
+      this.teacherAttendChart = _.meanBy(this.teacherData.monthlyattendance, 'result');
+  }
+      newAmCharts.makeChart("m_amcharts_1", {
+        "type": "serial",
+        "theme": "light",
+        "dataProvider": this.teacherData.monthlyattendance,
+        "valueAxes": [{
+          "gridColor": "#FFFFFF",
+          "gridAlpha": 0.2,
+          "dashLength": 0,
+          "maximum": 100
+        }],
+        "gridAboveGraphs": true,
+        "startDuration": 1,
+        "graphs": [{
+          "balloonText": "[[category]]: <b>[[value]]</b>",
+          "fillAlphas": 0.8,
+          "lineAlpha": 0.2,
+          "type": "column",
+          "valueField": "result"
+        }],
+        "chartCursor": {
+          "categoryBalloonEnabled": false,
+          "cursorAlpha": 0,
+          "zoomable": false
+        },
+        "categoryField": "month",
+        "categoryAxis": {
+          "gridPosition": "start",
+          "gridAlpha": 0,
+          "tickPosition": "start",
+          "tickLength": 100
+        },
+        "export": {
+          "enabled": true
+        }
 
       });
 
 
+      newAmCharts.makeChart("m_amcharts_2", {
+        "type": "serial",
+        "theme": "light",
+        "dataProvider": this.teacherData.classtestresult,
+        "valueAxes": [{
+          "gridColor": "#FFFFFF",
+          "gridAlpha": 0.2,
+          "dashLength": 0,
+          "maximum": 100
+        }],
+        "gridAboveGraphs": true,
+        "startDuration": 1,
+        "graphs": [{
+          "balloonText": "[[category]]: <b>[[value]]</b>",
+          "fillAlphas": 0.8,
+          "lineAlpha": 0.2,
+          "type": "column",
+          "valueField": "result"
+        }],
+        "chartCursor": {
+          "categoryBalloonEnabled": false,
+          "cursorAlpha": 0,
+          "zoomable": false
+        },
+        "categoryField": "testName",
+        "categoryAxis": {
+          "gridPosition": "start",
+          "gridAlpha": 0,
+          "tickPosition": "start",
+          "tickLength": 20
+        },
+        "export": {
+          "enabled": true
+        }
+
+      });
+
+      var result = _.groupBy(this.teacherData.testmarks, "classSubName");
+      var i = 2;
+      var resultArray: Array<any> = [];
+      _.forOwn(result, function(value, key) {
+
+        resultArray.push(
+          {
+            "subjectTitle": key,
+            "subjectAvg": _.meanBy(value, 'avgRecord')
+          });
+      });
+      this.teacherSubjectChart = resultArray;
+      _.forOwn(result, function(value, key) {
+
+
+        var tmpdata = _.map(value, function(object) {
+          return _.pick(object, ['testName', 'avgRecord']);
+        });
+        console.log(tmpdata);
+        setTimeout(() => {
+          i++;
+          newAmCharts.makeChart("m_amcharts_" + i, {
+            "theme": "light",
+            "type": "serial",
+            "startDuration": 2,
+            "dataProvider": tmpdata,
+            "valueAxes": [{
+              "position": "left",
+              "maximum": 100
+            }],
+            "graphs": [{
+              "balloonText": "[[category]]: <b>[[value]]</b>",
+              "fillColorsField": "color",
+              "fillAlphas": 1,
+              "lineAlpha": 0.1,
+              "type": "column",
+              "valueField": "avgRecord"
+            }],
+            "depth3D": 20,
+            "angle": 30,
+            "chartCursor": {
+              "categoryBalloonEnabled": false,
+              "cursorAlpha": 0,
+              "zoomable": false
+            },
+            "categoryField": "testName",
+            "categoryAxis": {
+              "gridPosition": "start",
+              "labelRotation": 90
+            },
+            "export": {
+              "enabled": true
+            }
+
+          });
+        }, 1000);
+      });
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
   }
   private openOverview() {
     $('#m_user_profile_tab_3').hide();
@@ -220,19 +202,19 @@ export class TeacherProfileComponent implements OnInit, AfterViewInit {
     var resultArray: Array<any> = [];
     _.forOwn(result, function(value, key) {
       var dayValue;
-if(value.dow="Monday"){
+if(value.dow=="Monday"){
   dayValue=1;
-}else if(value.dow="Tuesday"){
+}else if(value.dow=="Tuesday"){
   dayValue=2;
-}else if(value.dow="Wednesday"){
+}else if(value.dow=="Wednesday"){
   dayValue=3;
-}else if(value.dow="Thursday"){
+}else if(value.dow=="Thursday"){
   dayValue=4;
-}else if(value.dow="Friday"){
+}else if(value.dow=="Friday"){
   dayValue=5;
-}else if(value.dow="Saturday"){
+}else if(value.dow=="Saturday"){
   dayValue=6;
-}else if(value.dow="Sunday"){
+}else if(value.dow=="Sunday"){
   dayValue=0;
 }
       resultArray.push(

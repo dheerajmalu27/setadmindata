@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
+import {BaseService} from '../../../../../_services/base.service';
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
 declare let $: any
@@ -20,7 +20,7 @@ export class TodayAbsentStudentComponent implements OnInit, AfterViewInit {
   studentDetail:any;
    addStudentForm : FormGroup;
    editStudentForm : FormGroup;
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,public fb: FormBuilder) {
+  constructor(private _script: ScriptLoaderService,private baseservice: BaseService, private router: Router,public fb: FormBuilder) {
     this.getAbsentStudentList();
     
     }
@@ -82,31 +82,13 @@ export class TodayAbsentStudentComponent implements OnInit, AfterViewInit {
     
   }
   private getAbsentStudentList() {
-    
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-    let StudentData = this.http.get('http://localhost:3000/api/todayabsentstudent', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
-        this.studentData = data;
-        this.showtablerecord(data);
-       
-      },
-      (err) => {
-        localStorage.clear();
-
-      });
+    this.baseservice.get('todayabsentstudent').subscribe((data) => {
+      this.studentData = data;
+      this.showtablerecord(data);
+    },
+    (err) => {
+    //  localStorage.clear();
+    });
 
 
   }
