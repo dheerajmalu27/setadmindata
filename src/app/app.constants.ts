@@ -37,6 +37,7 @@ import { environment } from '../environments/environment';
 
 export const appVariables = {
   userLocalStorage: 'user',
+  addContentTypeHeader:  true,
   resourceAccessLocalStorage: 'resourceAccessRaw',
   accessTokenServer: 'X-Auth-Token',
   defaultContentTypeHeader: 'application/json',

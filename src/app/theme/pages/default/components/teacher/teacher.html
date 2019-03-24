@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
       <div class="mr-auto">
         <h3 class="m-subheader__title m-subheader__title--separator">
-          Teacher
+          Teacher List
         </h3>
         <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
           <li class="m-nav__item m-nav__item--home">
@@ -14,12 +14,9 @@
           <li class="m-nav__separator">
             -
           </li>
-
-          <li class="m-nav__item">
-            <a href="" class="m-nav__link">
-              <span class="m-nav__link-text">
-                Add Teacher
-              </span>
+          <li class="m-nav__item m-nav__item--home">
+            <a href="#" class="m-nav__link m-nav__link--icon">
+              {{TitleSet}}
             </a>
           </li>
 
@@ -31,7 +28,6 @@
   <div class="m-content">
     <div class="row">
       <div class="col-lg-12">
-        <!--begin::Portlet-->
         <div class="m-portlet">
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -40,718 +36,246 @@
                   <i class="la la-gear"></i>
                 </span>
                 <h3 class="m-portlet__head-text">
-                  Add Teacher
+                  {{TitleSet}}
                 </h3>
               </div>
             </div>
           </div>
-          <!--begin::Form-->
-          <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="m_form_1">
+           <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="addTeacherForm"  (ngSubmit)="addTeacherSubmitForm(addTeacherForm.value)">
             <div class="m-portlet__body">
-
-              <div class="row">
+              <div class="form-group m-form__group row">
+                <div class="col-lg-4" [ngClass]="{'has-danger':!addTeacherForm.controls['firstName'].valid && addTeacherForm.controls['firstName'].touched}">
+                  <label class="col-form-label">
+                    First Name:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="first name" [formControl]="addTeacherForm.controls['firstName']">
+                    <span *ngIf="addTeacherForm.controls['firstName'].hasError('required') && addTeacherForm.controls['firstName'].touched"
+                      class="m--font-danger">Please enter first name.</span>
+                  </div>
+                </div>
                 <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
+                  <label class="col-form-label">
+                    Middle Name:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="middle name" [formControl]="addTeacherForm.controls['middleName']">
+
+                  </div>
+                </div>
+                <div class="col-lg-4" [ngClass]="{'has-danger':!addTeacherForm.controls['lastName'].valid && addTeacherForm.controls['lastName'].touched}">
+                  <label class="col-form-label">
+                    Last Name:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="last name" [formControl]="addTeacherForm.controls['lastName']">
+                    <span *ngIf="addTeacherForm.controls['lastName'].hasError('required') && addTeacherForm.controls['lastName'].touched"
+                      class="m--font-danger">Please enter last name.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Teacher Image:
+                  </label>
+                  <div>
+                    <input class="form-control" type="file" (change)="selectFile($event)" [formControl]="addTeacherForm.controls['image']">
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Date of birth:
+                  </label>
+                  <div class='input-group date'>
+                    <input type='text' id='m_datepickerSet' class="form-control m-input" [formControl]="addTeacherForm.controls['dob']"
+                      name="dob" placeholder="Select date">
+                    <span class="input-group-addon">
+                      <i class="la la-calendar-check-o"></i>
+                    </span>
+
+                  </div>
+                  <!-- <span *ngIf="addTeacherForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter
+                    Date Of Birth.</span> -->
+                </div>
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Gender:
+                  </label>
+                  <div>
+                    <div class="radio">
                       <label>
-                        First Name:
+                        <input type="radio" name="gender" value="1" [checked]="addTeacherForm.controls['gender'].value ==1"
+                          [formControl]="addTeacherForm.controls['gender']">
+                        Male
                       </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter first name" name="firstName">
-                      <span class="m-form__help">
-                        Please enter your first name
-                      </span>
                     </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Middle Name:
-                      </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter middle name" name="middleName">
-                      <span class="m-form__help">
-                        Please enter your middle name
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Last Name:
-                      </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter last name" name="lastName">
-                      <span class="m-form__help">
-                        Please enter your last name
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class=" row">
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Profile Image:
-                      </label>
-                      <input type="file" class="form-control m-input" name="image">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
+                    <div class="radio">
                       <label>
-                        Date Of Birth:
+                        <input type="radio" name="gender" value="2" [checked]="addTeacherForm.controls['gender'].value ==2"
+                          [formControl]="addTeacherForm.controls['gender']">
+                        Female
                       </label>
-
-                      <div class='input-group date' id='m_datepicker_2'>
-                        <input type='text' class="form-control m-input" readonly placeholder="Select date" name="dob">
-                        <span class="input-group-addon">
-                          <i class="la la-calendar-check-o"></i>
-                        </span>
-                      </div>
-                      <span class="m-form__help">
-                        Please enter your username
-                      </span>
                     </div>
+                    <!-- <span *ngIf="addTeacherForm.controls['gender'].hasError('required') && addTeacherForm.controls['gender'].touched"
+                        class="m--font-danger">Please select gender.</span> -->
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Qualification:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="" [formControl]="addTeacherForm.controls['qualification']">
+
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Gender:
-                      </label>
-                      <div class="m-radio-inline">
-                        <label class="m-radio m-radio--solid">
-                          <input type="radio" name="gender" value="1"> Female
-                          <span></span>
-                        </label>
-                        <label class="m-radio m-radio--solid">
-                          <input type="radio" name="gender" value="2"> Male
-                          <span></span>
-                        </label>
-                      </div>
-                      <span class="m-form__help">
-                        Please select gender
-                      </span>
-                    </div>
+                  <label class="col-form-label">
+                    Experience:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="" [formControl]="addTeacherForm.controls['experience']">
+
+                  </div>
+                </div>
+
+
+
+              </div>
+              <div class="form-group m-form__group row">
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Blood Group:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="" [formControl]="addTeacherForm.controls['bloodGroup']">
+
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Nationality:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="nationality" [formControl]="addTeacherForm.controls['nationality']">
+                    <!-- <span *ngIf="addTeacherForm.controls['nationality'].hasError('required') && addTeacherForm.controls['nationality'].touched"
+                      class="m--font-danger">Please enter nationality.</span> -->
+                  </div>
+                </div>
+
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Caste:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="" [formControl]="addTeacherForm.controls['caste']">
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group m-form__group row">
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Residential Address:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="address" [formControl]="addTeacherForm.controls['address']">
+                    <span *ngIf="addTeacherForm.controls['address'].hasError('required') && addTeacherForm.controls['address'].touched"
+                      class="m--font-danger">Please enter teacher address.</span>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Select State
+                  </label>
+                  <div>
+                    <select class="form-control m-select2 state_select2_drop_down" id="m_select2_1" [formControl]="addTeacherForm.controls['stateId']">
+                    </select>
+                    <!-- <span *ngIf="addTeacherForm.controls['stateId'].hasError('required') && addTeacherForm.controls['stateId'].touched"
+                      class="m--font-danger">Please select state name.</span> -->
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label class="col-form-label">
+                    Select City
+                  </label>
+                  <div>
+                    <select class="form-control m-select2 city_select2_drop_down" id="m_select2_2" [formControl]="addTeacherForm.controls['cityId']">
+                    </select>
+                    <!-- <span *ngIf="addTeacherForm.controls['cityId'].hasError('required') && addTeacherForm.controls['cityId'].touched"
+                      class="m--font-danger">Please select city name.</span> -->
                   </div>
                 </div>
 
               </div>
-              <div class=" row">
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label>
-                        Full Address:
-                      </label>
-                      <div class="m-input-icon m-input-icon--right">
-                        <input type="text" class="form-control m-input" placeholder="Enter your address" name="address">
-                        <span class="m-input-icon__icon m-input-icon__icon--right">
-                          <span>
-                            <i class="la la-map-marker"></i>
-                          </span>
-                        </span>
-                      </div>
-                      <span class="m-form__help">
-                        Please enter full address
-                      </span>
-                    </div>
+              <div class="form-group m-form__group row">
+                <div class="col-lg-4" [ngClass]="{'has-danger':!addTeacherForm.controls['mobileNumber'].valid && addTeacherForm.controls['mobileNumber'].touched}">
+                  <label class="col-form-label">
+                    Mobile No:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="mobile Number" [formControl]="addTeacherForm.controls['mobileNumber']">
+                    <span *ngIf="addTeacherForm.controls['mobileNumber'].hasError('required') && addTeacherForm.controls['mobileNumber'].touched"
+                      class="m--font-danger">Please enter mobile number.</span>
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        State:
-                      </label>
-                      <div class="m-input-icon m-input-icon--right">
-                        <input type="text" class="form-control m-input"  name="state">
-                        <span class="m-input-icon__icon m-input-icon__icon--right">
-                          <span>
-                            <i class="la la-bookmark-o"></i>
-                          </span>
-                        </span>
-                      </div>
-                      <span class="m-form__help">
-                        Please select state
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label>
-                        City:
-                      </label>
-                      <div class="m-input-icon m-input-icon--right">
-                        <input type="text" class="form-control m-input" placeholder="Enter your city" name="city">
-                        <span class="m-input-icon__icon m-input-icon__icon--right">
-                          <span>
-                            <i class="la la-map-marker"></i>
-                          </span>
-                        </span>
-                      </div>
-                      <span class="m-form__help">
-                        Please enter city name
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class=" row">
-					<div class="col-lg-4">
-							<div class="form-group m-form__group row">
-							  <div class="col-lg-12">
-								<label class="">
-								  Postcode:
-								</label>
-								<div class="m-input-icon m-input-icon--right">
-								  <input type="text" class="form-control m-input" placeholder="Enter your postcode" name="pincode">
-								  <span class="m-input-icon__icon m-input-icon__icon--right">
-									<span>
-									  <i class="la la-bookmark-o"></i>
-									</span>
-								  </span>
-								</div>
-								<span class="m-form__help">
-								  Please enter postcode
-								</span>
-							  </div>
-							</div>
-						  </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Mobile No1:
-                      </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter mobile number 1" name="mobileNo1">
-                      <span class="m-form__help">
-                        Please enter mobile number
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Mobile No2:
-                      </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter mobile number 2" name="mobileNo2">
+                  <label class="col-form-label">
+                    mobile Number Second:
+                  </label>
+                  <div>
+                    <input class="form-control" type="text" placeholder="mobile number." [formControl]="addTeacherForm.controls['mobileNumberSecond']">
 
-                    </div>
-                  </div>
-                </div>
-               
-              </div>
-              <div class=" row">
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Qualification:
-                      </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter educational detail" name="qual">
-                      <span class="m-form__help">
-                        Please enter educational detail
-                      </span>
-                    </div>
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Experience:
-                      </label>
-                      <input type="text" class="form-control m-input" placeholder="Enter experience detail" name="experience">
-                      <span class="m-form__help">
-                        Please enter profession detail
+                    <label class="col-form-label">
+                      Joining Date:
+                    </label>
+                    <div class='input-group date'>
+                      <input type='text' id='m_datepickerSet1' class="form-control m-input" [formControl]="addTeacherForm.controls['joiningDate']"
+                        name="joiningDate" placeholder="Select date">
+                      <span class="input-group-addon">
+                        <i class="la la-calendar-check-o"></i>
                       </span>
+  
                     </div>
+                    <!-- <span *ngIf="addTeacherForm.controls['dob'].hasError('required')" class="m--font-danger">Please enter
+                      Date Of Birth.</span> -->
                   </div>
-                </div>
-				<div class="col-lg-4">
-						<div class="form-group m-form__group row">
-						  <div class="col-lg-12">
-							<label class="">
-							  Blood Group:
-							</label>
-							<input type="text" class="form-control m-input" placeholder="" name="bloodGroup">
-	  
-						  </div>
-						</div>
-					  </div>
 
               </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Select Class:
-                      </label>
 
-                      <select class="form-control m-select2" id="m_select2_1" name="param">
-                        <option value="AK">
-                          Alaska
-                        </option>
-                        <option value="HI">
-                          Hawaii
-                        </option>
-                        <option value="CA">
-                          California
-                        </option>
-                        <option value="NV">
-                          Nevada
-                        </option>
-
-                      </select>
-                      <span class="m-form__help">
-                        Please select class
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group m-form__group row">
-                    <div class="col-lg-12">
-                      <label class="">
-                        Select Division:
-                      </label>
-
-                      <select class="form-control m-select2" id="m_select2_1" name="param">
-                        <option value="AK">
-                          Alaska
-                        </option>
-                        <option value="HI">
-                          Hawaii
-                        </option>
-                        <option value="CA">
-                          California
-                        </option>
-                        <option value="NV">
-                          Nevada
-                        </option>
-
-                      </select>
-                      <span class="m-form__help">
-                        Please select class
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
             <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-              <div class="m-form__actions m-form__actions">
+              <div class="m-form__actions m-form__actions--solid">
                 <div class="row">
-                  <div class="col-lg-4"></div>
-                  <div class="col-lg-8">
-                    <button type="submit" class="btn btn-accent">
-                      Validate
-                    </button>
-                    <button type="reset" class="btn btn-secondary">
-                      Cancel
-                    </button>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-6">
+                    <button type="submit" class="btn btn-brand" [disabled]="!addTeacherForm.valid">Submit</button>
+
+                    <button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
                   </div>
                 </div>
               </div>
             </div>
+
+
           </form>
-          <!--end::Form-->
+
         </div>
-        <!--end::Portlet-->
+
       </div>
     </div>
   </div>
 </div>
-<div id="editTemplate">
-  <div class="m-subheader">
-    <div class="d-flex align-items-center">
-      <div class="mr-auto">
-        <h3 class="m-subheader__title m-subheader__title--separator">
-          Teacher
-        </h3>
-        <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-          <li class="m-nav__item m-nav__item--home">
-            <a (click)="listTemplate()" href="#" class="m-nav__link m-nav__link--icon">
-              <i class="m-nav__link-icon la la-home"></i>
-            </a>
-          </li>
 
-          <li class="m-nav__separator">
-            -
-          </li>
-          <li class="m-nav__item">
-            <a href="" class="m-nav__link">
-              <span class="m-nav__link-text">
-                Edit Teacher
-              </span>
-            </a>
-          </li>
-
-        </ul>
-      </div>
-
-    </div>
-  </div>
-  <div class="m-content">
-    <div class="row">
-      <div class="col-lg-12">
-        <!--begin::Portlet-->
-        <div class="m-portlet">
-          <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-              <div class="m-portlet__head-title">
-                <span class="m-portlet__head-icon m--hide">
-                  <i class="la la-gear"></i>
-                </span>
-                <h3 class="m-portlet__head-text">
-                  Add Teacher
-                </h3>
-              </div>
-            </div>
-          </div>
-          <!--begin::Form-->
-          <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="m_form_1">
-				<div class="m-portlet__body">
-	
-				  <div class="row">
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label>
-							First Name:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter first name" name="firstName">
-						  <span class="m-form__help">
-							Please enter your first name
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Middle Name:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter middle name" name="middleName">
-						  <span class="m-form__help">
-							Please enter your middle name
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Last Name:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter last name" name="lastName">
-						  <span class="m-form__help">
-							Please enter your last name
-						  </span>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				  <div class=" row">
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Profile Image:
-						  </label>
-						  <input type="file" class="form-control m-input" name="image">
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label>
-							Date Of Birth:
-						  </label>
-	
-						  <div class='input-group date' id='m_datepicker_2'>
-							<input type='text' class="form-control m-input" readonly placeholder="Select date" name="dob">
-							<span class="input-group-addon">
-							  <i class="la la-calendar-check-o"></i>
-							</span>
-						  </div>
-						  <span class="m-form__help">
-							Please enter your username
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Gender:
-						  </label>
-						  <div class="m-radio-inline">
-							<label class="m-radio m-radio--solid">
-							  <input type="radio" name="gender" value="1"> Female
-							  <span></span>
-							</label>
-							<label class="m-radio m-radio--solid">
-							  <input type="radio" name="gender" value="2"> Male
-							  <span></span>
-							</label>
-						  </div>
-						  <span class="m-form__help">
-							Please select gender
-						  </span>
-						</div>
-					  </div>
-					</div>
-	
-				  </div>
-				  <div class=" row">
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label>
-							Full Address:
-						  </label>
-						  <div class="m-input-icon m-input-icon--right">
-							<input type="text" class="form-control m-input" placeholder="Enter your address" name="address">
-							<span class="m-input-icon__icon m-input-icon__icon--right">
-							  <span>
-								<i class="la la-map-marker"></i>
-							  </span>
-							</span>
-						  </div>
-						  <span class="m-form__help">
-							Please enter full address
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							State:
-						  </label>
-						  <div class="m-input-icon m-input-icon--right">
-							<input type="text" class="form-control m-input"  name="state">
-							<span class="m-input-icon__icon m-input-icon__icon--right">
-							  <span>
-								<i class="la la-bookmark-o"></i>
-							  </span>
-							</span>
-						  </div>
-						  <span class="m-form__help">
-							Please select state
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label>
-							City:
-						  </label>
-						  <div class="m-input-icon m-input-icon--right">
-							<input type="text" class="form-control m-input" placeholder="Enter your city" name="city">
-							<span class="m-input-icon__icon m-input-icon__icon--right">
-							  <span>
-								<i class="la la-map-marker"></i>
-							  </span>
-							</span>
-						  </div>
-						  <span class="m-form__help">
-							Please enter city name
-						  </span>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				  <div class=" row">
-						<div class="col-lg-4">
-								<div class="form-group m-form__group row">
-								  <div class="col-lg-12">
-									<label class="">
-									  Postcode:
-									</label>
-									<div class="m-input-icon m-input-icon--right">
-									  <input type="text" class="form-control m-input" placeholder="Enter your postcode" name="pincode">
-									  <span class="m-input-icon__icon m-input-icon__icon--right">
-										<span>
-										  <i class="la la-bookmark-o"></i>
-										</span>
-									  </span>
-									</div>
-									<span class="m-form__help">
-									  Please enter postcode
-									</span>
-								  </div>
-								</div>
-							  </div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Mobile No1:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter mobile number 1" name="mobileNo1">
-						  <span class="m-form__help">
-							Please enter mobile number
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Mobile No2:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter mobile number 2" name="mobileNo2">
-	
-						</div>
-					  </div>
-					</div>
-				   
-				  </div>
-				  <div class=" row">
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Qualification:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter educational detail" name="qual">
-						  <span class="m-form__help">
-							Please enter educational detail
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Experience:
-						  </label>
-						  <input type="text" class="form-control m-input" placeholder="Enter experience detail" name="experience">
-						  <span class="m-form__help">
-							Please enter profession detail
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-							<div class="form-group m-form__group row">
-							  <div class="col-lg-12">
-								<label class="">
-								  Blood Group:
-								</label>
-								<input type="text" class="form-control m-input" placeholder="" name="bloodGroup">
-		  
-							  </div>
-							</div>
-						  </div>
-	
-				  </div>
-				  <div class="row">
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Select Class:
-						  </label>
-	
-						  <select class="form-control m-select2" id="m_select2_1" name="param">
-							<option value="AK">
-							  Alaska
-							</option>
-							<option value="HI">
-							  Hawaii
-							</option>
-							<option value="CA">
-							  California
-							</option>
-							<option value="NV">
-							  Nevada
-							</option>
-	
-						  </select>
-						  <span class="m-form__help">
-							Please select class
-						  </span>
-						</div>
-					  </div>
-					</div>
-					<div class="col-lg-4">
-					  <div class="form-group m-form__group row">
-						<div class="col-lg-12">
-						  <label class="">
-							Select Division:
-						  </label>
-	
-						  <select class="form-control m-select2" id="m_select2_1" name="param">
-							<option value="AK">
-							  Alaska
-							</option>
-							<option value="HI">
-							  Hawaii
-							</option>
-							<option value="CA">
-							  California
-							</option>
-							<option value="NV">
-							  Nevada
-							</option>
-	
-						  </select>
-						  <span class="m-form__help">
-							Please select class
-						  </span>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				</div>
-				<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-				  <div class="m-form__actions m-form__actions">
-					<div class="row">
-					  <div class="col-lg-4"></div>
-					  <div class="col-lg-8">
-						<button type="submit" class="btn btn-accent">
-						  Validate
-						</button>
-						<button type="reset" class="btn btn-secondary">
-						  Cancel
-						</button>
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  </form>
-          <!--end::Form-->
-        </div>
-        <!--end::Portlet-->
-      </div>
-    </div>
-  </div>
-</div>
 <div id="listTemplate">
   <div class="m-subheader">
     <div class="d-flex align-items-center">

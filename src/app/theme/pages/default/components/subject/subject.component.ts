@@ -4,6 +4,7 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 import { Router } from '@angular/router';
+import {BaseService} from '../../../../../_services/base.service';
 declare let $: any
 
 @Component({
@@ -17,7 +18,7 @@ export class SubjectComponent implements OnInit, AfterViewInit {
   addSubjectForm : FormGroup;
   editSubjectForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService, private http: Http, private router: Router,fb: FormBuilder){
+  constructor(private _script: ScriptLoaderService,private baseservice: BaseService, private router: Router,fb: FormBuilder){
     this.getSubjectList();
     this.addSubjectForm = fb.group({
       'subjectName' : [null, Validators.required],
@@ -73,31 +74,14 @@ export class SubjectComponent implements OnInit, AfterViewInit {
     console.log(value);
   }
   private getSubjectList() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
-
-    let options = new RequestOptions({ headers: headers });
-     this.http.get('http://localhost:3000/api/subject', options)
-      .map(res => {
-        // If request fails, throw an Error that will be caught
-        if (res.status < 200 || res.status >= 300) {
-
-          throw new Error('This request has failed ' + res.status);
-        }
-        // If everything went fine, return the response
-        else { 
-          return res.json();
-        }
-      })
-      .subscribe((data) => {
+   
+      this.baseservice.get('subject').subscribe((data) => {
         this.subjectData = data.subject;
         this.showtablerecord(data);
-        console.log(this.subjectData);
       },
       (err) => {
-        localStorage.clear();
-
+      //  localStorage.clear();
       });
-
 
   }
   public showtablerecord(data){

@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit,ElementRef } from '@angular/core';
 import { Router } from '@angular/router'; 
+import { CommonService } from '../../../../../_services/common-api.service';
 import { Helpers } from '../../../../../helpers';
+import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
 // import * as $ from 'jquery';
@@ -15,153 +17,137 @@ export class TeacherComponent implements OnInit, AfterViewInit {
   showTemplate: any;
   teacherDetail: any;
   teacherData: any = null;
+  TitleSet: any = null;
+  stateData:any=null;
+  cityData:any=null;
+  selectedFiles:any;
+  addTeacherForm : FormGroup;
 
-  constructor(private _script: ScriptLoaderService,private http: Http, private router: Router,private baseservice: BaseService) {
-    this.getTeacherList();
+  constructor(private commonservice: CommonService,private _script: ScriptLoaderService, private router: Router,public fb: FormBuilder,private baseservice: BaseService) {
+    
   }
   ngOnInit() {
+    this.getTeacherList();
    this.listTemplate();
+  
+   this.addTeacherForm = this.fb.group({
+    'id' : new FormControl(),
+    'firstName' : new FormControl('', Validators.required),
+    'middleName' : new FormControl('', Validators.required),
+    'lastName' : new FormControl('', Validators.required),
+    'image': new FormControl(),
+    'dob' : new FormControl(),
+    'joiningDate' : new FormControl(),
+    'nationality': new FormControl('', Validators.required),
+    'caste': new FormControl('', Validators.required),
+    'qualification': new FormControl('', Validators.required),
+    'experience': new FormControl('', Validators.required),
+    'address': new FormControl('', Validators.required),
+    'bloodGroup': new FormControl(),
+    'gender' : new FormControl('', Validators.required),
+    'stateId' : new FormControl(),
+    'cityId' : new FormControl(),
+    'mobileNumber' : new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+      Validators.minLength(10),
+      Validators.maxLength(12),
+    ]),
+     'mobileNumberSecond' : new FormControl('', [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+      Validators.minLength(10),
+    ]),
+    // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
+  });
   }
   listTemplate() {
     $("#addTemplate").hide();
-    $("#editTemplate").hide();
     $("#listTemplate").show();
   }
   addTemplate() {
+    
+    this.TitleSet='Add Student';
+    this.addTeacherForm.reset();
     $("#addTemplate").show();
-    $("#editTemplate").hide();
     $("#listTemplate").hide();
+    this.getStateList();
+    // this.getClassList();
+    // this.getDivisionList();
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/select2.js');
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
-      $( "#m_form_1" ).validate({
-        // define validation rules
-        rules: {
-            firstName: {
-                required: true,
-            },
-            middleName: {
-                required: true 
-            },
-            lastName: {
-              required: true 
-            },
-            dob: {
-              required: true 
-            },
-              motherName: {
-                required: true 
-            },
-            gender:{
-              required: true 
-            },
-            city: {
-              required: true 
-            },
-            address: {
-              required: true 
-            },
-            pincode: {
-              required: true 
-            },
-            qual: {
-              required: true 
-            },
-            experience: {
-              required: true 
-            },
-           
-            mobileNo1: {
-              required: true 
-            },
-            mobileNo2: {
-              required: true 
-            },
-
-          
-        },
-        
-        //display error alert on form submit  
-        invalidHandler: function(event, validator) {     
-            var alert = $('#m_form_1_msg');
-            alert.removeClass('m--hide').show();
-          //  mApp.scrollTo(alert, -200);
-        },
-
-        submitHandler: function (form) {
-            //form[0].submit(); // submit the form
+      
+      $('#m_datepickerSet').datepicker({
+        todayHighlight: true,
+        templates: {
+            leftArrow: '<i class="la la-angle-left"></i>',
+            rightArrow: '<i class="la la-angle-right"></i>'
         }
-    }); 
+    });
+    $('#m_datepickerSet1').datepicker({
+      todayHighlight: true,
+      templates: {
+          leftArrow: '<i class="la la-angle-left"></i>',
+          rightArrow: '<i class="la la-angle-right"></i>'
+      }
+  });
+    $('#m_datepickerSet').on('change', function(){
+    });
 
   }
   editTemplate(teacherData) {
-    $("#addTemplate").hide();
-    $("#editTemplate").show();
+    this.TitleSet='Edit Student';
+    this.addTeacherForm.reset();
+    this.getStateList();
+    // this.getClassList();
+    // this.getDivisionList();
+    
     $("#listTemplate").hide();
-    this.teacherDetail = teacherData;
+    $("#addTemplate").show();
+    this.addTeacherForm.setValue({
+      id: teacherData.id,
+      firstName: teacherData.firstName,
+      middleName: teacherData.middleName,
+      lastName: teacherData.lastName,
+      image: teacherData.profileImage,
+      dob: teacherData.dateOfBirth,
+      qualification: teacherData.qualification,
+      experience: teacherData.experience,
+      nationality: teacherData.nationality,
+      caste: teacherData.caste,
+      address: teacherData.address,
+      bloodGroup: teacherData.bloodGroup,
+      gender: teacherData.gender,
+      mobileNumber: teacherData.mobileNumber,
+      mobileNumberSecond: teacherData.mobileNumberSecond,
+      stateId: teacherData.stateId,
+      cityId: teacherData.cityId,
+      joiningDate: teacherData.joiningDate,
+     
+    });
+  
+   
+
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-    'assets/demo/default/custom/components/forms/widgets/select2.js');
-  this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-    'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
-    $( "#m_form_2" ).validate({
-      // define validation rules
-      rules: {
-          firstName: {
-              required: true,
-          },
-          middleName: {
-              required: true 
-          },
-          lastName: {
-            required: true 
-          },
-          dob: {
-            required: true 
-          },
-            motherName: {
-              required: true 
-          },
-          gender:{
-            required: true 
-          },
-          city: {
-            required: true 
-          },
-          address: {
-            required: true 
-          },
-          pincode: {
-            required: true 
-          },
-          qual: {
-            required: true 
-          },
-          experience: {
-            required: true 
-          },
-         
-          mobileNo1: {
-            required: true 
-          },
-          mobileNo2: {
-            required: true 
-          },
-
-        
-      },
-      
-      //display error alert on form submit  
-      invalidHandler: function(event, validator) {     
-          var alert = $('#m_form_1_msg');
-          alert.removeClass('m--hide').show();
-        //  mApp.scrollTo(alert, -200);
-      },
-
-      submitHandler: function (form) {
-          //form[0].submit(); // submit the form
-      }
-  });
+      'assets/demo/default/custom/components/forms/widgets/select2.js');
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+      'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+      $('#m_datepickerSet').datepicker({
+        todayHighlight: true,
+        templates: {
+            leftArrow: '<i class="la la-angle-left"></i>',
+            rightArrow: '<i class="la la-angle-right"></i>'
+        }
+    });
+    setTimeout(() => 
+    {
+      $(".class_select2_drop_down").val(<string>teacherData.classId).trigger('change');
+      $(".division_select2_drop_down").val(<string>teacherData.divId).trigger('change');
+      $(".state_select2_drop_down").val(<string>teacherData.stateId).trigger('change');
+    },
+    2000);
   }
   detailProfile(id){
     alert(id);
@@ -193,9 +179,80 @@ export class TeacherComponent implements OnInit, AfterViewInit {
     //  localStorage.clear();
     });
     }
+    private getStateList() {  
+      this.baseservice.get('statelist').subscribe((data) => {
+        if(data!=''){
+          this.getCityList(data.state[0].id);
+        }
+        this.stateData = data.state;
+    
+      (<any>$('.state_select2_drop_down')).select2({data:this.stateData});
+     },
+     (err) => {
+     //  localStorage.clear();
+     });
+   }
+    
+    private getCityList(stateId){
+      this.baseservice.get('citylist/'+stateId).subscribe((data) => {
+        this.cityData = data.city;
+      (<any>$('.city_select2_drop_down')).select2({data:this.cityData});
+     },
+     (err) => {
+     //  localStorage.clear();
+     });
+    }
+    selectFile(event: any) {
+      this.selectedFiles = event.target.files[0];
+    }
+    public addTeacherSubmitForm(data){
+      data.stateId=$('.state_select2_drop_down').val();
+      data.cityId=$('.city_select2_drop_down').val();
+      // data.divId=$('.division_select2_drop_down').val();
+      // data.classId=$('.class_select2_drop_down').val();
+      data.dateOfBirth=$("#m_datepickerSet").val();
+      data.joiningDate=$("#m_datepickerSet1").val();
+    
+      
+      const formData: FormData = new FormData(data);
+    
+    if(data.id!=''&& data.id!=undefined && data.id!=null)  {
+    // data.image=this.selectedFiles;
+    this.baseservice.put('teacher/'+data.id,data).subscribe((data) => {
+      this.getTeacherList();
+      this.listTemplate();
+    },
+    (err) => {
+    
+    //  localStorage.clear();
+    });
+    }else{
+    // data.image=this.selectedFiles;
+    delete data.id;
+    this.baseservice.post('teacher',data).subscribe((data) => { 
+      this.getTeacherList();
+      this.listTemplate();
+    },
+    (err) => {
+    
+    //  localStorage.clear();
+    });
+    }
+         
+    }
+
+    private getTeacherData(Id) {
+      this.baseservice.get(<string>('teacher/'+Id)).subscribe((data) => { 
+        this.editTemplate(data.teacher);
+      },
+      (err) => {
+        //localStorage.clear();
+      });
+     
   
+    }
   public showtablerecord(data){
-    console.log(data);
+   
      // let dataJSONArray = JSON.parse(data.teacher);            
       var datatable = $('.m_datatable').mDatatable({
         // datasource definition
@@ -231,14 +288,14 @@ export class TeacherComponent implements OnInit, AfterViewInit {
           field: "firstName",
           title: "Teacher Name",
           template: function (row) {
-            console.log(row);
+         
             return '<span (click)="detailProfile('+row.id+')" style="cursor: pointer;" class="teacherFn" data-id="'+row.id+'">'+row.firstName+' '+row.lastName+'</span>';
           },
         }, {
           field: "className",
           title: "Class-Div",
           template: function (row) {
-            console.log(row);
+           
             return row.className+'-'+row.divName;
           },
         }, {
@@ -251,33 +308,16 @@ export class TeacherComponent implements OnInit, AfterViewInit {
           
         }, {
           field: "lastName",
-          width: 110,
           title: "Actions",
-          sortable: false,
-          overflow: 'visible',
+         
           template: function (row) {
-            var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
-  
-            return '\
-              <div class="dropdown ' + dropup + '">\
-                <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                  <i class="la la-ellipsis-h"></i>\
-                              </a>\
-                  <div class="dropdown-menu dropdown-menu-right">\
-                    <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-                  </div>\
-              </div>\
-              <a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
-                              <i class="la la-edit"></i>\
-                          </a>\
-            ';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.id+'"></i></span>';
+            
           }
         }]
       });
   
-      var query = datatable.getDataSourceQuery();
+      var query =<any>datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
         datatable.search($(this).val().toLowerCase());
@@ -295,9 +335,16 @@ export class TeacherComponent implements OnInit, AfterViewInit {
       $('.m_datatable').on('click', '.teacherFn', (e) => {
         e.preventDefault();
         var id = $(e.target).attr('data-id');
-        console.log(id);
+      
         this.router.navigate(['/teacher/profile/', id]); 
         });
+        $('.m_datatable').on('click', '.edit-button', (e) => {
+          e.preventDefault();
+          var id = $(e.target).attr('data-id');
+         
+         this.getTeacherData(id);
+          //this.router.navigate(['/student/profile/', id]); 
+          });
   }            
   }
  

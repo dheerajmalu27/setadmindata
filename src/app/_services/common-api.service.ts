@@ -1,69 +1,63 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions, RequestMethod } from "@angular/http";
+import { BaseService } from '../_services/base.service';
 import 'rxjs/add/operator/map';
- 
+import * as _ from 'lodash';
+declare let $: any
+
 @Injectable()
 export class CommonService {
-      
+
     url: string;
     headers: any;
-    constructor(private http : Http){
-        this.url  = 'http://localhost:3000/api/';
-        this.headers=new Headers({ 'Content-Type': 'application/json', 'authorization': localStorage.getItem('sauAuth') });
+    constructor(private baseservice: BaseService) {
+
     }
- 
-    getStateList(){
-     
-      let options = new RequestOptions({ headers: this.headers });
-    //  this.http.get(this.url+"/state", options)
-    //   .map(res => {
-    //     // If request fails, throw an Error that will be caught
-    //     if (res.status < 200 || res.status >= 300) {
-    //       throw new Error('This request has failed ' + res.status);
-    //     }
-    //     // If everything went fine, return the response
-    //     else { 
-    //       return res.json();
-    //     }
-    //   })
-    //   .subscribe((data) => {
-    //     return data
-    //   },
-    //   (err) => {
-    //     localStorage.clear();
 
-    //   });
-
-
-        return this.http.get(this.url+"state",options ).map(res => {
-            return res.json()
+    getDropDownClassList() {
+        var resultArray: Array<any> = [];
+        this.baseservice.get('class').subscribe((data) => {
+          var classData = data.class;
+          classData.map( item => {
+            resultArray.push(
+                _.mapKeys( item, ( value, key ) => {
+                    let newKey = key;
+                    if( key === 'className' ) {
+                        newKey = 'text';
+                    }
+                    return newKey;
+                })
+            )
         });
+        resultArray = _.map(resultArray, function(o) { return _.pick(o, ['id', 'text']); });
+        console.log(resultArray);
+       return resultArray;
+        
+       },
+       (err) => {
+       //  localStorage.clear();
+       });   
+
+
     }
-    getCityListByState(StateId){
-     
-      let options = new RequestOptions({ headers: this.headers });
-    //  this.http.get(this.url+"/state", options)
-    //   .map(res => {
-    //     // If request fails, throw an Error that will be caught
-    //     if (res.status < 200 || res.status >= 300) {
-    //       throw new Error('This request has failed ' + res.status);
-    //     }
-    //     // If everything went fine, return the response
-    //     else { 
-    //       return res.json();
-    //     }
-    //   })
-    //   .subscribe((data) => {
-    //     return data
-    //   },
-    //   (err) => {
-    //     localStorage.clear();
-
-    //   });
-
-
-        return this.http.get(this.url+"state/"+StateId,options ).map(res => {
-            return res.json()
-        });
+    getDropDownDivisionList() {
+        var resultArray: Array<any> = [];
+        this.baseservice.get('division').subscribe((data) => {
+            var divisionData = data.division;
+            divisionData.map(item => {
+                resultArray.push(
+                    _.mapKeys(item, (value, key) => {
+                        let newKey = key;
+                        if (key === 'className') {
+                            newKey = 'text';
+                        }
+                        return newKey;
+                    })
+                )
+            });
+            return resultArray;
+        },
+            (err) => {
+                //  localStorage.clear();
+            });
     }
 }

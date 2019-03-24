@@ -36,16 +36,16 @@ export class HttpService extends Http {
 
   createRequestOptions(options: RequestOptions | Request) {
     const token: string = localStorage.getItem(appVariables.accessTokenLocalStorage);
-    // if (this.addContentTypeHeader && typeof this.addContentTypeHeader === 'string') {
-    //   options.headers.append('Content-Type', this.addContentTypeHeader);
-    // } else {
-    //   const contentTypeHeader: string = options.headers.get('Content-Type');
-    //   if (!contentTypeHeader && this.addContentTypeHeader) {
-    //     options.headers.append('Content-Type', appVariables.defaultContentTypeHeader);
-    //   }
-     
-    // }
-    options.headers.append('Content-Type', appVariables.defaultContentTypeHeader);
+    if (appVariables.addContentTypeHeader && typeof appVariables.addContentTypeHeader === 'string') {
+      options.headers.append('Content-Type', appVariables.addContentTypeHeader);
+    } else {
+      const contentTypeHeader: string = options.headers.get('Content-Type');
+      if (!contentTypeHeader && appVariables.addContentTypeHeader) {
+        options.headers.append('Content-Type', appVariables.defaultContentTypeHeader);
+      }
+      
+    }
+    // options.headers.append('Content-Type', appVariables.defaultContentTypeHeader);
     options.headers.append('authorization', token);
   }
   catchAuthError(self: HttpService) {
@@ -53,8 +53,8 @@ export class HttpService extends Http {
    return (res: Response) => {
     if (res.status === 401 || res.status === 403) {
       // if not authenticated
-      // localStorage.removeItem(appVariables.userLocalStorage);
-      // localStorage.removeItem(appVariables.accessTokenLocalStorage);
+       localStorage.removeItem(appVariables.userLocalStorage);
+       localStorage.removeItem(appVariables.accessTokenLocalStorage);
       this.router.navigate([appVariables.loginPageUrl]);
     }
     return Observable.throw(res);

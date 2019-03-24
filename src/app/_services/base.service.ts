@@ -3,11 +3,13 @@ import { RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HttpService } from './http.service';
 import { Error } from '../interfaces/error.interface';
+import { Router } from '@angular/router';
 import { ServerResponse } from '../interfaces/server-response.interface';
 import { appVariables } from './../app.constants';
 import { CustomErrorHandlerService } from './custom-error-handler.service';
 @Injectable()
 export class BaseService {
+  router: Router;
   constructor(public http: HttpService, public errorHandler: CustomErrorHandlerService) {
   }
   get(url) {
@@ -15,7 +17,7 @@ export class BaseService {
     
     return this.http.get(<string>(appVariables.apiUrl+url)).map((res: Response) => {
       return this.handleResponse(res);
-    }).catch((error: Response) => Observable.throw(this.errorHandler.tryParseError(error)))
+    }).catch((error: Response)=>this.catchAuthError(error))
       .finally(() => {
         // stop ng2-slim-loading-bar progress bar
         
@@ -24,25 +26,29 @@ export class BaseService {
 
 
   post(url, postBody: any, options?: RequestOptions) {
-    
+   console.log(postBody);
     if (options) {
+      console.log("da1"+url);
       return this.http.post(appVariables.apiUrl+url, postBody, options)
         .map((res: Response) => {
           return this.handleResponse(res);
         })
-        .catch((error: Response) => Observable.throw(error))
-        .finally(() => {
-          
-        });
+        .catch((error: Response)=>this.catchAuthError(error))
+      .finally(() => {
+        // stop ng2-slim-loading-bar progress bar
+        
+      });
     } else {
+      console.log("da"+url);
       return this.http.post(appVariables.apiUrl+url, postBody)
         .map((res: Response) => {
           return this.handleResponse(res);
         })
-        .catch((error: Response) => Observable.throw(error))
-        .finally(() => {
-          
-        });
+        .catch((error: Response) => Observable.throw(this.errorHandler.tryParseError(error)))
+      .finally(() => {
+        // stop ng2-slim-loading-bar progress bar
+        
+      });
     }
 
 
@@ -67,13 +73,27 @@ export class BaseService {
   }
 
 
-  upload(url: string, file: File) {
-    const formData: FormData = new FormData();
+  upload(url: string, file: File,data) {
+    const formData: FormData = new FormData(data);
+    console.log(formData);
+    if (file) {
+      data.append('files', file, file.name);
+    }
+    appVariables.addContentTypeHeader = false;
+    console.log(data);
+     return this.post(url, data);
+  }
+
+  uploadWithData(url: string, file: File,formdata) {
+    const formData: FormData = new FormData(formdata);
+    console.log(file);
     if (file) {
       formData.append('files', file, file.name);
+     
     }
-    // this.helperService.addContentTypeHeader = false;
-    return this.post(url, formData);
+    appVariables.addContentTypeHeader = false;
+    console.log(formData);
+    // return this.post(url, formData);
   }
 
 
@@ -105,7 +125,18 @@ export class BaseService {
     }
   }
 
-
+catchAuthError(res: Response) {
+    // we have to pass HttpService's own instance here as `self`
+  
+    if (res.status === 401 || res.status === 403) {
+      // if not authenticated
+       localStorage.removeItem(appVariables.userLocalStorage);
+       localStorage.removeItem(appVariables.accessTokenLocalStorage);
+      this.router.navigate([appVariables.loginPageUrl]);
+    
+    return Observable.throw(res);
+  };
+}
   refreshToken(res: Response) {
     const token = res.headers.get(appVariables.accessTokenServer);
     if (token) {
