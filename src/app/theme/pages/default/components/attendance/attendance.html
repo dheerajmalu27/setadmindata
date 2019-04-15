@@ -57,7 +57,8 @@
             </div>
           </div>
           <!--begin::Form-->
-          <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" (ngSubmit)="addAttendanceSubmitForm(addAttenaceFormList.value)">
+          <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+            (ngSubmit)="addAttendanceSubmitForm(addAttenaceFormList.value)">
             <div class="m-portlet__body">
               <div class="form-group m-form__group row">
                 <div class="col-lg-4">
@@ -77,7 +78,8 @@
                     Select Div
                   </label>
                   <div>
-                    <select class="form-control m-select2 division_select2_drop_down" id="m_select2_2" [formControl]="addAttenaceFormList.controls['divId']">
+                    <select class="form-control m-select2 division_select2_drop_down" id="m_select2_2"
+                      [formControl]="addAttenaceFormList.controls['divId']">
                     </select>
 
                   </div>
@@ -88,7 +90,8 @@
                   </label>
                   <div class='input-group date'>
                     <input type='text' id='m_datepickerSet' autocomplete="off" class="form-control m-input"
-                      [formControl]="addAttenaceFormList.controls['attendanceDate']" name="dob" placeholder="Select date">
+                      [formControl]="addAttenaceFormList.controls['attendanceDate']" name="dob"
+                      placeholder="Select date">
                     <span class="input-group-addon">
                       <i class="la la-calendar-check-o"></i>
                     </span>
@@ -116,8 +119,9 @@
           </form>
           <div class="m-section m-form--group-seperator-dashed">
             <div class="m-section__content">
-              <form id="addStudentAttenaceForm" class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
-                (ngSubmit)="addStudentAttenaceFormSumitForm(studentData)">
+              <form id="addStudentAttenaceForm"
+                class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+                (ngSubmit)="addStudentAttenaceFormSumitForm(addStudentData)">
                 <table class="table table-striped m-table">
                   <thead>
                     <tr>
@@ -140,9 +144,9 @@
                   </thead>
                   <tbody>
 
-                    <tr *ngFor="let Data of studentData; let i=index">
+                    <tr *ngFor="let Data of addStudentData; let i=index">
                       <th scope="row">
-                         
+
                         {{Data.rollNo}}
                       </th>
                       <td>
@@ -157,7 +161,8 @@
                       <td>
                         <span class="m-switch m-switch--outline m-switch--icon m-switch--success">
                           <label>
-                            <input type="checkbox" [(ngModel)]="studentData[i].attendanceResult" checked="true" [ngModelOptions]="{standalone: true}">
+                            <input type="checkbox" [(ngModel)]="addStudentData[i].attendanceResult" checked="true"
+                              [ngModelOptions]="{standalone: true}">
                             <span></span>
                           </label>
                         </span>
@@ -170,7 +175,7 @@
                     <div class="row">
                       <div class="col-lg-8"></div>
                       <div class="col-lg-4">
-                        <button type="submit" class="btn btn-brand" [disabled]="!addAttenaceFormList.valid">Submit</button>
+                        <button type="submit" class="btn btn-brand">Submit</button>
 
                         <button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
                       </div>
@@ -244,155 +249,76 @@
               </div>
             </div>
           </div>
-          <!--begin::Form-->
-          <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
-            <div class="m-portlet__body">
-              <div class="form-group m-form__group row">
-                <div class="col-lg-4">
-                  <label class="col-form-label">
-                    Class Name:
-                  </label>
+          <div class="m-portlet__body">
+            <div class="form-group m-form__group">
+              <div class="m-section m-form--group-seperator-dashed">
+                <div class="m-section__content">
+                  <form id="editStudentAttenaceForm"
+                    class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
+                    (ngSubmit)="editStudentAttenaceSumitForm(editStudentData)">
+                    <table class="table table-striped m-table">
+                      <thead>
+                        <tr>
+                          <th>
+                            Roll No
+                          </th>
+                          <th>
+                            Student Name
+                          </th>
+                          <th>
+                            Class-Div
+                          </th>
+                          <th>
+                            Date
+                          </th>
+                          <th>
+                            Attendance
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
 
-                  <select class="form-control m-select2" id="m_select2_1" name="param">
-                    <option value="AK">
-                      Alaska
-                    </option>
-                    <option value="HI">
-                      Hawaii
-                    </option>
-                    <option value="CA">
-                      California
-                    </option>
-                    <option value="NV">
-                      Nevada
-                    </option>
+                        <tr *ngFor="let Data of editStudentData; let i=index">
+                          <th scope="row">
 
-                  </select>
-                  <span class="m-form__help">
-                    Please select class
-                  </span>
+                            {{Data.AttendanceStudent.rollNo}}
+                          </th>
+                          <td>
+                            {{Data.AttendanceStudent.firstName}} {{Data.AttendanceStudent.lastName}}
+                          </td>
+                          <td>
+                            {{Data.AttendanceClass.className}}-{{Data.AttendanceDivision.divName}}
+                          </td>
+                          <td>
+                            {{Data.attendanceDate}}
+                          </td>
+                          <td>
+                            <span class="m-switch m-switch--outline m-switch--icon m-switch--success">
+                              <label>
+                                <input type="checkbox" [(ngModel)]="editStudentData[i].attendanceResult"
+                                  [checked]="Data.attendanceResult" [ngModelOptions]="{standalone: true}">
+                                <span></span>
+                              </label>
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                      <div class="m-form__actions m-form__actions--solid">
+                        <div class="row">
+                          <div class="col-lg-8"></div>
+                          <div class="col-lg-4">
+                            <button type="submit" class="btn btn-brand">Submit</button>
 
-                </div>
-                <div class="col-lg-4">
-                  <label class="col-form-label">
-                    Select Division:
-                  </label>
-
-                  <select class="form-control m-select2" id="m_select2_1" name="param">
-                    <option value="AK">
-                      Alaska
-                    </option>
-                    <option value="HI">
-                      Hawaii
-                    </option>
-                    <option value="CA">
-                      California
-                    </option>
-                    <option value="NV">
-                      Nevada
-                    </option>
-
-                  </select>
-                  <span class="m-form__help">
-                    Please select division
-                  </span>
-
-                </div>
-                <div class="col-lg-4">
-                  <label>
-                    Attendance Date:
-                  </label>
-
-                  <div class='input-group date' id='m_datepicker_2'>
-                    <input type='text' class="form-control m-input" readonly placeholder="Select date" />
-                    <span class="input-group-addon">
-                      <i class="la la-calendar-check-o"></i>
-                    </span>
-                  </div>
-                  <span class="m-form__help">
-                    Please enter your username
-                  </span>
-                </div>
-              </div>
-
-
-            </div>
-            <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-              <div class="m-form__actions m-form__actions--solid">
-                <div class="row">
-                  <div class="col-lg-2"></div>
-                  <div class="col-lg-6">
-                    <button type="reset" class="btn btn-brand">
-                      Submit
-                    </button>
-                    <button type="reset" class="btn btn-secondary">
-                      Cancel
-                    </button>
-                  </div>
+                            <button type="button" (click)="listTemplate()" class="btn btn-secondary">Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
-            </div>
-          </form>
-          <div class="m-section m-form--group-seperator-dashed">
-            <div class="m-section__content">
-              <table class="table table-striped m-table">
-                <thead>
-                  <tr>
-                    <th>
-                      Roll No
-                    </th>
-                    <th>
-                      Student Name
-                    </th>
-                    <th>
-                      Date
-                    </th>
-                    <th>
-                      Attendance
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">
-                      1
-                    </th>
-                    <td>
-                      Jhon
-                    </td>
-                    <td>
-                      12-01-2018
-                    </td>
-                    <td>
-                      <span class="m-switch m-switch--outline m-switch--icon m-switch--success">
-                        <label>
-                          <input type="checkbox" checked="checked" name="">
-                          <span></span>
-                        </label>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      1
-                    </th>
-                    <td>
-                      Jhon
-                    </td>
-                    <td>
-                      12-01-2018
-                    </td>
-                    <td>
-                      <span class="m-switch m-switch--outline m-switch--icon m-switch--success">
-                        <label>
-                          <input type="checkbox" checked="checked" name="">
-                          <span></span>
-                        </label>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
           <!--end::Form-->
@@ -445,9 +371,11 @@
         <div class="m-portlet__head-tools">
           <ul class="m-portlet__nav">
             <li class="m-portlet__nav-item">
-              <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+              <div
+                class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
                 data-dropdown-toggle="hover" aria-expanded="true">
-                <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                <a href="#"
+                  class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
                   <i class="la la-ellipsis-h m--font-brand"></i>
                 </a>
                 <div class="m-dropdown__wrapper">
@@ -497,7 +425,8 @@
               <div class="form-group m-form__group row align-items-center">
                 <div class="col-md-4">
                   <div class="m-input-icon m-input-icon--left">
-                    <input type="text" class="form-control m-input m-input--solid" placeholder="Search..." id="m_form_search">
+                    <input type="text" class="form-control m-input m-input--solid" placeholder="Search..."
+                      id="m_form_search">
                     <span class="m-input-icon__icon m-input-icon__icon--left">
                       <span>
                         <i class="la la-search"></i>
@@ -508,7 +437,8 @@
               </div>
             </div>
             <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-              <a href="#" (click)="addTemplate()" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
+              <a href="#" (click)="addTemplate()"
+                class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
                 <span>
                   <i class="la la-cart-plus"></i>
                   <span>

@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-import {BaseService} from '../../../../../_services/base.service';
-import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
+import { BaseService } from '../../../../../_services/base.service';
+import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
+import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -13,31 +15,78 @@ declare let $: any
 export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
   attendancePending: any = null;
   SrNo: any = 1;
-  constructor(private _script: ScriptLoaderService,private baseservice: BaseService, private router: Router,public fb: FormBuilder) {
-    this.getAttendancePendingList();
+  divisionData: any = null;
+  classData: any = null;
+  studentData: any = null;
+  showTemplate: any;
+  dateOfAttendance: any = null;
+  selectedFiles: any;
+  addAttenaceFormList: FormGroup;
+  constructor(private _script: ScriptLoaderService, private baseservice: BaseService
+    , private router: Router, public fb: FormBuilder) {
+
   }
   ngOnInit() {
     this.listTemplate();
+    
   }
   listTemplate() {
     $("#addTemplate").hide();
     $("#editTemplate").hide();
     $("#listTemplate").show();
+    this.getAttendancePendingList();
   }
   addTemplate() {
     $("#addTemplate").show();
     $("#editTemplate").hide();
     $("#listTemplate").hide();
+    
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+      'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+      'assets/demo/default/custom/components/forms/widgets/select2.js');
+    $('#m_datepickerSet').datepicker({
+      format: "yyyy-mm-dd",
+      todayHighlight: true,
+      templates: {
+        leftArrow: '<i class="la la-angle-left"></i>',
+        rightArrow: '<i class="la la-angle-right"></i>'
+      }
+    });
+    $('#m_datepickerSet').on('change', function () {
+    });
   }
   
   private getAttendancePendingList() {
     this.baseservice.get('pendingattendance').subscribe((data) => {
       this.attendancePending = data;
+     
       this.showtablerecord(data);
     },
     (err) => {
     //  localStorage.clear();
     });
+  }
+  private getAttendanceData(attendanceId){
+ 
+  let excludeProjects = [Number(attendanceId)];
+  let pendingattendanceData=_.filter(this.attendancePending, (v) => _.includes(excludeProjects, v.row_number));
+  if(pendingattendanceData.length>0){
+  this.addAttendanceSubmitForm(pendingattendanceData[0]);
+  this.addTemplate();
+  }
+  }
+
+  public addAttendanceSubmitForm(data) {
+   
+    if (data.selectedDate != '' && data.classId!= '' && data.divId!= '') {
+      this.baseservice.get('addattendancestudentlist?classId=' + data.classId + '&divId=' + data.divId+'&date='+data.selectedDate).subscribe((data) => {  
+        this.studentData = data;    
+      },
+        (err) => {
+          console.log(err);        
+        });
+    }
   }
   public showtablerecord(data){
     // console.log(data);
@@ -103,7 +152,7 @@ export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
           title: "Action",
          
           template: function (row) {
-            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.id+'"></i></span>';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.row_number+'"></i></span>';
            
           }
         }]
@@ -124,26 +173,19 @@ export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
       }).val(typeof query.Type !== 'undefined' ? query.Type : '');
   
       $('#m_form_status, #m_form_type').selectpicker();
-      $('.m_datatable').on('click', '.teacherFn', (e) => {
-        e.preventDefault();
-        var id = $(e.target).attr('data-id');
-       
-        this.router.navigate(['/student/profile/', id]); 
-        });
+     
        $('.m_datatable').on('click', '.edit-button', (e) => {
         e.preventDefault();
         var id = $(e.target).attr('data-id');
-        console.log(id);
-      //  this.getStudentData(id);
+      
+       this.getAttendanceData(id);
         //this.router.navigate(['/student/profile/', id]); 
         });
   }
   ngAfterViewInit() {
     this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
       'assets/demo/default/custom/components/datatables/base/html-table.js');
-    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-      'assets/demo/default/custom/components/forms/widgets/select2.js');
-    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-      'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+
+
   }
 }

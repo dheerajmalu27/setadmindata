@@ -5,6 +5,7 @@ import { BaseService } from '../../../../../_services/base.service';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -16,7 +17,8 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
   SrNo: any = 1;
   divisionData: any = null;
   classData: any = null;
-  studentData: any = null;
+  addStudentData: any = null;
+  editStudentData: any = null;
   showTemplate: any;
   dateOfAttendance: any = null;
   selectedFiles: any;
@@ -42,6 +44,12 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     $("#listTemplate").show();
     this.getAttendanceList();
   }
+  editTemplate() {
+    $("#addTemplate").hide();
+    $("#editTemplate").show();
+    $("#listTemplate").hide();
+   
+  }
   addTemplate() {
     $("#addTemplate").show();
     $("#editTemplate").hide();
@@ -64,9 +72,29 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private getAttendanceData(data){
+ 
+    let excludeData  = data.split('*');
+    // console.log(excludeData);
+  this.getStudentAttendanceList(excludeData);
+    // this.addTemplate();
+    
+    }
+    private getStudentAttendanceList(data){
+      
+        this.baseservice.get('getbyrecord?classId=' + data[0] + '&divId=' + data[1]+'&date='+data[2]).subscribe((data) => {  
+          this.editStudentData = data.attendancestudentList; 
+          this.editTemplate();   
+        },
+          (err) => {
+            console.log(err);        
+          });
+      
+    }
   private getAttendanceList() {
     this.baseservice.get('getattendancelist').subscribe((data) => {
       this.attendancePending = data;
+      console.log(this.attendancePending);
       this.showtablerecord(data);
     },
       (err) => {
@@ -99,9 +127,12 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
 
   }
   addStudentAttenaceFormSumitForm(data){
-    var newArr = _.map(data, function(o) { return _.omit(o, ['studentName', 'className','divName','rollNo']); });
-    console.log(JSON.stringify(newArr));
-    let postdata=JSON.stringify(newArr)
+    
+    var newArrData = _.map(data, function(o) {
+      o.attendanceResult=JSON.parse(o.attendanceResult);
+      return _.omit(o, ['studentName', 'className','divName','rollNo']); });
+  
+    let postdata=JSON.stringify(newArrData);
     this.baseservice.post('bulkattendance',postdata).subscribe((data) => { 
       this.getAttendanceList();
       this.listTemplate();
@@ -120,7 +151,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     if (data.dateOfAttendance != '' && data.classId!= '' && data.divId!= '') {
       this.baseservice.get('addattendancestudentlist?classId=' + data.classId + '&divId=' + data.divId+'&date='+data.dateOfAttendance).subscribe((data) => {
         //this.getStudentList();
-        this.studentData = data;
+      this.addStudentData = data;
         // this.listTemplate();
       },
         (err) => {
@@ -196,7 +227,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
         title: "Action",
 
         template: function (row) {
-          return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="' + row.id + '"></i></span>';
+          return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="' + row.classId + '*'+row.divId+'*'+row.selectedDate+'"></i></span>';
 
         }
       }]
@@ -226,7 +257,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     $('.m_datatable').on('click', '.edit-button', (e) => {
       e.preventDefault();
       var id = $(e.target).attr('data-id');
-      console.log(id);
+      this.getAttendanceData(id);
       //  this.getStudentData(id);
       //this.router.navigate(['/student/profile/', id]); 
     });
