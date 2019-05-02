@@ -26,9 +26,9 @@ export class BaseService {
 
 
   post(url, postBody: any, options?: RequestOptions) {
-   console.log(postBody);
+  
     if (options) {
-      console.log("da1"+url);
+     
       return this.http.post(appVariables.apiUrl+url, postBody, options)
         .map((res: Response) => {
           return this.handleResponse(res);
@@ -39,7 +39,7 @@ export class BaseService {
         
       });
     } else {
-      console.log("da"+url);
+     
       return this.http.post(appVariables.apiUrl+url, postBody)
         .map((res: Response) => {
           return this.handleResponse(res);
@@ -80,7 +80,7 @@ export class BaseService {
       data.append('files', file, file.name);
     }
     appVariables.addContentTypeHeader = false;
-    console.log(data);
+  
      return this.post(url, data);
   }
 

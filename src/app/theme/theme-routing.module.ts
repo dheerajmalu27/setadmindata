@@ -61,6 +61,12 @@ const routes: Routes = [
       "path": "pending-marks-test",
       "loadChildren": ".\/pages\/default\/components\/pending-marks-test\/pending-marks-test.module#PendingMarksTestModule"
     }, 
+    //timetable section
+    {
+      "path": "timetable",
+      "loadChildren": ".\/pages\/default\/components\/timetable\/timetable.module#TimeTableModule"
+    }, 
+
       // Setting section 
       {
         "path": "class",

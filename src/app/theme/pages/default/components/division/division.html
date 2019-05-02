@@ -131,42 +131,15 @@
 	
 						<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="addDivisionForm" (ngSubmit)="addDivisionSubmitForm(addDivisionForm.value)">
 							<div class="m-portlet__body">
-								<div class="form-group m-form__group row" [ngClass]="{'has-danger':!addDivisionForm.controls['divisionName'].valid && addDivisionForm.controls['divisionName'].touched}">
+								<div class="form-group m-form__group row" [ngClass]="{'has-danger':!addDivisionForm.controls['divName'].valid && addDivisionForm.controls['divName'].touched}">
 									<label class="col-lg-2 col-form-label">Division Title:</label>
 									<div class="col-lg-6">
-										<input class="form-control" type="text" placeholder="division name" [formControl]="addDivisionForm.controls['divisionName']">
-										<span *ngIf="addDivisionForm.controls['divisionName'].hasError('required') && addDivisionForm.controls['divisionName'].touched"
+										<input class="form-control" type="text" placeholder="division name" [formControl]="addDivisionForm.controls['divName']">
+										<span *ngIf="addDivisionForm.controls['divName'].hasError('required') && addDivisionForm.controls['divName'].touched"
 										 class="m--font-danger">You must include a division title.</span>
 									</div>
 								</div>
-								<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!addDivisionForm.controls['lastName'].valid && addDivisionForm.controls['lastName'].touched}">
-							  <label class="col-lg-2 col-form-label">Last Name</label>
-							  <div class="col-lg-6">
-							  <input class="form-control" type="text" placeholder="Doe" [formControl]="addDivisionForm.controls['lastName']">
-							  <div *ngIf="addDivisionForm.controls['lastName'].hasError('required') && addDivisionForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
-							  <div *ngIf="addDivisionForm.controls['lastName'].hasError('minlength') && addDivisionForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
-							  <div *ngIf="addDivisionForm.controls['lastName'].hasError('maxlength') && addDivisionForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
-							</div>
-							</div>
-							<div class="form-group m-form__group row">
-							  <label class="col-lg-2 col-form-label">Gender</label>
-							  <div class="form-control-feedback" *ngIf="!addDivisionForm.controls['gender'].valid && addDivisionForm.controls['gender'].touched">You must select a gender.</div>
 							
-							<div class="col-lg-6">
-							<div class="radio">
-							  <label>
-								<input type="radio" name="gender" value="Male" [formControl]="addDivisionForm.controls['gender']">
-								Male
-							  </label>
-							</div>
-							<div class="radio">
-							  <label>
-								<input type="radio" name="gender" value="Female" [formControl]="addDivisionForm.controls['gender']">
-								Female
-							  </label>
-							</div>
-						</div>
-							</div> -->
 							</div>
 							<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 								<div class="m-form__actions m-form__actions--solid">
@@ -210,42 +183,15 @@
 						<!--begin::Form-->
 						<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" [formGroup]="editDivisionForm" (ngSubmit)="editDivisionSubmitForm(editDivisionForm.value)">
 							<div class="m-portlet__body">
-								<div class="form-group m-form__group row" [ngClass]="{'has-danger':!editDivisionForm.controls['divisionName'].valid && editDivisionForm.controls['divisionName'].touched}">
+								<div class="form-group m-form__group row" [ngClass]="{'has-danger':!editDivisionForm.controls['divName'].valid && editDivisionForm.controls['divName'].touched}">
 									<label class="col-lg-2 col-form-label">Division Title:</label>
 									<div class="col-lg-6">
-										<input class="form-control" type="text" placeholder="division name" [formControl]="editDivisionForm.controls['divisionName']">
-										<span *ngIf="editDivisionForm.controls['divisionName'].hasError('required') && editDivisionForm.controls['divisionName'].touched"
+										<input class="form-control" type="text" placeholder="division name" [formControl]="editDivisionForm.controls['divName']">
+										<span *ngIf="editDivisionForm.controls['divName'].hasError('required') && editDivisionForm.controls['divName'].touched"
 										 class="m--font-danger">You must include a division title.</span>
 									</div>
 								</div>
-								<!-- <div class="form-group m-form__group row" [ngClass]="{'has-danger':!editDivisionForm.controls['lastName'].valid && editDivisionForm.controls['lastName'].touched}">
-								  <label class="col-lg-2 col-form-label">Last Name</label>
-								  <div class="col-lg-6">
-								  <input class="form-control" type="text" placeholder="Doe" [formControl]="editDivisionForm.controls['lastName']">
-								  <div *ngIf="editDivisionForm.controls['lastName'].hasError('required') && editDivisionForm.controls['lastName'].touched" class="form-control-feedback">You must include a last name.</div>
-								  <div *ngIf="editDivisionForm.controls['lastName'].hasError('minlength') && editDivisionForm.controls['lastName'].touched" class="form-control-feedback">Your last name must be at least 5 characters long.</div>
-								  <div *ngIf="editDivisionForm.controls['lastName'].hasError('maxlength') && editDivisionForm.controls['lastName'].touched" class="form-control-feedback">Your last name cannot exceed 10 characters.</div>
-								</div>
-								</div>
-								<div class="form-group m-form__group row">
-								  <label class="col-lg-2 col-form-label">Gender</label>
-								  <div class="form-control-feedback" *ngIf="!editDivisionForm.controls['gender'].valid && editDivisionForm.controls['gender'].touched">You must select a gender.</div>
-								
-								<div class="col-lg-6">
-								<div class="radio">
-								  <label>
-									<input type="radio" name="gender" value="Male" [formControl]="editDivisionForm.controls['gender']">
-									Male
-								  </label>
-								</div>
-								<div class="radio">
-								  <label>
-									<input type="radio" name="gender" value="Female" [formControl]="editDivisionForm.controls['gender']">
-									Female
-								  </label>
-								</div>
-							</div>
-								</div> -->
+							
 							</div>
 							<div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
 								<div class="m-form__actions m-form__actions--solid">
@@ -345,7 +291,7 @@
 							<div class="col-xl-4 order-1 order-xl-2 m--align-right">
 								<a (click)="addTemplate()" href="#" class="btn btn-accent m-btn m-btn--custom m-btn--icon m-btn--air m-btn--pill">
 									<span>
-										<i class="la la-cart-plus"></i>
+										<i class="flaticon-add"></i>
 										<span>
 											add division
 										</span>

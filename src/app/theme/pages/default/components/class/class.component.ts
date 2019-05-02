@@ -14,6 +14,7 @@ declare let $: any
 export class ClassComponent implements OnInit, AfterViewInit {
   showTemplate:any;
   classData:any;
+  datatable: any ;
   addClassForm : FormGroup;
   editClassForm : FormGroup;
 
@@ -22,19 +23,12 @@ export class ClassComponent implements OnInit, AfterViewInit {
     this.getClassList();
     this.addClassForm = fb.group({
       'className' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+      
     });
     this.editClassForm = fb.group({
+      'id' : [null, Validators.required], 
       'className' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+     
     });
     // console.log(this.addClassForm);
     // this.addClassForm.valueChanges.subscribe( (form: any) => {
@@ -59,7 +53,7 @@ export class ClassComponent implements OnInit, AfterViewInit {
     $("#editTemplate").hide();
     $("#listTemplate").hide();
   }
-  editTemplate(studentData) {
+  editTemplate() {
     $("#addTemplate").hide();
     $("#editTemplate").show();
     $("#listTemplate").hide();
@@ -67,11 +61,28 @@ export class ClassComponent implements OnInit, AfterViewInit {
     // this.studentDetail = studentData;
     
   }
-  addClassSubmitForm(value: any){
-    console.log(value);
+  addClassSubmitForm(data: any){
+    this.baseservice.post('class',data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getClassList();
+      this.listTemplate();
+    },
+    (err) => {
+    
+    //  localStorage.clear();
+    });
   }
-  editClassSubmitForm(value: any){
-    console.log(value);
+  editClassSubmitForm(data: any){
+    
+    this.baseservice.put('class/'+data.id,data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getClassList();
+      this.listTemplate();
+    },
+    (err) => {
+    
+    //  localStorage.clear();
+    });
   }
   private getClassList() {
     this.baseservice.get('class').subscribe((data) => {
@@ -82,11 +93,18 @@ export class ClassComponent implements OnInit, AfterViewInit {
     //  localStorage.clear();
     });
   }
+  private editClassData(data){
+    let excludeData  = data.split('*');
+   
+    this.editClassForm.controls['id'].setValue(excludeData[0]);
+    this.editClassForm.controls['className'].setValue(excludeData[1]);
+    this.editTemplate();
+  }
   public showtablerecord(data){
-  
+    let i = 1;
      // let dataJSONArray = JSON.parse(data.teacher);
                 
-      var datatable = $('.m_datatable').mDatatable({
+      this.datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {
           type: 'local',
@@ -113,8 +131,13 @@ export class ClassComponent implements OnInit, AfterViewInit {
   
         // columns definition
         columns: [{
-          field: "id",
+          field: "",
           title: "Sr.No.",
+          textAlign: 'center',
+  
+          template: function (row) {
+            return i++;
+          },
           
         }, {
           field: "className",
@@ -142,47 +165,31 @@ export class ClassComponent implements OnInit, AfterViewInit {
           sortable: false,
           overflow: 'visible',
           template: function (row) {
-            var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
-  
-            return '\
-              <div class="dropdown ' + dropup + '">\
-                <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                  <i class="la la-ellipsis-h"></i>\
-                              </a>\
-                  <div class="dropdown-menu dropdown-menu-right">\
-                    <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-                  </div>\
-              </div>\
-              <a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
-                              <i class="la la-edit"></i>\
-                          </a>\
-            ';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="' + row.id + '*'+row.className+'"></i></span>';
           }
         }]
       });
   
-      var query = datatable.getDataSourceQuery();
+      var query = this.datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
-        datatable.search($(this).val().toLowerCase());
+        this.datatable.search($(this).val().toLowerCase());
       }).val(query.generalSearch);
   
       $('#m_form_status').on('change', function () {
-        datatable.search($(this).val(), 'Status');
+        this.datatable.search($(this).val(), 'Status');
       }).val(typeof query.Status !== 'undefined' ? query.Status : '');
   
       $('#m_form_type').on('change', function () {
-        datatable.search($(this).val(), 'Type');
+        this.datatable.search($(this).val(), 'Type');
       }).val(typeof query.Type !== 'undefined' ? query.Type : '');
   
-      $('#m_form_status, #m_form_type').selectpicker();
-      // $('.m_datatable').on('click', '.teacherFn', (e) => {
-      //   e.preventDefault();
-      //   var id = $(e.target).attr('data-id');
-       
-      //   this.router.navigate(['/student/profile/', id]); 
-      //   });
+      $('.m_datatable').on('click', '.edit-button', (e) => {
+        e.preventDefault();
+        var id = $(e.target).attr('data-id');
+        this.editClassData(id);
+        //  this.getStudentData(id);
+        //this.router.navigate(['/student/profile/', id]); 
+      });
   }
 }

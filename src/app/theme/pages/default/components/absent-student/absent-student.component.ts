@@ -13,6 +13,7 @@ declare let $: any
 export class AbsentStudentComponent implements OnInit, AfterViewInit {
   studentData: any = null;
   isValid = false;
+  datatable:any;
   studentEditData:any;
   divisionData:any=null;
   classData:any =null;
@@ -97,7 +98,7 @@ export class AbsentStudentComponent implements OnInit, AfterViewInit {
     
      // let dataJSONArray = JSON.parse(data.teacher);
        let i=1;         
-      var datatable = $('.m_datatable').mDatatable({
+      this.datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {
           type: 'local',
@@ -177,18 +178,18 @@ export class AbsentStudentComponent implements OnInit, AfterViewInit {
         }]
       });
   
-      var query =<any>datatable.getDataSourceQuery();
+      var query =this.datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
-        datatable.search($(this).val().toLowerCase());
+        this.datatable.search($(this).val().toLowerCase());
       }).val(query.generalSearch);
   
       $('#m_form_status').on('change', function () {
-        datatable.search($(this).val(), 'Status');
+        this.datatable.search($(this).val(), 'Status');
       }).val(typeof query.Status !== 'undefined' ? query.Status : '');
   
       $('#m_form_type').on('change', function () {
-        datatable.search($(this).val(), 'Type');
+        this.datatable.search($(this).val(), 'Type');
       }).val(typeof query.Type !== 'undefined' ? query.Type : '');
   
       $('#m_form_status, #m_form_type').selectpicker();

@@ -5,7 +5,6 @@ import { BaseService } from '../../../../../_services/base.service';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
-import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -14,6 +13,7 @@ declare let $: any
 })
 export class AttendanceComponent implements OnInit, AfterViewInit {
   attendancePending: any = null;
+  datatable: any ;
   SrNo: any = 1;
   divisionData: any = null;
   classData: any = null;
@@ -28,8 +28,11 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
-    this.listTemplate();
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+      'assets/demo/default/custom/components/datatables/base/html-table.js');
 
+    this.listTemplate();
+    this.getAttendanceList();
 
     this.addAttenaceFormList = this.fb.group({
       'attendanceDate': new FormControl(),
@@ -42,7 +45,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     $("#addTemplate").hide();
     $("#editTemplate").hide();
     $("#listTemplate").show();
-    this.getAttendanceList();
+   
   }
   editTemplate() {
     $("#addTemplate").hide();
@@ -52,6 +55,8 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
   }
   addTemplate() {
     $("#addTemplate").show();
+    $("#addAttendanceForm1").show();
+    $("#addAttendanceForm2").hide();
     $("#editTemplate").hide();
     $("#listTemplate").hide();
     this.getClassList();
@@ -75,13 +80,9 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
   private getAttendanceData(data){
  
     let excludeData  = data.split('*');
-    // console.log(excludeData);
-  this.getStudentAttendanceList(excludeData);
-    // this.addTemplate();
-    
+  this.getStudentAttendanceList(excludeData);    
     }
-    private getStudentAttendanceList(data){
-      
+    private getStudentAttendanceList(data){ 
         this.baseservice.get('getbyrecord?classId=' + data[0] + '&divId=' + data[1]+'&date='+data[2]).subscribe((data) => {  
           this.editStudentData = data.attendancestudentList; 
           this.editTemplate();   
@@ -94,7 +95,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
   private getAttendanceList() {
     this.baseservice.get('getattendancelist').subscribe((data) => {
       this.attendancePending = data;
-      console.log(this.attendancePending);
+     
       this.showtablerecord(data);
     },
       (err) => {
@@ -126,7 +127,7 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
       });
 
   }
-  addStudentAttenaceFormSumitForm(data){
+  addStudentAttenaceSumitForm(data){
     
     var newArrData = _.map(data, function(o) {
       o.attendanceResult=JSON.parse(o.attendanceResult);
@@ -134,6 +135,25 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
   
     let postdata=JSON.stringify(newArrData);
     this.baseservice.post('bulkattendance',postdata).subscribe((data) => { 
+      this.datatable.destroy();
+      this.getAttendanceList();
+      this.listTemplate();
+    },
+    (err) => {
+     console.log(err);
+    //  localStorage.clear();
+    });
+  }
+  editStudentAttenaceSumitForm(data){
+    
+    var newArrData = _.map(data, function(o) {
+      o.attendanceResult=JSON.parse(o.attendanceResult);
+      return _.omit(o, ['AttendanceStudent', 'AttendanceClass','AttendanceDivision','AttendanceClassTeacher','createdAt','updatedAt']); });
+  
+    let postdata=JSON.stringify(newArrData);
+    this.baseservice.post('bulkattendance',postdata).subscribe((data) => { 
+      
+      this.datatable.destroy();
       this.getAttendanceList();
       this.listTemplate();
     },
@@ -150,7 +170,8 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     this.dateOfAttendance= $("#m_datepickerSet").val();
     if (data.dateOfAttendance != '' && data.classId!= '' && data.divId!= '') {
       this.baseservice.get('addattendancestudentlist?classId=' + data.classId + '&divId=' + data.divId+'&date='+data.dateOfAttendance).subscribe((data) => {
-        //this.getStudentList();
+        $("#addAttendanceForm1").hide();
+        $("#addAttendanceForm2").show();
       this.addStudentData = data;
         // this.listTemplate();
       },
@@ -166,12 +187,14 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
     // console.log(data);
     // let dataJSONArray = JSON.parse(data.teacher);
     let i = 1;
-    var datatable = $('.m_datatable').mDatatable({
+     this.datatable = $('.m_datatable').mDatatable({
       // datasource definition
       data: {
         type: 'local',
         source: data,
-        pageSize: 10
+        pageSize: 10,
+        cookie:false,
+        webstorage:false
       },
 
       // layout definition
@@ -233,18 +256,18 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
       }]
     });
 
-    var query = <any>datatable.getDataSourceQuery();
+    var query = this.datatable.getDataSourceQuery();
 
     $('#m_form_search').on('keyup', function (e) {
-      datatable.search($(this).val().toLowerCase());
+      this.datatable.search($(this).val().toLowerCase());
     }).val(query.generalSearch);
 
     $('#m_form_status').on('change', function () {
-      datatable.search($(this).val(), 'Status');
+      this.datatable.search($(this).val(), 'Status');
     }).val(typeof query.Status !== 'undefined' ? query.Status : '');
 
     $('#m_form_type').on('change', function () {
-      datatable.search($(this).val(), 'Type');
+      this.datatable.search($(this).val(), 'Type');
     }).val(typeof query.Type !== 'undefined' ? query.Type : '');
 
     $('#m_form_status, #m_form_type').selectpicker();
@@ -260,6 +283,10 @@ export class AttendanceComponent implements OnInit, AfterViewInit {
       this.getAttendanceData(id);
       //  this.getStudentData(id);
       //this.router.navigate(['/student/profile/', id]); 
+    });
+    $(".reload").on('click', function(){
+
+      this.datatable.reload();
     });
   }
   ngAfterViewInit() {

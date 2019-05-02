@@ -15,6 +15,7 @@ declare let $: any
 export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
   attendancePending: any = null;
   SrNo: any = 1;
+  datatable: any ;
   divisionData: any = null;
   classData: any = null;
   studentData: any = null;
@@ -27,10 +28,13 @@ export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
+   
     this.listTemplate();
     
   }
   listTemplate() {
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+    'assets/demo/default/custom/components/datatables/base/html-table.js');
     $("#addTemplate").hide();
     $("#editTemplate").hide();
     $("#listTemplate").show();
@@ -88,11 +92,28 @@ export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
         });
     }
   }
+
+  addStudentAttenaceSumitForm(data){
+    
+    var newArrData = _.map(data, function(o) {
+      o.attendanceResult=JSON.parse(o.attendanceResult);
+      return _.omit(o, ['studentName', 'className','divName','rollNo']); });
+  
+    let postdata=JSON.stringify(newArrData);
+    this.baseservice.post('bulkattendance',postdata).subscribe((data) => { 
+      this.datatable.destroy();
+      this.listTemplate();
+    },
+    (err) => {
+     console.log(err);
+    //  localStorage.clear();
+    });
+  }
   public showtablerecord(data){
     // console.log(data);
      // let dataJSONArray = JSON.parse(data.teacher);
         let i=1;        
-      var datatable = $('.m_datatable').mDatatable({
+      this.datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {
           type: 'local',
@@ -158,18 +179,18 @@ export class PendingAttendanceRecordComponent implements OnInit, AfterViewInit {
         }]
       });
   
-      var query =<any>datatable.getDataSourceQuery();
+      var query =this.datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
-        datatable.search($(this).val().toLowerCase());
+        this.datatable.search($(this).val().toLowerCase());
       }).val(query.generalSearch);
   
       $('#m_form_status').on('change', function () {
-        datatable.search($(this).val(), 'Status');
+        this.datatable.search($(this).val(), 'Status');
       }).val(typeof query.Status !== 'undefined' ? query.Status : '');
   
       $('#m_form_type').on('change', function () {
-        datatable.search($(this).val(), 'Type');
+        this.datatable.search($(this).val(), 'Type');
       }).val(typeof query.Type !== 'undefined' ? query.Type : '');
   
       $('#m_form_status, #m_form_type').selectpicker();

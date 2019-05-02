@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit, ViewChild } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-// import * as $ from 'jquery';
 declare let $: any
 import 'fullcalendar';
 // import { CalendarComponent } from 'ng-fullcalendar';
@@ -219,6 +218,7 @@ if(value.dow=="Monday"){
 }
       resultArray.push(
         {
+          
           "title": value.title,
           "description":"Lecture "+value.title+" from "+value.start+" to "+value.end,
           "start":value.start,
@@ -236,7 +236,7 @@ if(value.dow=="Monday"){
       hiddenDays: [ 0 ] ,
       // defaultDate: '2018-01-12',
       navLinks: true, // can click day/week names to navigate views
-      editable: false,
+      editable: true,
       height: 900,
       eventLimit: true, // allow "more" link when too many events
       events:resultArray

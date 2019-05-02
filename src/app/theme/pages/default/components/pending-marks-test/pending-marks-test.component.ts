@@ -4,6 +4,7 @@ import { ScriptLoaderService } from '../../../../../_services/script-loader.serv
 import {BaseService} from '../../../../../_services/base.service';
 import {ReactiveFormsModule,FormsModule,FormGroup,FormControl,Validators,FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 declare let $: any
 @Component({
   selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
@@ -13,7 +14,8 @@ declare let $: any
 export class PendingMarksTestComponent implements OnInit, AfterViewInit {
   studentData: any = null;
   isValid = false;
-  studentEditData:any;
+  datatable:any=null;
+  addStudentData:any=null;
   divisionData:any=null;
   classData:any =null;
   showTemplate: any;
@@ -59,7 +61,7 @@ export class PendingMarksTestComponent implements OnInit, AfterViewInit {
    
 
   }
-  public editTemplate(studentData) {
+  public editTemplate() {
     this.isValid=true;
     console.log('dada')
     $("#addTemplate").hide();
@@ -81,6 +83,52 @@ export class PendingMarksTestComponent implements OnInit, AfterViewInit {
     
     
   }
+
+  private getTestMarksStudentData(data){
+ 
+    let excludeData  = data.split('*');
+  this.getStudentTestMarksList(excludeData);    
+    }
+    private getStudentTestMarksList(data){ 
+    
+      if (data[0] != '' && data[1]!= '' && data[2]!= '' && data[3]!='') {
+        this.baseservice.get('getaddtestmarkstudentlist?classId=' + data[0] + '&divId=' + data[1]+'&testId='+data[2]+'&subId='+data[3]).subscribe((data) => {
+          $("#addTestmarksForm1").hide();
+          $("#addTestmarksForm2").show();
+         
+        this.addStudentData = data;
+        this.addTemplate();   
+        },
+          (err) => {
+            console.log(err);
+            //  localStorage.clear();
+          });
+  
+      }
+    
+  }
+  setMarksVal(data,maxvalue){
+    if(data.value>maxvalue){
+      data.value=0;
+    }
+  }
+  addStudentTestmarksSumitForm(data){
+    console.log(data);
+    var newArrData = _.map(data, function(o) {
+      // o.TestmarksResult=JSON.parse(o.TestmarksResult);
+      return _.omit(o, ['studentName', 'className','divName','rollNo','subName','teacherName']); });
+    
+     let postdata=JSON.stringify(newArrData);
+    this.baseservice.post('bulktestmarks',postdata).subscribe((data) => { 
+      this.datatable.destroy();
+      this.getAbsentStudentList();
+      this.listTemplate();
+    },
+    (err) => {
+     console.log(err);
+    //  localStorage.clear();
+    });
+  }
   private getAbsentStudentList() {
     this.baseservice.get('gettestmarkspendinglist').subscribe((data) => {
       this.studentData = data;
@@ -94,7 +142,7 @@ export class PendingMarksTestComponent implements OnInit, AfterViewInit {
   
   public showtablerecord(data){
        let i=1;         
-      var datatable = $('.m_datatable').mDatatable({
+    this.datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {
           type: 'local',
@@ -141,28 +189,28 @@ export class PendingMarksTestComponent implements OnInit, AfterViewInit {
           title: "Teacher Name",  
         },
          {
-          field: "teacherId",
+          field: "subId",
           title: "Actions",
           template: function (row) {
-            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.id+'"></i></span>';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="'+row.classId+ '*'+row.divisionId+'*'+row.testId+'*'+row.subjectId+'"></i></span>';
            
            
           }
         }]
       });
   
-      var query =<any>datatable.getDataSourceQuery();
+      var query =<any>this.datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
-        datatable.search($(this).val().toLowerCase());
+        this.datatable.search($(this).val().toLowerCase());
       }).val(query.generalSearch);
   
       $('#m_form_status').on('change', function () {
-        datatable.search($(this).val(), 'Status');
+        this.datatable.search($(this).val(), 'Status');
       }).val(typeof query.Status !== 'undefined' ? query.Status : '');
   
       $('#m_form_type').on('change', function () {
-        datatable.search($(this).val(), 'Type');
+        this.datatable.search($(this).val(), 'Type');
       }).val(typeof query.Type !== 'undefined' ? query.Type : '');
   
       $('#m_form_status, #m_form_type').selectpicker();
@@ -175,7 +223,7 @@ export class PendingMarksTestComponent implements OnInit, AfterViewInit {
        $('.m_datatable').on('click', '.edit-button', (e) => {
         e.preventDefault();
         var id = $(e.target).attr('data-id');
-        console.log(id);
+        this.getTestMarksStudentData(id);
         //this.router.navigate(['/student/profile/', id]); 
         });
   }

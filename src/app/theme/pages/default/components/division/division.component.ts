@@ -13,32 +13,21 @@ declare let $: any
 export class DivisionComponent implements OnInit, AfterViewInit {
   showTemplate:any;
   divisionData:any;
+  datatable: any ;
   addDivisionForm : FormGroup;
   editDivisionForm : FormGroup;
 
   constructor(private _script: ScriptLoaderService,private baseservice: BaseService, private router: Router,fb: FormBuilder){
     this.getDivisionList();
     this.addDivisionForm = fb.group({
-      'divisionName' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+      'divName' : [null, Validators.required],
     });
     this.editDivisionForm = fb.group({
-      'divisionName' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+      'id' : [null, Validators.required], 
+      'divName' : [null, Validators.required],
+     
     });
-    // console.log(this.addDivisionForm);
-    // this.addDivisionForm.valueChanges.subscribe( (form: any) => {
-    //   console.log('form changed to:', form);
-    // }
-    // );
+   
   }
   ngOnInit() {
     this.listTemplate();
@@ -57,19 +46,41 @@ export class DivisionComponent implements OnInit, AfterViewInit {
     $("#editTemplate").hide();
     $("#listTemplate").hide();
   }
-  editTemplate(studentData) {
+  editTemplate() {
     $("#addTemplate").hide();
     $("#editTemplate").show();
     $("#listTemplate").hide();
     
-    // this.studentDetail = studentData;
+  
     
   }
-  addDivisionSubmitForm(value: any){
-    console.log(value);
+  addDivisionSubmitForm(data: any){
+    this.baseservice.post('division',data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getDivisionList();
+      this.listTemplate();
+    },
+    (err) => { 
+    //  localStorage.clear();
+    });
   }
-  editDivisionSubmitForm(value: any){
-    console.log(value);
+  editDivisionSubmitForm(data: any){
+    this.baseservice.put('division/'+data.id,data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getDivisionList();
+      this.listTemplate();
+    },
+    (err) => {
+    
+    //  localStorage.clear();
+    });
+  }
+  private editDivisionData(data){
+    let excludeData  = data.split('*');
+   
+    this.editDivisionForm.controls['id'].setValue(excludeData[0]);
+    this.editDivisionForm.controls['divName'].setValue(excludeData[1]);
+    this.editTemplate();
   }
   private getDivisionList() {
     this.baseservice.get('division').subscribe((data) => {
@@ -81,7 +92,7 @@ export class DivisionComponent implements OnInit, AfterViewInit {
     });
   }
   public showtablerecord(data){              
-      var datatable = $('.m_datatable').mDatatable({
+      this.datatable = $('.m_datatable').mDatatable({
         // datasource definition
         data: {
           type: 'local',
@@ -134,47 +145,32 @@ export class DivisionComponent implements OnInit, AfterViewInit {
           sortable: false,
           overflow: 'visible',
           template: function (row) {
-            var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
-  
-            return '\
-              <div class="dropdown ' + dropup + '">\
-                <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                  <i class="la la-ellipsis-h"></i>\
-                              </a>\
-                  <div class="dropdown-menu dropdown-menu-right">\
-                    <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-                    <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-                  </div>\
-              </div>\
-              <a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
-                              <i class="la la-edit"></i>\
-                          </a>\
-            ';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="' + row.id + '*'+row.divName+'"></i></span>';
           }
         }]
       });
   
-      var query = datatable.getDataSourceQuery();
+      var query = this.datatable.getDataSourceQuery();
   
       $('#m_form_search').on('keyup', function (e) {
-        datatable.search($(this).val().toLowerCase());
+        this.datatable.search($(this).val().toLowerCase());
       }).val(query.generalSearch);
   
       $('#m_form_status').on('change', function () {
-        datatable.search($(this).val(), 'Status');
+        this.datatable.search($(this).val(), 'Status');
       }).val(typeof query.Status !== 'undefined' ? query.Status : '');
   
       $('#m_form_type').on('change', function () {
-        datatable.search($(this).val(), 'Type');
+        this.datatable.search($(this).val(), 'Type');
       }).val(typeof query.Type !== 'undefined' ? query.Type : '');
   
       $('#m_form_status, #m_form_type').selectpicker();
-      // $('.m_datatable').on('click', '.teacherFn', (e) => {
-      //   e.preventDefault();
-      //   var id = $(e.target).attr('data-id');
-       
-      //   this.router.navigate(['/student/profile/', id]); 
-      //   });
+      $('.m_datatable').on('click', '.edit-button', (e) => {
+        e.preventDefault();
+        var id = $(e.target).attr('data-id');
+        this.editDivisionData(id);
+        //  this.getStudentData(id);
+        //this.router.navigate(['/student/profile/', id]); 
+      });
   }
 }

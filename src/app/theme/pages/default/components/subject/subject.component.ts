@@ -15,32 +15,22 @@ declare let $: any
 export class SubjectComponent implements OnInit, AfterViewInit {
   showTemplate:any;
   subjectData:any;
+  datatable:any;
   addSubjectForm : FormGroup;
   editSubjectForm : FormGroup;
 
   constructor(private _script: ScriptLoaderService,private baseservice: BaseService, private router: Router,fb: FormBuilder){
     this.getSubjectList();
     this.addSubjectForm = fb.group({
-      'subjectName' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+      'subName' : [null, Validators.required],
+      
     });
     this.editSubjectForm = fb.group({
-      'subjectName' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+      'id' : [null, Validators.required], 
+      'subName' : [null, Validators.required],
+     
     });
-    // console.log(this.addSubjectForm);
-    // this.addSubjectForm.valueChanges.subscribe( (form: any) => {
-    //   console.log('form changed to:', form);
-    // }
-    // );
+    
   }
   ngOnInit() {
     this.listTemplate();
@@ -59,19 +49,38 @@ export class SubjectComponent implements OnInit, AfterViewInit {
     $("#editTemplate").hide();
     $("#listTemplate").hide();
   }
-  editTemplate(studentData) {
+  editTemplate() {
     $("#addTemplate").hide();
     $("#editTemplate").show();
-    $("#listTemplate").hide();
-    
-    // this.studentDetail = studentData;
-    
+    $("#listTemplate").hide();  
   }
-  addSubjectSubmitForm(value: any){
-    console.log(value);
+  private editSubjectData(data){
+    let excludeData  = data.split('*');
+   
+    this.editSubjectForm.controls['id'].setValue(excludeData[0]);
+    this.editSubjectForm.controls['subName'].setValue(excludeData[1]);
+    this.editTemplate();
   }
-  editSubjectSubmitForm(value: any){
-    console.log(value);
+  addSubjectSubmitForm(data: any){
+    this.baseservice.post('subject',data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getSubjectList();
+      this.listTemplate();
+    },
+    (err) => { 
+    //  localStorage.clear();
+    });
+  }
+  editSubjectSubmitForm(data: any){
+    this.baseservice.put('subject/'+data.id,data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getSubjectList();
+      this.listTemplate();
+    },
+    (err) => {
+    
+    //  localStorage.clear();
+    });
   }
   private getSubjectList() {
    
@@ -88,7 +97,7 @@ export class SubjectComponent implements OnInit, AfterViewInit {
     console.log(data.subject);
      
                  
-       var datatable = $('.m_datatable').mDatatable({
+       this.datatable = $('.m_datatable').mDatatable({
         
          data: {
            type: 'local',
@@ -141,47 +150,32 @@ export class SubjectComponent implements OnInit, AfterViewInit {
            sortable: false,
            overflow: 'visible',
            template: function (row) {
-             var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
-   
-             return '\
-               <div class="dropdown ' + dropup + '">\
-                 <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                   <i class="la la-ellipsis-h"></i>\
-                               </a>\
-                   <div class="dropdown-menu dropdown-menu-right">\
-                     <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-                     <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-                     <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-                   </div>\
-               </div>\
-               <a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
-                               <i class="la la-edit"></i>\
-                           </a>\
-             ';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="' + row.id + '*'+row.subName+'"></i></span>';
            }
          }]
        });
    
-       var query = datatable.getDataSourceQuery();
+       var query = this.datatable.getDataSourceQuery();
    
        $('#m_form_search').on('keyup', function (e) {
-         datatable.search($(this).val().toLowerCase());
+         this.datatable.search($(this).val().toLowerCase());
        }).val(query.generalSearch);
    
        $('#m_form_status').on('change', function () {
-         datatable.search($(this).val(), 'Status');
+         this.datatable.search($(this).val(), 'Status');
        }).val(typeof query.Status !== 'undefined' ? query.Status : '');
    
        $('#m_form_type').on('change', function () {
-         datatable.search($(this).val(), 'Type');
+         this.datatable.search($(this).val(), 'Type');
        }).val(typeof query.Type !== 'undefined' ? query.Type : '');
    
        $('#m_form_status, #m_form_type').selectpicker();
-       // $('.m_datatable').on('click', '.teacherFn', (e) => {
-       //   e.preventDefault();
-       //   var id = $(e.target).attr('data-id');
-        
-       //   this.router.navigate(['/student/profile/', id]); 
-       //   });
+       $('.m_datatable').on('click', '.edit-button', (e) => {
+        e.preventDefault();
+        var id = $(e.target).attr('data-id');
+        this.editSubjectData(id);
+        //  this.getStudentData(id);
+        //this.router.navigate(['/student/profile/', id]); 
+      });
    }
 }

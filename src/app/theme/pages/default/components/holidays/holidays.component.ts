@@ -14,30 +14,25 @@ declare let $: any
 export class HolidaysComponent implements OnInit, AfterViewInit {
   showTemplate:any;
   holidayData:any;
-  addTestForm : FormGroup;
-  editTestForm : FormGroup;
+  datatable:any;
+  addHolidaysForm : FormGroup;
+  editHolidaysForm : FormGroup;
 
   constructor(private _script: ScriptLoaderService,private baseservice: BaseService
     , private router: Router,fb: FormBuilder){
-    this.getTestList();
-    this.addTestForm = fb.group({
-      'testName' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+    this.getHolidaysList();
+    this.addHolidaysForm = fb.group({
+      'holidayDate' : [null, Validators.required],
+     
     });
-    this.editTestForm = fb.group({
-      'testName' : [null, Validators.required],
-      // 'lastName': [null,  Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])],
-      // 'gender' : [null, Validators.required],
-      // 'hiking' : [false],
-      // 'running' : [false],
-      // 'swimming' : [false]
+    
+    this.editHolidaysForm = fb.group({
+      'id' : [null, Validators.required],
+      'holidayDate' : [null, Validators.required],
+     
     });
-    // console.log(this.addTestForm);
-    // this.addTestForm.valueChanges.subscribe( (form: any) => {
+    // console.log(this.addHolidaysForm);
+    // this.addHolidaysForm.valueChanges.subscribe( (form: any) => {
     //   console.log('form changed to:', form);
     // }
     // );
@@ -55,25 +50,76 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
    
   }
   addTemplate() {
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+    'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+  $('#m_datepickerSet').datepicker({
+    format: "yyyy-mm-dd",
+    todayHighlight: true,
+    templates: {
+      leftArrow: '<i class="la la-angle-left"></i>',
+      rightArrow: '<i class="la la-angle-right"></i>'
+    }
+    
+  });
+  var temp = this;
+  $('#m_datepickerSet').on('change', function () {
+    console.log(this.value);
+    temp.addHolidaysForm.controls['holidayDate'].setValue(this.value);
+  });
     $("#addTemplate").show();
     $("#editTemplate").hide();
     $("#listTemplate").hide();
   }
-  editTemplate(studentData) {
+  editTemplate() {
+    this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
+    'assets/demo/default/custom/components/forms/widgets/bootstrap-datepicker.js');
+  $('#m_datepickerSet1').datepicker({
+    format: "yyyy-mm-dd",
+    todayHighlight: true,
+    templates: {
+      leftArrow: '<i class="la la-angle-left"></i>',
+      rightArrow: '<i class="la la-angle-right"></i>'
+    }
+  });
+  var temp = this;
+  $('#m_datepickerSet1').on('change', function () {
+    console.log(this.value);
+    temp.editHolidaysForm.controls['holidayDate'].setValue(this.value);
+  });
     $("#addTemplate").hide();
     $("#editTemplate").show();
     $("#listTemplate").hide();
+  }
+ 
+  private editHolidaysData(data){
+    let excludeData  = data.split('*');
+   
+    this.editHolidaysForm.controls['id'].setValue(excludeData[0]);
+    this.editHolidaysForm.controls['holidayDate'].setValue(excludeData[1]);
+    this.editTemplate();
+  }
+  addHolidaysSubmitForm(data: any){
+    this.baseservice.post('holidays',data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getHolidaysList();
+      this.listTemplate();
+    },
+    (err) => { 
+    //  localStorage.clear();
+    });
+  }
+  editHolidaysSubmitForm(data: any){
+    this.baseservice.put('holidays/'+data.id,data).subscribe((result) => { 
+      this.datatable.destroy();
+      this.getHolidaysList();
+      this.listTemplate();
+    },
+    (err) => {
     
-    // this.studentDetail = studentData;
-    
+    //  localStorage.clear();
+    });
   }
-  addTestSubmitForm(value: any){
-    console.log(value);
-  }
-  editTestSubmitForm(value: any){
-    console.log(value);
-  }
-  private getTestList() {
+  private getHolidaysList() {
     this.baseservice.get('holidays').subscribe((data) => {
       this.holidayData = data.holidays;
       this.showtablerecord(data);
@@ -88,11 +134,11 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
  
      
       var iValue=0;           
-       var datatable = $('.m_datatable').mDatatable({
+       this.datatable = $('.m_datatable').mDatatable({
         
          data: {
            type: 'local',
-           source: data.test,
+           source: data.holidays,
            pageSize: 10
          },
    
@@ -121,8 +167,8 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
             return iValue=iValue+1;
           }
          }, {
-           field: "testName",
-           title: "Test Name",
+           field: "holidayDate",
+           title: "Date",
            
          }, {
            field: "active",
@@ -143,47 +189,32 @@ export class HolidaysComponent implements OnInit, AfterViewInit {
            sortable: false,
            overflow: 'visible',
            template: function (row) {
-             var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
-   
-             return '\
-               <div class="dropdown ' + dropup + '">\
-                 <a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                   <i class="la la-ellipsis-h"></i>\
-                               </a>\
-                   <div class="dropdown-menu dropdown-menu-right">\
-                     <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-                     <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-                     <a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-                   </div>\
-               </div>\
-               <a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
-                               <i class="la la-edit"></i>\
-                           </a>\
-             ';
+            return '<span  class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" > <i class="edit-button la la-edit" data-id="' + row.id + '*'+row.holidayDate+'"></i></span>';
            }
          }]
        });
    
-       var query = datatable.getDataSourceQuery();
+       var query = this.datatable.getDataSourceQuery();
    
        $('#m_form_search').on('keyup', function (e) {
-         datatable.search($(this).val().toLowerCase());
+         this.datatable.search($(this).val().toLowerCase());
        }).val(query.generalSearch);
    
        $('#m_form_status').on('change', function () {
-         datatable.search($(this).val(), 'Status');
+         this.datatable.search($(this).val(), 'Status');
        }).val(typeof query.Status !== 'undefined' ? query.Status : '');
    
        $('#m_form_type').on('change', function () {
-         datatable.search($(this).val(), 'Type');
+         this.datatable.search($(this).val(), 'Type');
        }).val(typeof query.Type !== 'undefined' ? query.Type : '');
    
        $('#m_form_status, #m_form_type').selectpicker();
-       // $('.m_datatable').on('click', '.teacherFn', (e) => {
-       //   e.preventDefault();
-       //   var id = $(e.target).attr('data-id');
-        
-       //   this.router.navigate(['/student/profile/', id]); 
-       //   });
+       $('.m_datatable').on('click', '.edit-button', (e) => {
+        e.preventDefault();
+        var id = $(e.target).attr('data-id');
+        this.editHolidaysData(id);
+        //  this.getStudentData(id);
+        //this.router.navigate(['/student/profile/', id]); 
+      });
    }
 }
