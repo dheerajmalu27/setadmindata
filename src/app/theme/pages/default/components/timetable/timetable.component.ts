@@ -359,6 +359,7 @@ private getTimeTableData(data){
   public saveTimeTable(){
     var events = $('#m_calendar').fullCalendar('clientEvents');
     var resultArray: Array<any> = [];
+    var tmp=this;
     _.forOwn(events, function(value, key) {
         var start_time =moment(value.start._i).format("HH:mm");
         var end_time =moment(value.end._i).format("HH:mm"); 
@@ -366,9 +367,9 @@ private getTimeTableData(data){
         {
           
           "id": value.id,
-          "divId":this.editdivId,
+          "divId":tmp.editdivId,
           "subId":value.subId,
-          "classId":this.editclassId,
+          "classId":tmp.editclassId,
           "dayId":moment(value.start._i).day(),
           "timeSlot":start_time+'-'+end_time,
         });

@@ -9,8 +9,7 @@ import { appVariables } from './../app.constants';
 import { CustomErrorHandlerService } from './custom-error-handler.service';
 @Injectable()
 export class BaseService {
-  router: Router;
-  constructor(public http: HttpService, public errorHandler: CustomErrorHandlerService) {
+  constructor(private router: Router,public http: HttpService, public errorHandler: CustomErrorHandlerService) {
   }
   get(url) {
     // Helper service to start ng2-slim-loading-bar progress bar
@@ -66,10 +65,7 @@ export class BaseService {
     
     return this.http.put(appVariables.apiUrl+url, putData).map((res: Response) => {
       return this.handleResponse(res);
-    }).catch((error: Response) => Observable.throw(error))
-      .finally(() => {
-        
-      });
+    });
   }
 
 
@@ -127,7 +123,7 @@ export class BaseService {
 
 catchAuthError(res: Response) {
     // we have to pass HttpService's own instance here as `self`
-  
+  // console.log(res);
     if (res.status === 401 || res.status === 403) {
       // if not authenticated
        localStorage.removeItem(appVariables.userLocalStorage);

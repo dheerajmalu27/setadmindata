@@ -1,8 +1,7 @@
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Headers, Http, Request, RequestOptions, Response, XHRBackend } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +12,7 @@ import { appVariables } from '../app.constants';
 export class HttpService extends Http {
   router: Router;
   // addContentTypeHeader: boolean | string = true;
-  constructor(backend: XHRBackend, options: RequestOptions) {
+  constructor(backend: XHRBackend, options: RequestOptions,private injector: Injector) {
     super(backend, options);
     
   }
@@ -50,9 +49,14 @@ export class HttpService extends Http {
   }
   catchAuthError(self: HttpService) {
     // we have to pass HttpService's own instance here as `self`
+   
    return (res: Response) => {
-    if (res.status === 401 || res.status === 403) {
+    if (this.router == null) {
+      this.router = this.injector.get(Router);
+  }
+    if (res.status == 401 || res.status == 403) {
       // if not authenticated
+      console.log(res);   
        localStorage.removeItem(appVariables.userLocalStorage);
        localStorage.removeItem(appVariables.accessTokenLocalStorage);
       this.router.navigate([appVariables.loginPageUrl]);
