@@ -26,19 +26,54 @@ this.getTestClassList();
 
  public buttonsetcolor(i){
     if((i+1)%5==0){
-      return 'btn m-btn--pill m-btn--air btn-outline-primary';
+      return 'btn m-btn--pill m-btn--air btn-primary';
     }else if((i+1)%4==0){
-      return 'btn m-btn--pill m-btn--air btn-outline-danger';
+      return 'btn m-btn--pill m-btn--air btn-danger';
     }else if((i+1)%3==0){
-      return 'btn m-btn--pill m-btn--air btn-outline-success';
+      return 'btn m-btn--pill m-btn--air btn-success';
     }else if((i+1)%2==0){
-      return 'btn m-btn--pill m-btn--air btn-outline-info';
+      return 'btn m-btn--pill m-btn--air btn-info';
     }else{
-      return 'btn m-btn--pill m-btn--air btn-outline-warning';
+      return 'btn m-btn--pill m-btn--air btn-warning';
     }
   }
   public generatePDF() 
   { 
+	let str='1-1-1';
+    let res = str.split("-");
+    let postdata={"testId":res[0],"classId":res[1],"divId":res[2] };
+    this.baseservice.post('bulktestmarks',postdata).subscribe((data) => { 
+      if(data.testreportclassdata!=null && data.testreportclassdata!=''){
+        this.genratefile();
+            }
+    },
+    (err) => {
+     console.log(err);
+    //  localStorage.clear();
+    });
+    
+    this.baseservice.get('testclassreportlist').subscribe((data) => {
+     
+     
+   },
+   (err) => {
+   //  localStorage.clear();
+   });   
+ 
+  } 
+  private getTestClassList() {
+    this.baseservice.get('testclassreportlist').subscribe((data) => {
+      if(data.testreportclasslist!=null && data.testreportclasslist!=''){
+        this.classData=_.groupBy(data.testreportclasslist,ct => ct.testId);
+        this.classData=_.toArray(this.classData);
+      }
+     
+   },
+   (err) => {
+   //  localStorage.clear();
+   });   
+ }
+private genratefile(){
   var data = document.getElementById('contentToConvert'); 
   html2canvas(data).then(canvas => { 
   // Few necessary setting options 
@@ -53,20 +88,7 @@ this.getTestClassList();
   pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight) 
   pdf.save('MYPdf.pdf'); // Generated PDF  
   }); 
-  } 
-  private getTestClassList() {
-    this.baseservice.get('testclassreportlist').subscribe((data) => {
-      if(data.testreportclasslist!=null && data.testreportclasslist!=''){
-        this.classData=_.groupBy(data.testreportclasslist,ct => ct.testId);
-        this.classData=_.toArray(this.classData);
-      }
-     
-   },
-   (err) => {
-   //  localStorage.clear();
-   });   
- }
-
+}
   ngAfterViewInit() {  
 
   }  

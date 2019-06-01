@@ -65,6 +65,8 @@ export class AttendanceMonthlyReportComponent implements OnInit, AfterViewInit {
       });
 
   }
-  
+  attendanceReportSubmitForm(value: any){
+    console.log(value);
+  }
   
 }

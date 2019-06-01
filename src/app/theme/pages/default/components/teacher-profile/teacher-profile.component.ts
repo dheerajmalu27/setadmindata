@@ -192,10 +192,10 @@ export class TeacherProfileComponent implements OnInit, AfterViewInit {
     //  localStorage.clear();
     });
   }
-  private openOverview() {
+   openOverview() {
     $('#m_user_profile_tab_3').hide();
   }
-  private openCalender() {
+   openCalender() {
     $('#m_user_profile_tab_3').hide();   
     var result = this.teacherData.timetable;
     var resultArray: Array<any> = [];

@@ -64,6 +64,9 @@ export class AttendanceReportComponent implements OnInit, AfterViewInit {
         //  localStorage.clear();
       });
 
+  } 
+  attendanceReportSubmitForm(value: any){
+    console.log(value);
   }
   
   
