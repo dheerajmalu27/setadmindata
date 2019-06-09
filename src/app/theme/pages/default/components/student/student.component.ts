@@ -246,7 +246,7 @@ public addStudentSubmitForm(data){
   const formData: FormData = new FormData(data);
 
 if(data.id!=''&& data.id!=undefined && data.id!=null)  {
-// data.image=this.selectedFiles;
+data.image=this.selectedFiles;
 this.baseservice.put('student/'+data.id,data).subscribe((data) => {
   this.getStudentList();
   this.listTemplate();
@@ -256,7 +256,7 @@ this.baseservice.put('student/'+data.id,data).subscribe((data) => {
 //  localStorage.clear();
 });
 }else{
-// data.image=this.selectedFiles;
+ data.image=this.selectedFiles;
 delete data.id;
 this.baseservice.post('student',data).subscribe((data) => { 
   this.getStudentList();
